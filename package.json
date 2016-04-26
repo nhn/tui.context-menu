@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run bundle && karma start",
-    "bundle": "browserify index.js -o contextmenu.js -t hbsfy -t babelify && uglifyjs contextmenu.js -c -m -o contextmenu.min.js"
+    "bundle": "cp src/contextmenu.css . && browserify index.js -o contextmenu.js -t hbsfy -t babelify && uglifyjs contextmenu.js -c -m -o contextmenu.min.js"
   },
   "repository": {
     "type": "git",

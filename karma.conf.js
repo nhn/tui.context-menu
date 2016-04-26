@@ -16,6 +16,7 @@ module.exports = function(config) {
             'fixture'
         ],
         files: [
+            'contextmenu.css',
             'bower_components/tui-code-snippet/code-snippet.js',
             'node_modules/dom/dom.js',
             'node_modules/component-floatinglayer/floatinglayer.js',
