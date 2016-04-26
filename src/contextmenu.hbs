@@ -1,0 +1,23 @@
+{{#*inline "menuItem"}}
+<div class="js-menu-wrap">
+{{#each this}}
+<div class="js-menu-item">
+{{#if separator}}
+    <div class="js-menu-separator"></div>
+{{else}}
+    {{#if menu}}
+    <div class="js-menu-button js-menu-has-submenu" data-command="{{command}}">{{title}}</div>
+    <div class="js-menu js-menu-submenu" style="display:none">
+        {{> menuItem menu}}
+    </div>
+    {{else}}
+    <div class="js-menu-button" data-command="{{command}}">{{title}}</div>
+    {{/if}}
+{{/if}}
+</div>
+{{/each}}
+</div>
+{{/inline}}
+<div class="js-menu js-menu-root">
+    {{> menuItem}}
+</div>

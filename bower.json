@@ -1,0 +1,24 @@
+{
+  "name": "component-contextmenu",
+  "description": "contextmenu component",
+  "main": "index.js",
+  "private": true,
+  "authors": [
+    "NHNEnt FE Development Team <dl_javascript@nhnent.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "contextmenu"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "tui-code-snippet": "^1.1.1"
+  }
+}
