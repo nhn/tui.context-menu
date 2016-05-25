@@ -1,8 +1,6 @@
 {
-  "name": "component-contextmenu",
+  "name": "tui-component-contextmenu",
   "description": "contextmenu component",
-  "main": "index.js",
-  "private": true,
   "authors": [
     "NHNEnt FE Development Team <dl_javascript@nhnent.com>"
   ],
@@ -16,9 +14,20 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "src",
+    "demo",
+    "samples",
+    ".gitignore",
+    ".eslintrc.json",
+    "index.js",
+    "jsdoc-conf.json",
+    "karma.conf.js",
+    "package.json",
+    "bower.json"
   ],
-  "devDependencies": {
-    "tui-code-snippet": "^1.1.1"
+  "dependencies": {
+    "tui-code-snippet": "^1.1.1",
+    "tui-component-floatinglayer": "^1.0.0"
   }
 }

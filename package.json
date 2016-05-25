@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run bundle && karma start",
-    "bundle": "cp src/contextmenu.css . && browserify index.js -o contextmenu.js -t hbsfy -t babelify && uglifyjs contextmenu.js -c -m -o contextmenu.min.js"
+    "bundle": "cp src/contextmenu.css . && browserify index.js -o contextmenu.js -t hbsfy -t babelify && uglifyjs contextmenu.js -c -m -o contextmenu.min.js",
+    "doc": "./node_modules/.bin/jsdoc -c jsdoc-conf.json -t node_modules/fedoc-template"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,8 @@
     "browserify": "^13.0.0",
     "component-floatinglayer": "git+https://github.nhnent.com/fe/component-floatinglayer",
     "dom": "git+https://github.nhnent.com/fe/dom#1.0.0",
+    "eslint-plugin-babel": "^3.2.0",
+    "fedoc-template": "git+https://github.nhnent.com/fe/share-fedoc-template.git#develop",
     "handlebars": "^4.0.5",
     "hbsfy": "^2.7.0",
     "jasmine-core": "^2.4.1",

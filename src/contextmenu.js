@@ -19,13 +19,18 @@ const MODALESS = {modaless: true};
  */
 
 /**
- * Constructor
- * @param {HTMLElement} container - container for placing context menu
- *  floating layers
- * @param {object} options - options for context menu
- *   @param {number} [options.delay=100] - delay for displaying submenu
+ * ContextMenu
  */
 export default class ContextMenu {
+    /**
+     * Constructor
+     * @param {HTMLElement} container - container for placing context menu
+     *  floating layers
+     * @param {object} options - options for context menu
+     *   @param {number} [options.delay=100] - delay for displaying submenu
+     * @example
+     * var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
+     */
     constructor(container, options = {
         delay: 130
     }) {
@@ -63,6 +68,7 @@ export default class ContextMenu {
 
     /**
      * Destructor
+     * @api
      */
     destroy() {
         dom.off(document, 'contextmenu', this._onContextMenu, this);
@@ -130,12 +136,13 @@ export default class ContextMenu {
         const container = dom.closest(target, '.floating-layer');
         const isMenuButton = dom.hasClass(target, 'js-menu-button');
         const isSeparator = dom.hasClass(target, 'js-menu-separator');
+        const hasSubmenu = dom.hasClass(target, 'js-menu-has-submenu');
 
         if (!(container && isMenuButton)) {
             return;
         }
 
-        if (isSeparator) {
+        if (isSeparator || hasSubmenu) {
             return;
         }
 
@@ -315,8 +322,20 @@ export default class ContextMenu {
      */
     _onContextMenu(clickEvent) {
         const opt = this.options;
-        const target = clickEvent.target || clickEvent.srcElement;
-        const relatedLayer = this.layerMap.get(target);
+
+        let target = clickEvent.target || clickEvent.srcElement;
+        let relatedLayer;
+
+        while (target.parentNode) {
+            let findElement = this.layerMap.get(target);
+
+            if (findElement) {
+                relatedLayer = findElement;
+                break;
+            }
+
+            target = target.parentNode;
+        }
 
         if (!relatedLayer) {
             return;
@@ -352,6 +371,7 @@ export default class ContextMenu {
      *  secondary mouse button click
      * @param {function} callback - callback for each menu item clicked
      * @param {MenuItem[]} menuItems - menu item schema
+     * @api
      */
     register(selector, callback, menuItems) {
         const target = dom.find(selector);
@@ -373,6 +393,7 @@ export default class ContextMenu {
      * Unregister context menu
      * @param {string} selector - css selector used for register context menu
      * @returns {boolean} whether unregister is successful?
+     * @api
      */
     unregister(selector) {
         const layerMap = this.layerMap;
