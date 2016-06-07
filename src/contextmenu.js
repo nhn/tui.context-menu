@@ -137,6 +137,13 @@ export default class ContextMenu {
         const isMenuButton = dom.hasClass(target, 'js-menu-button');
         const isSeparator = dom.hasClass(target, 'js-menu-separator');
         const hasSubmenu = dom.hasClass(target, 'js-menu-has-submenu');
+        const isDisableButton = dom.hasClass(target, 'js-menu-disable');
+
+        if (isDisableButton) {
+            this._hideContextMenu();
+
+            return;
+        }
 
         if (!(container && isMenuButton)) {
             return;

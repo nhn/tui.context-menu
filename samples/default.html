@@ -38,13 +38,15 @@
         }
 
         menu.register('#target', handleClick, [
-            {title: 'open'},
+            {title: 'menu1'},
+            {title: 'menu2', disable: true},
             {separator: true},
             {
-                title: 'export',
+                title: 'menu3',
                 menu: [
                     {title: 'png'},
-                    {title: 'jpg', command: 'exportToJPG'}
+                    {title: 'jpg', command: 'exportToJPG'},
+                    {title: 'gif', disable: true}
                 ]
             }
         ]);

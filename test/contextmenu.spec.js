@@ -79,7 +79,7 @@ describe('ContextMenu component', function() {
         expect(callback).toHaveBeenCalledWith(mockMouseClick, 'open');
     });
 
-    it('can unregister regstered context menu.', function() {
+    it('can unregister registered context menu.', function() {
         var cm = new ContextMenu(document.querySelector('#flContainer')),
             callback = jasmine.createSpy('contextMenu');
 
@@ -137,6 +137,40 @@ describe('ContextMenu component', function() {
             menu = dom.find(ce.activeLayer.container, '.js-menu-root');
             expect(menu.style.marginLeft).not.toBe('');
             expect(menu.style.marginTop).not.toBe('');
+        });
+    });
+
+    describe('has disable property in menu data,', function() {
+        var cm, callback, layer;
+
+        beforeEach(function() {
+            cm = new ContextMenu(document.querySelector('#flContainer'));
+            callback = jasmine.createSpy('contextMenu');
+
+            cm.register('#menu1', callback, [
+                {title: 'menu-disable1', disable: true},
+                {title: 'menu-enable'},
+                {title: 'menu-disable2', disable: true}
+            ]);
+        });
+
+        it('menus that have disable state are generated.', function() {
+            var menus = cm.container.querySelectorAll('.js-menu-disable');
+
+            expect(menus.length).toEqual(2);
+        });
+
+        it('when click the disabled menu, the context menu is hidden.', function() {
+            var mockMouseClick = {
+                target: cm.container.querySelector('.js-menu-disable'),
+                preventDefault: function() {}
+            };
+
+            spyOn(cm, '_hideContextMenu');
+
+            cm._onMouseClick(mockMouseClick);
+
+            expect(cm._hideContextMenu).toHaveBeenCalled();
         });
     });
 });
