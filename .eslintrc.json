@@ -6,10 +6,10 @@
         "es6": true,
         "browser": true,
         "commonjs": true,
-        "jasmine": true,
-        "dom": true
+        "jasmine": true
     },
     "globals": {
+        "dom": true,
         "tui": true,
         "fixture": true
     },

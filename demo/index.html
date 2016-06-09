@@ -19,14 +19,23 @@
 var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
 
 function handleClick(e, cmd) {
+    console.log(e);
     console.log(cmd);
 }
 
 menu.register('#target', handleClick, [
-    {title: 'open'},
+    {title: 'open', disable: true},
     {separator: true},
     {
         title: 'export',
+        menu: [
+            {title: 'png'},
+            {title: 'jpg', command: 'exportToJPG'}
+        ]
+    },
+    {
+        title: 'export',
+        disable: true,
         menu: [
             {title: 'png'},
             {title: 'jpg', command: 'exportToJPG'}

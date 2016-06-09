@@ -31,25 +31,33 @@
         <script src="../scripts/samplecode.js"></script>
 
         <script class="serviceCode">
-        var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
 
-        function handleClick(e, cmd) {
-            console.log(cmd);
-        }
+            var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
 
-        menu.register('#target', handleClick, [
-            {title: 'menu1'},
-            {title: 'menu2', disable: true},
-            {separator: true},
-            {
-                title: 'menu3',
-                menu: [
-                    {title: 'png'},
-                    {title: 'jpg', command: 'exportToJPG'},
-                    {title: 'gif', disable: true}
-                ]
+            function handleClick(e, cmd) {
+                console.log(cmd);
             }
-        ]);
+
+            menu.register('#target', handleClick, [
+                {title: 'open', disable: true},
+                {separator: true},
+                {
+                    title: 'export',
+                    menu: [
+                        {title: 'png'},
+                        {title: 'jpg', command: 'exportToJPG'}
+                    ]
+                },
+                {
+                    title: 'export',
+                    disable: true,
+                    menu: [
+                        {title: 'png'},
+                        {title: 'jpg', command: 'exportToJPG'}
+                    ]
+                }
+            ]);
+
         </script>
     </body>
 </html>
