@@ -4,7 +4,7 @@
   "description": "contextmenu component",
   "main": "index.js",
   "scripts": {
-    "test": "npm run bundle && karma start",
+    "test": "npm run bundle && karma start karma.conf.private.js",
     "bundle": "cp src/contextmenu.css . && browserify index.js -o contextmenu.js -t hbsfy -t babelify && uglifyjs contextmenu.js -c -m -o contextmenu.min.js",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc-conf.json -t node_modules/fedoc-template"
   },
