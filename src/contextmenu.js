@@ -352,8 +352,10 @@ export default class ContextMenu {
 
         this.activeLayer = relatedLayer;
 
-        const left = clickEvent.clientX;
-        const top = clickEvent.clientY;
+        let position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
+
+        const left = position[0];//clickEvent.clientX;
+        const top = position[1];//clickEvent.clientY;
         const debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);
 
         this.cloneMouseMoveEvent = function(mouseMoveEvent) {

@@ -12,8 +12,8 @@ module.exports = function(config) {
         files: [
             'contextmenu.css',
             'bower_components/tui-code-snippet/code-snippet.js',
-            'node_modules/dom/dom.js',
-            'node_modules/component-floatinglayer/floatinglayer.js',
+            'bower_components/tui-domutil/domutil.js',
+            'bower_components/tui-component-floatinglayer/floatinglayer.js',
             'contextmenu.js',
             'test/*.js'
         ],
