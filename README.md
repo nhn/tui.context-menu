@@ -9,12 +9,13 @@ ContextMenu Component
 ## Documentation
 * **API** : https://nhnent.github.io/tui.component.contextmenu/latest
 * **Tutorial** : https://github.com/nhnent/tui.component.contextmenu/wiki/ContextMenu-Tutorial
-* **Sample** : https://nhnent.github.io/tui.component.contextmenu/latest/tutorial.html
+* **Sample** : https://nhnent.github.io/tui.component.contextmenu/latest/tutorial-default.html
 
 ## Dependency
-* tui-code-snippet : 1.2.0
-* tui-domutil : 1.0.4
-* tui-component-floatinglayer : 1.0.0
+* tui-code-snippet: ^1.2.0
+* tui-domutil: ^2.1.0
+* tui-component-floatinglayer: ^1.0.1
+* (To support IE8+): [Babel-polyfill](https://babeljs.io/docs/usage/polyfill/)
 
 ## Test environment
 * browser
@@ -25,7 +26,7 @@ ContextMenu Component
 
 ## Download/Install
 * Bower :
-   * Latest : `bower install tui-component-contextmenu#master`
+   * Latest : `bower install tui-component-contextmenu`
    * Each Version : `bower install tui-component-contextmenu[#tag]`
 * Download : https://github.com/nhnent/tui.component.contextmenu
 

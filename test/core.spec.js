@@ -1,4 +1,4 @@
-var core = tui.component.ContextMenu.core;
+import * as core from '../src/core';
 
 describe('core', function() {
     it('uniq', function() {

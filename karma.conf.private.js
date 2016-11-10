@@ -16,13 +16,38 @@ module.exports = function(config) {
             'fixture'
         ],
         files: [
-            'contextmenu.css',
+            'node_modules/babel-polyfill/dist/polyfill.js',
             'bower_components/tui-code-snippet/code-snippet.js',
-            'bower_components/tui-domutil/domutil.js',
-            'bower_components/tui-component-floatinglayer/floatinglayer.js',
-            'contextmenu.js',
-            'test/*.js'
+            'bower_components/tui-dom/dist/domutil.js',
+            'bower_components/tui-component-floatinglayer/dist/floatingLayer.js',
+            'test/**/*.spec.js'
         ],
+        preprocessors: {
+            'test/**/*.spec.js': ['webpack']
+        },
+        webpack: {
+            module: {
+                preLoaders: [
+                    {
+                        test: /\.js$/,
+                        loader: 'eslint',
+                        exclude: /(test|node_modules|bower_components)/
+                    }
+                ],
+                loaders: [
+                    {
+                        test: /\.hbs$/,
+                        exclude: /(node_modules|bower_components)/,
+                        loader: 'transform?hbsfy'
+                    },
+                    {
+                        test: /\.js$/,
+                        exclude: /(node_modules|bower_components)/,
+                        loader: 'babel'
+                    }
+                ]
+            }
+        },
         reporters: [
             'dots',
             'junit'

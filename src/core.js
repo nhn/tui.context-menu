@@ -1,12 +1,13 @@
 /**
  * @fileoverview Core utility methods module
- * @author NHN Ent. FE Development team <dl_javascript@nhnent.com>
+ * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
  */
 const util = tui.util;
 
 /**
  * A no-operation function that returns undefined regardless of the arguments
  *  it receives.
+ * @ignore
  */
 export function noop() {}
 
@@ -14,6 +15,7 @@ export function noop() {}
  * Create a duplicate-free version of an array
  * @param {Array} array - The array to inspect.
  * @returns {Array} Returns the new duplicate free array.
+ * @ignore
  */
 export function uniq(array) {
     return [...new Set(array)];
@@ -25,6 +27,7 @@ export function uniq(array) {
  * @param {function} [iteratee] - The function invoked per iteration.
  * @param {*} accumulator - The initial value.
  * @returns {*} Returns the accumulated value.
+ * @ignore
  */
 export function reduce(collection, iteratee, accumulator) {
     if (util.isArray(collection)) {
@@ -54,6 +57,7 @@ export function reduce(collection, iteratee, accumulator) {
  * @param {(Function|String|Number)} predicate - The function invoked per
  *  iteration.
  * @returns {Array} Returns the new array of removed elements.
+ * @ignore
  */
 export function remove(array, predicate) {
     let match;

@@ -1,8 +1,9 @@
 /**
  * @fileoverview Context menu component
- * @author NHN Ent. FE Development team <dl_javascript@nhnent.com>
+ * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
  */
 const util = tui.util;
+const dom = tui.dom;
 
 import * as core from './core';
 import tmpl from './contextmenu.hbs';
@@ -10,7 +11,7 @@ import tmpl from './contextmenu.hbs';
 const MODALESS = {modaless: true};
 
 /**
- * @typedef ContextMenu~MenuItem
+ * @typedef MenuItem
  * @property {string} title - title of menu item
  * @property {string} [command] - string for alternative of using title to command
  * @property {boolean} [separator=false] - set true then this menu will use
@@ -20,10 +21,12 @@ const MODALESS = {modaless: true};
 
 /**
  * ContextMenu
+ * @tutorial default
  */
-export default class ContextMenu {
+class ContextMenu {
     /**
      * Constructor
+     * @constructor
      * @param {HTMLElement} container - container for placing context menu
      *  floating layers
      * @param {object} options - options for context menu
@@ -36,30 +39,36 @@ export default class ContextMenu {
     }) {
         /**
          * @type {object}
+         * @private
          */
         this.options = Object.assign({}, options);
         /**
          * @type {HTMLElement}
+         * @private
          */
         this.container = container;
 
         /**
          * @type {Map}
+         * @private
          */
         this.layerMap = new Map();
 
         /**
          * @type {FloatingLayer}
+         * @private
          */
         this.activeLayer = null;
 
         /**
          * @type {boolean}
+         * @private
          */
         this.pageScrolled = false;
 
         /**
          * @type {function}
+         * @private
          */
         this.cloneMouseMoveEvent = null;
 
@@ -68,7 +77,6 @@ export default class ContextMenu {
 
     /**
      * Destructor
-     * @api
      */
     destroy() {
         dom.off(document, 'contextmenu', this._onContextMenu, this);
@@ -380,7 +388,6 @@ export default class ContextMenu {
      *  secondary mouse button click
      * @param {function} callback - callback for each menu item clicked
      * @param {MenuItem[]} menuItems - menu item schema
-     * @api
      */
     register(selector, callback, menuItems) {
         const target = dom.find(selector);
@@ -402,7 +409,6 @@ export default class ContextMenu {
      * Unregister context menu
      * @param {string} selector - css selector used for register context menu
      * @returns {boolean} whether unregister is successful?
-     * @api
      */
     unregister(selector) {
         const layerMap = this.layerMap;
@@ -425,3 +431,5 @@ export default class ContextMenu {
         return true;
     }
 }
+
+export default ContextMenu;

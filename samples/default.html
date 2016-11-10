@@ -1,64 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>ContextMenu DEMO</title>
-        <link type="text/css" rel="stylesheet" href="../styles/prettify-jsdoc.css" />
-        <link type="text/css" rel="stylesheet" href="../styles/prettify-tomorrow.css">
-        <link type="text/css" rel="stylesheet" href="../styles/tui.css">
-
-        <link rel="stylesheet" type="text/css" href="css/contextmenu.css" />
-        <style>
+<head>
+    <meta charset="utf-8" />
+    <title>ContextMenu DEMO</title>
+    <link rel="stylesheet" type="text/css" href="../dist/contextmenu.css" />
+    <style>
         #target { width: 200px; height: 200px; background-color: #ccc; }
-        </style>
-    </head>
-    <body>
-        <div class="wrap" style="height: 500px;">
-            <div id="fl"></div>
-            <div id="target"></div>
-        </div>
+    </style>
+</head>
+<body>
+    <div class="code-html">
+        <div id="fl"></div>
+        <div id="target"></div>
+    </div>
 
-        <div class="codeArea"></div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.16.0/polyfill.js"></script>
+    <script src="//cdn.rawgit.com/nhnent/tui.code-snippet/1.2.1/code-snippet.min.js"></script>
+    <script src="//cdn.rawgit.com/nhnent/tui.dom/2.1.0/dist/domutil.js"></script>
+    <script src="//cdn.rawgit.com/nhnent/tui.component.floatinglayer/1.0.1/dist/floatingLayer.js"></script>
+    <script src="../dist/tui-component-contextmenu.js"></script>
+    <script class="code-js">
+        var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
 
-        <script src="js/code-snippet.js"></script>
-        <script src="js/domutil.js"></script>
-        <script src="js/floatinglayer.js"></script>
-        <script src="js/contextmenu.js"></script>
+        function handleClick(e, cmd) {
+            console.log(cmd);
+        }
 
-        <script src="../scripts/prettify/prettify.js"></script>
-        <script src="../scripts/prettify/lang-css.js"></script>
-        <script src="../scripts/jquery.js"></script>
-        <script src="../scripts/samplecode.js"></script>
-
-        <script class="serviceCode">
-
-            //var menu = new tui.component.FloatingLayer(document.querySelector('#fl'));
-            var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
-
-            function handleClick(e, cmd) {
-                console.log(cmd);
+        menu.register('#target', handleClick, [
+            {title: 'open', disable: true},
+            {separator: true},
+            {
+                title: 'export',
+                menu: [
+                    {title: 'png'},
+                    {title: 'jpg', command: 'exportToJPG'}
+                ]
+            },
+            {
+                title: 'export',
+                disable: true,
+                menu: [
+                    {title: 'png'},
+                    {title: 'jpg', command: 'exportToJPG'}
+                ]
             }
-
-            menu.register('#target', handleClick, [
-                {title: 'open', disable: true},
-                {separator: true},
-                {
-                    title: 'export',
-                    menu: [
-                        {title: 'png'},
-                        {title: 'jpg', command: 'exportToJPG'}
-                    ]
-                },
-                {
-                    title: 'export',
-                    disable: true,
-                    menu: [
-                        {title: 'png'},
-                        {title: 'jpg', command: 'exportToJPG'}
-                    ]
-                }
-            ]);
-
-        </script>
-    </body>
+        ]);
+    </script>
+</body>
 </html>

@@ -1,5 +1,6 @@
-/* eslint vars-on-top: 0 */
-var ContextMenu = tui.component.ContextMenu;
+import ContextMenu from '../src/contextmenu';
+
+const dom = tui.dom;
 
 describe('ContextMenu component', function() {
     beforeEach(function() {
