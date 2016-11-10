@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,60 +47,99 @@
 
 
     
-
-
-
-
-
-
-
-
-
-    
-
-
     <section>
-        <article class="readme"><h1>ContextMenu</h1><p>ContextMenu Component</p>
-<h2>Feature</h2><ul>
-<li>When you click on the right mouse button, it will be created to target the context menu.</li>
-<li>When you select the context menu, the custom event occurs and closed.</li>
-</ul>
-<h2>Documentation</h2><ul>
-<li><strong>API</strong> : https://nhnent.github.io/tui.component.contextmenu/latest</li>
-<li><strong>Tutorial</strong> : https://github.com/nhnent/tui.component.contextmenu/wiki/ContextMenu-Tutorial</li>
-<li><strong>Sample</strong> : https://nhnent.github.io/tui.component.contextmenu/latest/tutorial.html</li>
-</ul>
-<h2>Dependency</h2><ul>
-<li>tui-code-snippet: ^1.2.0</li>
-<li>tui-domutil: ^2.1.0</li>
-<li>tui-component-floatinglayer: ^1.0.1</li>
-<li>(To support IE8+): <a href="https://babeljs.io/docs/usage/polyfill/">Babel-polyfill</a></li>
-</ul>
-<h2>Test environment</h2><ul>
-<li>browser<ul>
-<li>IE8+</li>
-<li>Edge</li>
-<li>Chrome</li>
-<li>Firefox</li>
-</ul>
-</li>
-</ul>
-<h2>Download/Install</h2><ul>
-<li>Bower :<ul>
-<li>Latest : <code>bower install tui-component-contextmenu#master</code></li>
-<li>Each Version : <code>bower install tui-component-contextmenu[#tag]</code></li>
-</ul>
-</li>
-<li>Download : https://github.com/nhnent/tui.component.contextmenu</li>
-</ul>
-<h2>LICENSE</h2><p><a href="LICENSE">MIT LICENSE</a></p>
-<h2>Sponsor</h2><ul>
-<li><img src="https://cloud.githubusercontent.com/assets/12269563/12287774/8cf4d2c0-ba12-11e5-9fa8-0a9c452cca05.png" height="30"><br>
-<a href="https://www.browserstack.com/">BrowserStack</a> is a cloud based cross browser testing tool</li>
-</ul></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Core utility methods module
+ * @author NHN Ent. FE Development Lab &lt;dl_javascript@nhnent.com>
+ */
+const util = tui.util;
+
+/**
+ * A no-operation function that returns undefined regardless of the arguments
+ *  it receives.
+ * @ignore
+ */
+export function noop() {}
+
+/**
+ * Create a duplicate-free version of an array
+ * @param {Array} array - The array to inspect.
+ * @returns {Array} Returns the new duplicate free array.
+ * @ignore
+ */
+export function uniq(array) {
+    return [...new Set(array)];
+}
+
+
+/**
+ * @param {Collection} collection - The collection to iterate over.
+ * @param {function} [iteratee] - The function invoked per iteration.
+ * @param {*} accumulator - The initial value.
+ * @returns {*} Returns the accumulated value.
+ * @ignore
+ */
+export function reduce(collection, iteratee, accumulator) {
+    if (util.isArray(collection)) {
+        if (accumulator) {
+            return collection.reduce(iteratee, accumulator);
+        }
+
+        return collection.reduce(iteratee);
+    }
+
+    util.forEach(collection, function(value, index) {
+        if (typeof accumulator === 'undefined') {
+            accumulator = value;
+        } else {
+            accumulator = iteratee(accumulator, value, index);
+        }
+    });
+
+    return accumulator;
+}
+
+/**
+ * Removes all elements from array that predicate returns truthy for and
+ *  returns an array of the removed elements. The predicate is invoked with
+ *  three arguments: (value, index, array).
+ * @param {Array} array - The array to modify.
+ * @param {(Function|String|Number)} predicate - The function invoked per
+ *  iteration.
+ * @returns {Array} Returns the new array of removed elements.
+ * @ignore
+ */
+export function remove(array, predicate) {
+    let match;
+
+    if (util.isFunction(predicate)) {
+        match = function(v) {
+            return predicate(v);
+        };
+    } else {
+        match = function(v) {
+            return predicate === v;
+        };
+    }
+
+    let removed = [];
+
+    for (let idx = 0, len = array.length; idx &lt; len; idx += 1) {
+        let value = array[idx];
+        if (match(value, idx, array)) {
+            removed.push(value);
+            array.splice(idx, 1);
+            len -= 1;
+            idx -= 1;
+        }
+    }
+
+    return removed;
+}
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
@@ -115,7 +156,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'package:undefined_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var element = document.getElementById(id); // do not use jquery selector
 
         $(element).removeClass('hidden');

@@ -1,0 +1,40 @@
+.js-menu {
+    position: absolute;
+    z-index: 1;
+    top: -1px;
+    width: 180px;
+    border: 1px solid #bbb;
+    background-color: #eee;
+}
+
+.js-menu-disable {
+    color: #999;
+}
+
+.js-menu-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.js-menu-button {
+    width: 100%;
+    border: none;
+    background-color: #eee;
+}
+
+.js-menu-button:hover {
+    background-color: #ccc;
+}
+
+.js-menu-has-submenu:after {
+    content: '►';
+    display: inline;
+    float: right;
+    font-size: 0.8em;
+}
+
+.js-menu-separator {
+    margin-bottom: 2px;
+    height: 2px;
+    border-bottom: 1px solid #ccc;
+}

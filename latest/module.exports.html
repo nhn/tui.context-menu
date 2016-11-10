@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Context Menu</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 150px">
+        <img src="https://cloud.githubusercontent.com/assets/12269563/20029815/01133928-a39a-11e6-80f3-12500a91c755.png" width="100%" height="100%">
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Context Menu</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    <ol class="lnb-tab">
+        <li id="api-tab">
+            <a href="#"><h4>API</h4></a>
+        </li>
+        <li id="examples-tab">
+            <a href="#"><h4>Examples</h4></a>
+        </li>
+    </ol>
+    <div class="lnb-examples hidden"><h3>Examples</h3><ul><li><a href="tutorial-default.html">Generate Context Menu</a><div class="hidden" id="default_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="module.exports.html">exports</a><div class="hidden" id="module.exports_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module.exports.html#activeLayer">activeLayer</a></li><li><a href="module.exports.html#cloneMouseMoveEvent">cloneMouseMoveEvent</a></li><li><a href="module.exports.html#container">container</a></li><li><a href="module.exports.html#layerMap">layerMap</a></li><li><a href="module.exports.html#options">options</a></li><li><a href="module.exports.html#pageScrolled">pageScrolled</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#destroy">destroy</a></li><li class="hidden"><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#noop">noop</a></li><li><a href="global.html#reduce">reduce</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#uniq">uniq</a></li><li><a href="global.html#unregister">unregister</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>exports</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+<dt>
+
+    
+        
+
+        <h4 class="name" id="exports">
+            <span class="type-signature"></span>new exports<span class="signature">(container, options)</span><span class="type-signature"></span>
+            
+            <div class="container-source members">
+                <code><a href="contextmenu.js.html">contextmenu.js</a></code>,
+                <code><a href="contextmenu.js.html#line36">line 36</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Constructor</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>container</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>container for placing context menu
+ floating layers</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>options for context menu</p>
+                <h6>Properties</h6>
+                
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>delay</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    100
+                
+                </td>
+            
+
+            <td class="description last"><p>delay for displaying submenu</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var menu = new tui.component.ContextMenu(document.querySelector('#fl'));</code></pre>
+
+    
+
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+
+<dt>
+<h4 class="name" id="activeLayer">
+    <span class="type-signature"></span>activeLayer<span class="type-signature"> :FloatingLayer</span>
+    
+    <div class="container-source members">
+        <code><a href="contextmenu.js.html">contextmenu.js</a></code>,
+        <code><a href="contextmenu.js.html#line56">line 56</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">FloatingLayer</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="cloneMouseMoveEvent">
+    <span class="type-signature"></span>cloneMouseMoveEvent<span class="type-signature"> :function</span>
+    
+    <div class="container-source members">
+        <code><a href="contextmenu.js.html">contextmenu.js</a></code>,
+        <code><a href="contextmenu.js.html#line66">line 66</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">function</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="container">
+    <span class="type-signature"></span>container<span class="type-signature"> :HTMLElement</span>
+    
+    <div class="container-source members">
+        <code><a href="contextmenu.js.html">contextmenu.js</a></code>,
+        <code><a href="contextmenu.js.html#line46">line 46</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">HTMLElement</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="layerMap">
+    <span class="type-signature"></span>layerMap<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="contextmenu.js.html">contextmenu.js</a></code>,
+        <code><a href="contextmenu.js.html#line51">line 51</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="options">
+    <span class="type-signature"></span>options<span class="type-signature"> :object</span>
+    
+    <div class="container-source members">
+        <code><a href="contextmenu.js.html">contextmenu.js</a></code>,
+        <code><a href="contextmenu.js.html#line42">line 42</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">object</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="pageScrolled">
+    <span class="type-signature"></span>pageScrolled<span class="type-signature"> :boolean</span>
+    
+    <div class="container-source members">
+        <code><a href="contextmenu.js.html">contextmenu.js</a></code>,
+        <code><a href="contextmenu.js.html#line61">line 61</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="https://cloud.githubusercontent.com/assets/12269563/20029815/01133928-a39a-11e6-80f3-12500a91c755.png" style="width: 150px">
+    <div class="footer-text">NHN Entertainment. Frontend Development Lab</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = 'module.exports_sub'.replace(/"/g, '_');
+        var element = document.getElementById(id); // do not use jquery selector
+
+        $(element).removeClass('hidden');
+        showLnbApi();
+    </script>
+
+</body>
+</html>
