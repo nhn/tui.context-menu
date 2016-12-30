@@ -17,7 +17,7 @@ var bannerPlugin = new webpack.BannerPlugin(
 var plugins = shouldMinify ? [bannerPlugin, minifyPlugin] : [bannerPlugin];
 
 module.exports = {
-    entry: './index.js',
+    entry: './src/index.js',
     output: {
         path: 'dist',
         filename: FILENAME
@@ -44,5 +44,11 @@ module.exports = {
             }
         ]
     },
-    plugins: plugins
+    plugins: plugins,
+    devServer: {
+        historyApiFallback: false,
+        progress: true,
+        inline: true,
+        host: '0.0.0.0'
+    }
 };

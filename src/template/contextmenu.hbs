@@ -1,0 +1,33 @@
+
+{{#*inline "menuItem"}}
+    <ul class="tui-contextmenu-wrap">
+        {{#each this}}
+            {{#if separator}}
+            <li class="tui-contextmenu-separator">
+            {{else}}
+            <li class="tui-contextmenu-item">
+                {{#if menu}}
+                    {{#if disable}}
+                        <button type="button" class="tui-contextmenu-button tui-contextmenu-has-submenu tui-contextmenu-disable" data-command="{{command}}">{{title}}</button>
+                    {{else}}
+                        <button type="button" class="tui-contextmenu-button tui-contextmenu-has-submenu" data-command="{{command}}">{{title}}</button>
+                        <div class="tui-contextmenu tui-contextmenu-submenu" style="display:none">
+                            {{> menuItem menu}}
+                        </div>
+                    {{/if}}
+                {{else}}
+                    {{#if disable}}
+                        <button type="button" class="tui-contextmenu-button tui-contextmenu-disable" data-command="{{command}}">{{title}}</button>
+                    {{else}}
+                        <button type="button" class="tui-contextmenu-button" data-command="{{command}}">{{title}}</button>
+                    {{/if}}
+                {{/if}}
+            </li>
+            {{/if}}
+        {{/each}}
+    </ul>
+{{/inline}}
+
+<div class="tui-contextmenu tui-contextmenu-root">
+    {{> menuItem}}
+</div>

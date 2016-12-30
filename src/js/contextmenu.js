@@ -6,7 +6,7 @@ const util = tui.util;
 const dom = tui.dom;
 
 import * as core from './core';
-import tmpl from './contextmenu.hbs';
+import tmpl from '../template/contextmenu.hbs';
 
 const MODALESS = {modaless: true};
 
@@ -66,6 +66,8 @@ class ContextMenu {
          */
         this.pageScrolled = false;
 
+        this.prevElement = null;
+
         /**
          * @type {function}
          * @private
@@ -112,8 +114,8 @@ class ContextMenu {
             });
         };
 
-        dom.findAll(layer.container, '.js-menu-root').forEach(hideElement);
-        dom.findAll(layer.container, '.js-menu-submenu').forEach(hideElement);
+        dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
+        dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
 
         this.pageScrolled = false;
         this.activeLayer = this.cloneMouseMoveEvent = null;
@@ -127,7 +129,7 @@ class ContextMenu {
     _onMouseDown(mouseDownEvent) {
         var target = mouseDownEvent.target || mouseDownEvent.srcElement;
 
-        if (!dom.closest(target, '.js-menu-root')) {
+        if (!dom.closest(target, '.tui-contextmenu-root')) {
             this._hideContextMenu();
         }
     }
@@ -137,15 +139,16 @@ class ContextMenu {
      * @param {MouseEvent} clickEvent - click MouseEvent object
      * @private
      */
+    /* eslint-disable complexity */
     _onMouseClick(clickEvent) {
         const target = clickEvent.target || clickEvent.srcElement;
         const title = dom.textContent(target).trim();
         const command = dom.getData(target, 'command');
         const container = dom.closest(target, '.floating-layer');
-        const isMenuButton = dom.hasClass(target, 'js-menu-button');
-        const isSeparator = dom.hasClass(target, 'js-menu-separator');
-        const hasSubmenu = dom.hasClass(target, 'js-menu-has-submenu');
-        const isDisableButton = dom.hasClass(target, 'js-menu-disable');
+        const isMenuButton = dom.hasClass(target, 'tui-contextmenu-button');
+        const isSeparator = dom.hasClass(target, 'tui-contextmenu-separator');
+        const hasSubmenu = dom.hasClass(target, 'tui-contextmenu-has-submenu');
+        const isDisableButton = dom.hasClass(target, 'tui-contextmenu-disable');
 
         if (isDisableButton) {
             this._hideContextMenu();
@@ -153,11 +156,8 @@ class ContextMenu {
             return;
         }
 
-        if (!(container && isMenuButton)) {
-            return;
-        }
-
-        if (isSeparator || hasSubmenu) {
+        if (!(container && isMenuButton) ||
+            isSeparator || hasSubmenu) {
             return;
         }
 
@@ -169,7 +169,7 @@ class ContextMenu {
                 return;
             }
         }
-    }
+    } /* eslint-ensable complexity */
 
     /**
      * Show menu element without veil browser viewport
@@ -221,7 +221,7 @@ class ContextMenu {
             return;
         }
 
-        const rootMenuElement = dom.find(layer.container, '.js-menu-root');
+        const rootMenuElement = dom.find(layer.container, '.tui-contextmenu-root');
 
         layer.setBound({left, top});
         layer.show();
@@ -272,11 +272,11 @@ class ContextMenu {
      */
     _refreshMenuDisplay(layerOnCursor) {
         const container = this.activeLayer.container;
-        const allSubmenus = dom.findAll(container, '.js-menu-submenu');
+        const allSubmenus = dom.findAll(container, '.tui-contextmenu-submenu');
         const layersUntilRoot = [];
 
         while (layerOnCursor && container !== layerOnCursor) {
-            if (dom.hasClass(layerOnCursor, 'js-menu-submenu')) {
+            if (dom.hasClass(layerOnCursor, 'tui-contextmenu-submenu')) {
                 layersUntilRoot.push(layerOnCursor);
             }
 
@@ -307,19 +307,43 @@ class ContextMenu {
         const target = mouseMoveEvent.target || mouseMoveEvent.srcElement;
         const activeLayer = this.activeLayer;
 
-        if (!(activeLayer && dom.closest(target, '.js-menu-root'))) {
+        if (this.prevElement) {
+            dom.removeClass(this.prevElement, 'tui-contextmenu-selected');
+        }
+
+        if (!(activeLayer && dom.closest(target, '.tui-contextmenu-root'))) {
             return;
         }
 
         let layerOnCursor;
 
-        if (dom.hasClass(target, 'js-menu-has-submenu')) {
-            layerOnCursor = dom.find(target.parentNode, '.js-menu-submenu');
+        if (dom.hasClass(target, 'tui-contextmenu-has-submenu')) {
+            layerOnCursor = dom.find(target.parentNode, '.tui-contextmenu-submenu');
         } else {
-            layerOnCursor = dom.closest(target, '.js-menu-submenu');
+            layerOnCursor = dom.closest(target, '.tui-contextmenu-submenu');
         }
 
         this._refreshMenuDisplay(layerOnCursor);
+        this._highlightMenuHasSubmenu(layerOnCursor);
+    }
+
+    /**
+     * Select
+     * @param {HTMLElement} layer - current layer located mouse pointer
+     * @private
+     */
+    _highlightMenuHasSubmenu(layer) {
+        if (!layer) {
+            this.prevElement = null;
+
+            return;
+        }
+
+        let selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
+
+        dom.addClass(selectedMenu, 'tui-contextmenu-selected');
+
+        this.prevElement = selectedMenu;
     }
 
     /**

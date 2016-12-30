@@ -1,4 +1,4 @@
-import ContextMenu from '../src/contextmenu';
+import ContextMenu from '../src/js/contextmenu';
 
 const dom = tui.dom;
 
@@ -48,13 +48,13 @@ describe('ContextMenu component', function() {
         cm.activeLayer = cm.layerMap.values().next().value;
 
         var mockMouseMove = {
-            target: document.querySelectorAll('.js-menu-button')[3],
+            target: document.querySelectorAll('.tui-contextmenu-button')[3],
             preventDefault: function() {}
         };
 
         cm._onMouseMove(mockMouseMove);
 
-        var needHided = document.querySelectorAll('.js-menu-submenu');
+        var needHided = document.querySelectorAll('.tui-contextmenu-submenu');
         expect(needHided[0].style.display).toBe('none');
         expect(needHided[1].style.display).toBe('block');
         expect(needHided[2].style.display).toBe('none');
@@ -71,7 +71,7 @@ describe('ContextMenu component', function() {
         var layer = cm.layerMap.values().next().value;
 
         var mockMouseClick = {
-            target: layer.container.querySelector('.js-menu-button'),
+            target: layer.container.querySelector('.tui-contextmenu-button'),
             preventDefault: function() {}
         };
 
@@ -123,7 +123,7 @@ describe('ContextMenu component', function() {
 
             ce._showRootMenu(10, 10);
 
-            menu = dom.find(ce.activeLayer.container, '.js-menu-root');
+            menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
             expect(menu.style.marginLeft).toBe('');
             expect(menu.style.marginTop).toBe('');
         });
@@ -135,7 +135,7 @@ describe('ContextMenu component', function() {
             // menu의 기본 크기는 180
             ce._showRootMenu(vWidth - 20, vHeight - 20);
 
-            menu = dom.find(ce.activeLayer.container, '.js-menu-root');
+            menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
             expect(menu.style.marginLeft).not.toBe('');
             expect(menu.style.marginTop).not.toBe('');
         });
@@ -156,14 +156,14 @@ describe('ContextMenu component', function() {
         });
 
         it('menus that have disable state are generated.', function() {
-            var menus = cm.container.querySelectorAll('.js-menu-disable');
+            var menus = cm.container.querySelectorAll('.tui-contextmenu-disable');
 
             expect(menus.length).toEqual(2);
         });
 
         it('when click the disabled menu, the context menu is hidden.', function() {
             var mockMouseClick = {
-                target: cm.container.querySelector('.js-menu-disable'),
+                target: cm.container.querySelector('.tui-contextmenu-disable'),
                 preventDefault: function() {}
             };
 

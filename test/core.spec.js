@@ -1,4 +1,4 @@
-import * as core from '../src/core';
+import * as core from '../src/js/core';
 
 describe('core', function() {
     it('uniq', function() {
