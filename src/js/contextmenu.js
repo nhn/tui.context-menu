@@ -7,8 +7,7 @@ const dom = tui.dom;
 
 import * as core from './core';
 import tmpl from '../template/contextmenu.hbs';
-
-const MODALESS = {modaless: true};
+import FloatingLayer from './floatingLayer';
 
 /**
  * @typedef MenuItem
@@ -420,7 +419,8 @@ class ContextMenu {
             return;
         }
 
-        const layer = new tui.component.FloatingLayer(this.container, MODALESS);
+        const layer = new FloatingLayer();
+        this.container.appendChild(layer.container);
 
         layer.callback = callback;
         layer.setBound({width: 'auto', height: 'auto'});
