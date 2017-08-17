@@ -11,18 +11,18 @@ describe('ContextMenu component', function() {
     });
 
     it('use selector for displaying context menu.', function() {
-        var cm = new ContextMenu(document.querySelector('#flContainer'));
+        const cm = new ContextMenu(document.querySelector('#flContainer'));
 
         cm.register('#menu1', null, [{
             title: 'open'
         }]);
 
-        var menu1Element = document.querySelector('#menu1');
+        const menu1Element = document.querySelector('#menu1');
         expect(cm.layerMap.has(menu1Element)).toBe(true);
     });
 
     it('show context menus that only below of mouse cursor.', function() {
-        var cm = new ContextMenu(document.querySelector('#flContainer'));
+        const cm = new ContextMenu(document.querySelector('#flContainer'));
 
         cm.register('#menu1', null, [
             {
@@ -47,30 +47,30 @@ describe('ContextMenu component', function() {
 
         cm.activeLayer = cm.layerMap.values().next().value;
 
-        var mockMouseMove = {
+        const mockMouseMove = {
             target: document.querySelectorAll('.tui-contextmenu-button')[3],
             preventDefault: function() {}
         };
 
         cm._onMouseMove(mockMouseMove);
 
-        var needHided = document.querySelectorAll('.tui-contextmenu-submenu');
+        const needHided = document.querySelectorAll('.tui-contextmenu-submenu');
         expect(needHided[0].style.display).toBe('none');
         expect(needHided[1].style.display).toBe('block');
         expect(needHided[2].style.display).toBe('none');
     });
 
     it('invoke callback when menu item clicked.', function() {
-        var cm = new ContextMenu(document.querySelector('#flContainer')),
+        const cm = new ContextMenu(document.querySelector('#flContainer')),
             callback = jasmine.createSpy('contextMenu');
 
         cm.register('#menu1', callback, [{
             title: 'open'
         }]);
 
-        var layer = cm.layerMap.values().next().value;
+        const layer = cm.layerMap.values().next().value;
 
-        var mockMouseClick = {
+        const mockMouseClick = {
             target: layer.container.querySelector('.tui-contextmenu-button'),
             preventDefault: function() {}
         };
@@ -81,7 +81,7 @@ describe('ContextMenu component', function() {
     });
 
     it('can unregister registered context menu.', function() {
-        var cm = new ContextMenu(document.querySelector('#flContainer')),
+        const cm = new ContextMenu(document.querySelector('#flContainer')),
             callback = jasmine.createSpy('contextMenu');
 
         cm.register('#menu1', callback, [{
@@ -95,7 +95,7 @@ describe('ContextMenu component', function() {
     });
 
     describe('can placing', function() {
-        var ce, vWidth, vHeight;
+        let ce, vWidth, vHeight;
 
         beforeEach(function() {
             ce = new ContextMenu(document.querySelector('#flContainer'));
@@ -119,7 +119,7 @@ describe('ContextMenu component', function() {
         });
 
         it('menu element.', function() {
-            var menu;
+            let menu;
 
             ce._showRootMenu(10, 10);
 
@@ -129,7 +129,7 @@ describe('ContextMenu component', function() {
         });
 
         it('root menu element without veil viewport limit.', function() {
-            var menu;
+            let menu;
 
             // 화면을 벗어난 지점에 렌더링 된 경우
             // menu의 기본 크기는 180
@@ -142,7 +142,7 @@ describe('ContextMenu component', function() {
     });
 
     describe('has disable property in menu data,', function() {
-        var cm, callback, layer;
+        let cm, callback;
 
         beforeEach(function() {
             cm = new ContextMenu(document.querySelector('#flContainer'));

@@ -49,6 +49,7 @@
     "bundle": "webpack & webpack --minify && cp -r src/css/*.css dist",
     "serve": "webpack-dev-server --inline -d",
     "cp-dist2doc": "mkdir -p doc/dist && cp -f dist/tui-component-contextmenu.js dist/*.css doc/dist",
-    "doc": "jsdoc -c jsdoc-conf.json && npm run cp-dist2doc"
+    "doc": "jsdoc -c jsdoc-conf.json && npm run cp-dist2doc",
+    "lint": "eslint src/ test/"
   }
 }
