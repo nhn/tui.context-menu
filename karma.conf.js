@@ -159,7 +159,6 @@ module.exports = function(config) {
             'node_modules/babel-polyfill/dist/polyfill.js',
             'bower_components/tui-code-snippet/dist/tui-code-snippet.js',
             'bower_components/tui-dom/dist/tui-dom.js',
-            'bower_components/tui-component-floatinglayer/dist/floatingLayer.js',
             'test/index.js'
         ],
         preprocessors: {

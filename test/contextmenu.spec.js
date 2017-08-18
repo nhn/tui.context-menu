@@ -131,8 +131,8 @@ describe('ContextMenu component', function() {
         it('root menu element without veil viewport limit.', function() {
             let menu;
 
-            // 화면을 벗어난 지점에 렌더링 된 경우
-            // menu의 기본 크기는 180
+            // When it is rendering outside of viewport,
+            // size of menu is set to 180 as a default
             ce._showRootMenu(vWidth - 20, vHeight - 20);
 
             menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');

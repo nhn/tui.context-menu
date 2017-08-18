@@ -13,8 +13,11 @@ describe('FloatingLayer', function() {
     let fl;
 
     beforeEach(function() {
-        fl = new FloatingLayer();
-        document.body.appendChild(fl.container);
+        const manager = document.createElement('div');
+        manager.zIndex = 999;
+        document.body.appendChild(manager);
+
+        fl = new FloatingLayer(manager);
     });
 
     afterEach(function() {
@@ -52,12 +55,12 @@ describe('FloatingLayer', function() {
         fl.setBound(bound);
 
         const style = fl.container.style;
-        expect(style.top).toBe(bound.top + 'px');
-        expect(style.right).toBe(bound.right + 'px');
-        expect(style.bottom).toBe(bound.bottom + 'px');
-        expect(style.left).toBe(bound.left + 'px');
-        expect(style.width).toBe(bound.width + 'px');
-        expect(style.height).toBe(bound.height + 'px');
+        expect(style.top).toBe(`${bound.top}px`);
+        expect(style.right).toBe(`${bound.right}px`);
+        expect(style.bottom).toBe(`${bound.bottom}px`);
+        expect(style.left).toBe(`${bound.left}px`);
+        expect(style.width).toBe(`${bound.width}px`);
+        expect(style.height).toBe(`${bound.height}px`);
 
         expect(fl.boundCache).toBeNull();
     });

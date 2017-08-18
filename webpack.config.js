@@ -54,6 +54,7 @@ module.exports = {
         historyApiFallback: false,
         progress: true,
         inline: true,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        disableHostCheck: true
     }
 };
