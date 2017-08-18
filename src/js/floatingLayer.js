@@ -1,27 +1,43 @@
 const dom = tui.dom;
 
+/** Class representing floating layer of context menu */
 class FloatingLayer {
 
-    constructor() {
-        var container = document.createElement('div');
-
-        dom.css(container, {
-            display: 'none',
-            position: 'absolute',
-            'z-index': 999
-        });
-        dom.addClass(container, 'floating-layer');
-
+    /**
+     * Create a floating layer
+     * @constructor
+     * @param {HTMLElement} manager - parent element contains floating layer
+     */
+    constructor(manager) {
         /**
          * Base container element for each view instance
          * @type {HTMLElement}
          */
-        this.container = container;
+        this.container = document.createElement('div');
+        this.initializeContainer(manager);
 
         /**
          * Cache for container bound
+         * @param {object} options - options
+         *   @param {number} options.top - top pixel
+         *   @param {number} options.right - right pixel
+         *   @param {number} options.bottom - bottom pixel
+         *   @param {number} options.left - left pixel
+         *   @param {number} options.width - width pixel
+         *   @param {number} options.height - height pixel
          */
         this.boundCache = null;
+    }
+
+    initializeContainer(manager) {
+        manager.appendChild(this.container);
+
+        dom.css(this.container, {
+            display: 'none',
+            position: 'absolute',
+            'z-index': manager.zIndex
+        });
+        dom.addClass(this.container, 'floating-layer');
     }
 
     /**
@@ -42,21 +58,22 @@ class FloatingLayer {
     }
 
     /**
-     * Get container's size and position. return bounds from
-     *  getBoundingClientRect()
-     *
-     * It return cached bounds until View.boundCache exists for performance iss
-     * ue. if you want re-calculate conatiner's bound then use bound setter or
-     * just clear boundCache
-     * property.
-     * @returns {object} size and position
+     * Get container's size and position. return bounds from getBoundingClientRect()
+     * It return cached bounds until View.boundCache exists for performance issue.
+     * If you want re-calculate conatiner's bound then use bound setter or just clear boundCache property.
+     * @returns {object} options - options
+     *   @returns {number} options.top - top pixel
+     *   @returns {number} options.right - right pixel
+     *   @returns {number} options.bottom - bottom pixel
+     *   @returns {number} options.left - left pixel
+     *   @returns {number} options.width - width pixel
+     *   @returns {number} options.height - height pixel
      */
     getBound() {
         let bound = this.boundCache;
 
         if (!bound) {
-            bound = this.boundCache =
-                Object.assign({}, dom.getRect(this.container));
+            bound = this.boundCache = dom.getRect(this.container);
         }
 
         return bound;
@@ -65,12 +82,12 @@ class FloatingLayer {
     /**
      * Set container's size and position
      * @param {object} options - options
-     * @param {number} [options.top] - top pixel
-     * @param {number} [options.right] - right pixel
-     * @param {number} [options.bottom] - bottom pixel
-     * @param {number} [options.left] - left pixel
-     * @param {number} [options.width] - width pixel
-     * @param {number} [options.height] - height pixel
+     *   @param {number} [options.top] - top pixel
+     *   @param {number} [options.right] - right pixel
+     *   @param {number} [options.bottom] - bottom pixel
+     *   @param {number} [options.left] - left pixel
+     *   @param {number} [options.width] - width pixel
+     *   @param {number} [options.height] - height pixel
      */
     setBound({top, right, bottom, left, width, height} = {}) {
         dom.setBound(
@@ -95,7 +112,5 @@ class FloatingLayer {
         dom.css(this.container, 'display', 'none');
     }
 }
-
-tui.util.CustomEvents.mixin(FloatingLayer);
 
 export default FloatingLayer;
