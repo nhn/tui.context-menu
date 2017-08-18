@@ -81,7 +81,7 @@ class FloatingLayer {
 
     /**
      * Set container's size and position
-     * @param {object} options - options
+     * @param {object} bound - bound rect
      *   @param {number} [options.top] - top pixel
      *   @param {number} [options.right] - right pixel
      *   @param {number} [options.bottom] - bottom pixel
@@ -89,10 +89,10 @@ class FloatingLayer {
      *   @param {number} [options.width] - width pixel
      *   @param {number} [options.height] - height pixel
      */
-    setBound({top, right, bottom, left, width, height} = {}) {
+    setBound(bound) {
         dom.setBound(
             this.container,
-            {top, right, bottom, left, width, height}
+            bound
         );
 
         this.boundCache = null;
