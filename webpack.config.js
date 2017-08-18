@@ -23,6 +23,10 @@ module.exports = {
         publicPath: 'dist',
         filename: FILENAME
     },
+    frameworks: [
+        'es5-shim',
+        'jasmine'
+    ],
     module: {
         preLoaders: [
             {
@@ -46,7 +50,7 @@ module.exports = {
         ]
     },
     plugins: plugins,
-    devtool: '#inline-source-map',
+    devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: false,
         progress: true,

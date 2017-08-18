@@ -41,9 +41,12 @@ describe('FloatingLayer', function() {
 
     it('#setContent()', function() {
         const html = '<p>inner-html</p>';
-        fl.setContent(html);
 
-        expect(fl.container.innerHTML).toBe(html);
+        fl.setContent(html);
+        const innerHtml = fl.container.innerHTML.replace('<P>', '<p>').replace('</P>', '</p>');
+
+
+        expect(innerHtml).toBe(html);
     });
 
     it('#setBound()', function() {
