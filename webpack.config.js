@@ -23,6 +23,9 @@ module.exports = {
         publicPath: 'dist',
         filename: FILENAME
     },
+    frameworks: [
+        'es5-shim' // for ie8
+    ],
     module: {
         preLoaders: [
             {
