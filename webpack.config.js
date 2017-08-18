@@ -23,10 +23,6 @@ module.exports = {
         publicPath: 'dist',
         filename: FILENAME
     },
-    frameworks: [
-        'es5-shim',
-        'jasmine'
-    ],
     module: {
         preLoaders: [
             {

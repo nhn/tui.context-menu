@@ -45,7 +45,6 @@ describe('FloatingLayer', function() {
         fl.setContent(html);
         const innerHtml = fl.container.innerHTML.replace('<P>', '<p>').replace('</P>', '</p>');
 
-
         expect(innerHtml).toBe(html);
     });
 
