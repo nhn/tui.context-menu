@@ -54,8 +54,7 @@ export function reduce(collection, iteratee, accumulator) {
  *  returns an array of the removed elements. The predicate is invoked with
  *  three arguments: (value, index, array).
  * @param {Array} array - The array to modify.
- * @param {(Function|String|Number)} predicate - The function invoked per
- *  iteration.
+ * @param {(Function|String|Number)} predicate - The function invoked per iteration.
  * @returns {Array} Returns the new array of removed elements.
  * @ignore
  */

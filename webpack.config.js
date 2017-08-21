@@ -20,8 +20,12 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: 'dist',
+        publicPath: 'dist',
         filename: FILENAME
     },
+    frameworks: [
+        'es5-shim' // for ie8
+    ],
     module: {
         preLoaders: [
             {
@@ -45,10 +49,12 @@ module.exports = {
         ]
     },
     plugins: plugins,
+    devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: false,
         progress: true,
         inline: true,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        disableHostCheck: true
     }
 };

@@ -7,8 +7,9 @@ const dom = tui.dom;
 
 import * as core from './core';
 import tmpl from '../template/contextmenu.hbs';
+import FloatingLayer from './floatingLayer';
 
-const MODALESS = {modaless: true};
+const DEFAULT_ZINDEX = 999;
 
 /**
  * @typedef MenuItem
@@ -27,8 +28,7 @@ class ContextMenu {
     /**
      * Constructor
      * @constructor
-     * @param {HTMLElement} container - container for placing context menu
-     *  floating layers
+     * @param {HTMLElement} container - container for placing context menu floating layers
      * @param {object} options - options for context menu
      *   @param {number} [options.delay=100] - delay for displaying submenu
      * @example
@@ -73,6 +73,12 @@ class ContextMenu {
          * @private
          */
         this.cloneMouseMoveEvent = null;
+
+        /**
+         * floating layer z-index
+         * @type {number}
+         */
+        this.zIndex = DEFAULT_ZINDEX;
 
         dom.on(document, 'contextmenu', this._onContextMenu, this);
     }
@@ -408,8 +414,7 @@ class ContextMenu {
 
     /**
      * Register context menu
-     * @param {string} selector - css selector for displaying contextmenu at
-     *  secondary mouse button click
+     * @param {string} selector - css selector for displaying contextmenu at secondary mouse button click
      * @param {function} callback - callback for each menu item clicked
      * @param {MenuItem[]} menuItems - menu item schema
      */
@@ -420,7 +425,7 @@ class ContextMenu {
             return;
         }
 
-        const layer = new tui.component.FloatingLayer(this.container, MODALESS);
+        const layer = new FloatingLayer(this.container);
 
         layer.callback = callback;
         layer.setBound({width: 'auto', height: 'auto'});
