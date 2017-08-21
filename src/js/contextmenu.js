@@ -122,6 +122,9 @@ class ContextMenu {
 
         dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
         dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
+        dom.findAll(layer.container, '.tui-contextmenu-selected').forEach((highlightMenu) => {
+            dom.removeClass(highlightMenu, 'tui-contextmenu-selected');
+        });
 
         this.pageScrolled = false;
         this.activeLayer = this.cloneMouseMoveEvent = null;

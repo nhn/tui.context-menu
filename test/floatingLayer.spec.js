@@ -32,14 +32,12 @@ describe('FloatingLayer', function() {
         expect(parseInt(style['z-index'], 10)).toBe(999);
 
         expect(dom.hasClass(fl.container, 'floating-layer')).toBe(true);
-        expect(fl.boundCache).toBeNull();
     });
 
     it('#destroy()', function() {
         fl.destroy();
 
         expect(fl.container).toBeNull();
-        expect(fl.boundCache).toBeNull();
     });
 
     it('#setContent()', function() {
@@ -61,17 +59,6 @@ describe('FloatingLayer', function() {
         expect(style.left).toBe(`${bound.left}px`);
         expect(style.width).toBe(`${bound.width}px`);
         expect(style.height).toBe(`${bound.height}px`);
-
-        expect(fl.boundCache).toBeNull();
-    });
-
-    it('#getBound()', function() {
-        fl.setBound(bound);
-        fl.show();
-        const layerBound = fl.getBound();
-
-        expect(layerBound).toEqual(bound);
-        expect(layerBound).toBe(fl.boundCache);
     });
 
     it('#show()', function() {
