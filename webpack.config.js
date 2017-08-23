@@ -20,6 +20,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: 'dist',
+        publicPath: 'dist',
         filename: FILENAME
     },
     module: {
@@ -45,6 +46,7 @@ module.exports = {
         ]
     },
     plugins: plugins,
+    devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: false,
         progress: true,

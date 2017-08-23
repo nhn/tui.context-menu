@@ -5,10 +5,10 @@
 const util = tui.util;
 const dom = tui.dom;
 
-import * as core from './core';
 import tmpl from '../template/contextmenu.hbs';
+import FloatingLayer from './floatingLayer';
 
-const MODALESS = {modaless: true};
+const DEFAULT_ZINDEX = 999;
 
 /**
  * @typedef MenuItem
@@ -27,8 +27,7 @@ class ContextMenu {
     /**
      * Constructor
      * @constructor
-     * @param {HTMLElement} container - container for placing context menu
-     *  floating layers
+     * @param {HTMLElement} container - container for placing context menu floating layers
      * @param {object} options - options for context menu
      *   @param {number} [options.delay=100] - delay for displaying submenu
      * @example
@@ -41,7 +40,7 @@ class ContextMenu {
          * @type {object}
          * @private
          */
-        this.options = Object.assign({}, options);
+        this.options = util.extend({}, options);
         /**
          * @type {HTMLElement}
          * @private
@@ -52,7 +51,7 @@ class ContextMenu {
          * @type {Map}
          * @private
          */
-        this.layerMap = new Map();
+        this.layerMap = new util.Map();
 
         /**
          * @type {FloatingLayer}
@@ -66,6 +65,9 @@ class ContextMenu {
          */
         this.pageScrolled = false;
 
+        /**
+         * @type {HTMLElement}
+         */
         this.prevElement = null;
 
         /**
@@ -73,6 +75,12 @@ class ContextMenu {
          * @private
          */
         this.cloneMouseMoveEvent = null;
+
+        /**
+         * floating layer z-index
+         * @type {number}
+         */
+        this.zIndex = DEFAULT_ZINDEX;
 
         dom.on(document, 'contextmenu', this._onContextMenu, this);
     }
@@ -116,6 +124,9 @@ class ContextMenu {
 
         dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
         dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
+        dom.findAll(layer.container, '.tui-contextmenu-selected').forEach((highlightMenu) => {
+            dom.removeClass(highlightMenu, 'tui-contextmenu-selected');
+        });
 
         this.pageScrolled = false;
         this.activeLayer = this.cloneMouseMoveEvent = null;
@@ -161,14 +172,14 @@ class ContextMenu {
             return;
         }
 
-        for (let layer of this.layerMap.values()) {
+        this.layerMap.forEach(layer => {
             if (container === layer.container) {
                 layer.callback(clickEvent, command || title);
                 this._hideContextMenu();
 
                 return;
             }
-        }
+        }, this);
     } /* eslint-ensable complexity */
 
     /**
@@ -182,7 +193,7 @@ class ContextMenu {
      */
     _showWithoutOverflow(
         element,
-        strategy = {rightOverflow: core.noop, bottomOverflow: core.noop},
+        strategy = {rightOverflow: function() {}, bottomOverflow: function() {}},
         initialStyle = {marginTop: '', marginLeft: ''}
     ) {
         dom.css(element, 'visibility', 'hidden');
@@ -386,8 +397,9 @@ class ContextMenu {
 
         let position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
 
-        const left = position[0];//clickEvent.clientX;
-        const top = position[1];//clickEvent.clientY;
+        /* clickEvent's clientX, clientY */
+        const left = position[0];
+        const top = position[1];
         const debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);
 
         this.cloneMouseMoveEvent = function(mouseMoveEvent) {
@@ -408,8 +420,7 @@ class ContextMenu {
 
     /**
      * Register context menu
-     * @param {string} selector - css selector for displaying contextmenu at
-     *  secondary mouse button click
+     * @param {string} selector - css selector for displaying contextmenu at secondary mouse button click
      * @param {function} callback - callback for each menu item clicked
      * @param {MenuItem[]} menuItems - menu item schema
      */
@@ -420,7 +431,7 @@ class ContextMenu {
             return;
         }
 
-        const layer = new tui.component.FloatingLayer(this.container, MODALESS);
+        const layer = new FloatingLayer(this.container);
 
         layer.callback = callback;
         layer.setBound({width: 'auto', height: 'auto'});

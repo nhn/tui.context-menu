@@ -12,9 +12,8 @@ ContextMenu Component
 * Examples: [https://nhnent.github.io/tui.component.contextmenu/latest/tutorial-default.html](https://nhnent.github.io/tui.component.contextmenu/latest/tutorial-default.html)
 
 ## Dependency
-* tui-code-snippet: ^1.2.0
+* tui-code-snippet: ~1.2.5
 * tui-domutil: ^2.1.0
-* tui-component-floatinglayer: ^1.0.1
 * (To support IE8+): [Babel-polyfill](https://babeljs.io/docs/usage/polyfill/)
 
 ## Test Environment
