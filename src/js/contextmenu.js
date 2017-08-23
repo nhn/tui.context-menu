@@ -5,7 +5,6 @@
 const util = tui.util;
 const dom = tui.dom;
 
-import * as core from './core';
 import tmpl from '../template/contextmenu.hbs';
 import FloatingLayer from './floatingLayer';
 
@@ -41,7 +40,7 @@ class ContextMenu {
          * @type {object}
          * @private
          */
-        this.options = Object.assign({}, options);
+        this.options = util.extend({}, options);
         /**
          * @type {HTMLElement}
          * @private
@@ -52,7 +51,7 @@ class ContextMenu {
          * @type {Map}
          * @private
          */
-        this.layerMap = new Map();
+        this.layerMap = new util.Map();
 
         /**
          * @type {FloatingLayer}
@@ -66,6 +65,9 @@ class ContextMenu {
          */
         this.pageScrolled = false;
 
+        /**
+         * @type {HTMLElement}
+         */
         this.prevElement = null;
 
         /**
@@ -170,14 +172,14 @@ class ContextMenu {
             return;
         }
 
-        for (let layer of this.layerMap.values()) {
+        this.layerMap.forEach(layer => {
             if (container === layer.container) {
                 layer.callback(clickEvent, command || title);
                 this._hideContextMenu();
 
                 return;
             }
-        }
+        }, this);
     } /* eslint-ensable complexity */
 
     /**
@@ -191,7 +193,7 @@ class ContextMenu {
      */
     _showWithoutOverflow(
         element,
-        strategy = {rightOverflow: core.noop, bottomOverflow: core.noop},
+        strategy = {rightOverflow: function() {}, bottomOverflow: function() {}},
         initialStyle = {marginTop: '', marginLeft: ''}
     ) {
         dom.css(element, 'visibility', 'hidden');
@@ -395,6 +397,7 @@ class ContextMenu {
 
         let position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
 
+        /* 설명 */
         const left = position[0];//clickEvent.clientX;
         const top = position[1];//clickEvent.clientY;
         const debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);

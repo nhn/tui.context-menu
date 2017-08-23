@@ -23,9 +23,6 @@ module.exports = {
         publicPath: 'dist',
         filename: FILENAME
     },
-    frameworks: [
-        'es5-shim' // for ie8
-    ],
     module: {
         preLoaders: [
             {
@@ -54,7 +51,6 @@ module.exports = {
         historyApiFallback: false,
         progress: true,
         inline: true,
-        host: '0.0.0.0',
-        disableHostCheck: true
+        host: '0.0.0.0'
     }
 };
