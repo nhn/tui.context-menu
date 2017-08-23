@@ -397,9 +397,9 @@ class ContextMenu {
 
         let position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
 
-        /* 설명 */
-        const left = position[0];//clickEvent.clientX;
-        const top = position[1];//clickEvent.clientY;
+        /* clickEvent's clientX, clientY */
+        const left = position[0];
+        const top = position[1];
         const debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);
 
         this.cloneMouseMoveEvent = function(mouseMoveEvent) {
