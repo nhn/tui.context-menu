@@ -19,14 +19,10 @@ const DEFAULT_ZINDEX = 999;
  * @property {MenuItem[]} [menu] - you can define submenu recursivly
  */
 
-/**
- * ContextMenu
- * @tutorial default
- */
+/** Toast UI ContextMenu Component */
 class ContextMenu {
     /**
      * Constructor
-     * @constructor
      * @param {HTMLElement} container - container for placing context menu floating layers
      * @param {object} options - options for context menu
      *   @param {number} [options.delay=100] - delay for displaying submenu
@@ -72,6 +68,7 @@ class ContextMenu {
 
         /**
          * @type {HTMLElement}
+         * @private
          */
         this.prevElement = null;
 
