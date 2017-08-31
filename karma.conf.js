@@ -2,8 +2,6 @@
  * Config file for testing
  * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
  */
-
-var pkg = require('./package.json');
 var SafeUmdPlugin = require('safe-umd-webpack-plugin');
 
 var webdriverConfig = {
