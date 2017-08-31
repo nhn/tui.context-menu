@@ -1,34 +1,27 @@
 {
-  "name": "tui-component-contextmenu",
-  "description": "contextmenu component",
+  "name": "tui-context-menu",
   "authors": [
     "NHNEnt FE Development Lab <dl_javascript@nhnent.com>"
   ],
-  "license": "MIT",
-  "keywords": [
-    "contextmenu"
+  "main": [
+    "dist/tui-context-menu.js",
+    "dist/tui-context-menu.css"
   ],
-  "homepage": "",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests",
-    "src",
-    "demo",
     "examples",
-    ".gitignore",
-    ".eslintrc",
-    "index.js",
-    "jsdoc-conf.json",
+    "src",
+    "test",
+    "jsdoc.conf.json",
     "karma.conf.js",
     "webpack.config.js",
-    "package.json",
-    "bower.json"
+    "package.json"
   ],
   "dependencies": {
-    "tui-code-snippet": "~1.2.5",
-    "tui-dom": "^2.1.0"
+    "tui-code-snippet": "^1.2.5",
+    "tui-dom": "^3.0.0"
   }
 }

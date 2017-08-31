@@ -1,37 +1,73 @@
-ContextMenu
-===============
-ContextMenu Component
+# ContextMenu
+
+TOAST UI ContextMenu Component
 
 ## Feature
-* When you click on the right mouse button, it will be created to target the context menu.
-* When you select the context menu, the custom event occurs and closed.
+* create context menu
+* trigger a custom event, when click a menu item
+* make a menu item enable or disable
 
 ## Documentation
-* API: [https://nhnent.github.io/tui.component.contextmenu/latest](https://nhnent.github.io/tui.component.contextmenu/latest)
-* Tutorial: [https://github.com/nhnent/tui.component.contextmenu/wiki/ContextMenu-Tutorial](https://github.com/nhnent/tui.component.contextmenu/wiki/ContextMenu-Tutorial)
-* Examples: [https://nhnent.github.io/tui.component.contextmenu/latest/tutorial-default.html](https://nhnent.github.io/tui.component.contextmenu/latest/tutorial-default.html)
+* API: [https://nhnent.github.io/tui.context-menu/latest](https://nhnent.github.io/tui.context-menu/latest)
+* Tutorial: [https://github.com/nhnent/tui.context-menu/wiki](https://github.com/nhnent/tui.context-menu/wiki)
+* Examples: [https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html)
 
 ## Dependency
-* tui-code-snippet: ~1.2.5
-* tui-domutil: ^2.1.0
-* (To support IE8+): [Babel-polyfill](https://babeljs.io/docs/usage/polyfill/)
+* [tui-code-snippet](https://github.com/nhnent/tui.code-snippet) ^1.2.5
+* [tui-dom](https://github.com/nhnent/tui.dom) ^2.0.0
 
 ## Test Environment
-* browser
-	* IE8+
-	* Edge
-	* Chrome
-	* Firefox
+### PC
+* IE8 ~ 11
+* Edge
+* Chrome
+* Firefox
+* Safari
 
-## Download/Install
-* Bower:
-   * Latest: `bower install tui-component-contextmenu`
-   * Each Version: `bower install tui-component-contextmenu[#tag]`
-* Download: https://github.com/nhnent/tui.component.contextmenu
+## Usage
+### Use `npm`
 
-## LICENSE
-[MIT LICENSE](LICENSE)
+Install the latest version using `npm` command:
 
-## Sponsor
-* <img src="https://cloud.githubusercontent.com/assets/12269563/12287774/8cf4d2c0-ba12-11e5-9fa8-0a9c452cca05.png" height="30"><br>
- [BrowserStack](https://www.browserstack.com/) is a cloud based cross browser testing tool
+```
+$ npm install tui-context-menu --save
+```
+
+or want to install the each version:
+
+```
+$ npm install tui-context-menu@<version> --save
+```
+
+To access as module format in your code:
+
+```javascript
+var ContextMenu = require('tui-context-menu');
+var instance = new ContextMenu(...);
+```
+
+### Use `bower`
+Install the latest version using `bower` command:
+
+```
+$ bower install tui-context-menu
+```
+
+or want to install the each version:
+
+```
+$ bower install tui-context-menu#<tag>
+```
+
+To access as namespace format in your code:
+
+```javascript
+var instance = new tui.ContextMenu(...);
+```
+
+### Download
+* [Download bundle files from `dist` folder](https://github.com/nhnent/tui.context-menu/tree/production/dist)
+* [Download all sources for each version](https://github.com/nhnent/tui.context-menu/releases)
+
+## License
+[MIT LICENSE](https://github.com/nhnent/tui.context-menu/blob/master/LICENSE)

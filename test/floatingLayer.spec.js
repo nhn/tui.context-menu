@@ -1,5 +1,5 @@
+import * as dom from 'tui-dom';
 import FloatingLayer from '../src/js/floatingLayer.js';
-const dom = tui.dom;
 
 describe('FloatingLayer', function() {
     const bound = {
@@ -26,7 +26,7 @@ describe('FloatingLayer', function() {
     });
 
     it('#constructor', function() {
-        const style = fl.container.style;
+        const {style} = fl.container;
         expect(style.display).toBe('none');
         expect(style.position).toBe('absolute');
         expect(parseInt(style['z-index'], 10)).toBe(999);
@@ -52,7 +52,7 @@ describe('FloatingLayer', function() {
     it('#setBound()', function() {
         fl.setBound(bound);
 
-        const style = fl.container.style;
+        const {style} = fl.container;
         expect(style.top).toBe(`${bound.top}px`);
         expect(style.right).toBe(`${bound.right}px`);
         expect(style.bottom).toBe(`${bound.bottom}px`);

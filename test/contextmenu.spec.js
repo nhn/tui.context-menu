@@ -1,6 +1,5 @@
-import ContextMenu from '../src/js/contextmenu';
-
-const dom = tui.dom;
+import * as dom from 'tui-dom';
+import ContextMenu from '../src/js/contextmenu.js';
 
 describe('ContextMenu component', function() {
     beforeEach(function() {

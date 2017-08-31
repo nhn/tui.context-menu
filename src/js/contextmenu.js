@@ -2,11 +2,11 @@
  * @fileoverview Context menu component
  * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
  */
-const util = tui.util;
-const dom = tui.dom;
 
-import tmpl from '../template/contextmenu.hbs';
+import * as dom from 'tui-dom';
+import * as util from 'tui-code-snippet';
 import FloatingLayer from './floatingLayer';
+import tmpl from '../template/contextmenu.hbs';
 
 const DEFAULT_ZINDEX = 999;
 
@@ -31,7 +31,12 @@ class ContextMenu {
      * @param {object} options - options for context menu
      *   @param {number} [options.delay=100] - delay for displaying submenu
      * @example
-     * var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
+     * //-- #1. Get Module --//
+     * var ContextMenu = require('tui-context-menu'); // node, commonjs
+     * var ContextMenu = tui.ContextMenu; // distribution file
+     *
+     * //-- #2. Use property --//
+     * var contextMenu = new ContextMenu(...)
      */
     constructor(container, options = {
         delay: 130
@@ -176,8 +181,6 @@ class ContextMenu {
             if (container === layer.container) {
                 layer.callback(clickEvent, command || title);
                 this._hideContextMenu();
-
-                return;
             }
         }, this);
     } /* eslint-ensable complexity */
@@ -282,7 +285,7 @@ class ContextMenu {
      * @private
      */
     _refreshMenuDisplay(layerOnCursor) {
-        const container = this.activeLayer.container;
+        const {container} = this.activeLayer;
         const allSubmenus = dom.findAll(container, '.tui-contextmenu-submenu');
         const layersUntilRoot = [];
 
@@ -316,7 +319,7 @@ class ContextMenu {
         }
 
         const target = mouseMoveEvent.target || mouseMoveEvent.srcElement;
-        const activeLayer = this.activeLayer;
+        const {activeLayer} = this;
 
         if (this.prevElement) {
             dom.removeClass(this.prevElement, 'tui-contextmenu-selected');
@@ -398,8 +401,7 @@ class ContextMenu {
         let position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
 
         /* clickEvent's clientX, clientY */
-        const left = position[0];
-        const top = position[1];
+        const [left, top] = position;
         const debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);
 
         this.cloneMouseMoveEvent = function(mouseMoveEvent) {
@@ -446,7 +448,7 @@ class ContextMenu {
      * @returns {boolean} whether unregister is successful?
      */
     unregister(selector) {
-        const layerMap = this.layerMap;
+        const {layerMap} = this;
         const target = dom.find(selector);
 
         if (!target) {

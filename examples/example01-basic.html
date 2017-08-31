@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>ContextMenu DEMO</title>
+    <link rel="stylesheet" type="text/css" href="../dist/tui-context-menu.css" />
+    <style>
+        body{font-family: sans-serif;}
+        #target {
+            width: 200px;
+            height: 200px;
+            background-color: #777;
+            color: #fff;
+            font-size: 0.8em;
+            text-align: center;
+            line-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="code-html">
+        <div id="fl"></div>
+        <div id="target">Right-click</div>
+    </div>
+
+    <script src="../node_modules/tui-code-snippet/dist/tui-code-snippet.js"></script>
+    <script src="../node_modules/tui-dom/dist/tui-dom.js"></script>
+    <!-- <script src="//cdn.rawgit.com/nhnent/tui.code-snippet/v1.2.5/dist/tui-code-snippet.min.js"></script> -->
+    <!-- <script src="//cdn.rawgit.com/nhnent/tui.dom/v2.0.0/dist/tui-dom.js"></script> -->
+    <script src="../dist/tui-context-menu.js"></script>
+    <script class="code-js">
+        var contextMenu = new tui.ContextMenu(document.querySelector('#fl'));
+
+        function onClick(e, cmd) {
+            console.log(cmd);
+        }
+
+        contextMenu.register('#target', onClick, [
+            {title: 'New Folder'},
+            {
+                title: 'New File',
+                menu: [
+                    {title: '20170101.xls'},
+                    {title: 'image.png', command: 'export-to-png'},
+                    {title: 'image.jpg', command: 'export-to-jpg'}
+                ]
+            },
+            {separator: true},
+            {title: 'Rename'},
+            {title: 'Delete'},
+            {title: 'Copy', disable: true},
+            {title: 'Paste', disable: true}
+        ]);
+    </script>
+</body>
+</html>
