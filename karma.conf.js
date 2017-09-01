@@ -72,8 +72,8 @@ function setConfig(defaultConfig, server) {
             'IE11',
             'Edge',
             'Chrome-WebDriver',
-            'Firefox-WebDriver'
-            // 'Safari-WebDriver' // active only when safari test is needed
+            'Firefox-WebDriver',
+            'Safari-WebDriver' // active only when safari test is needed
         ];
         defaultConfig.reporters.push('coverage');
         defaultConfig.reporters.push('junit');
@@ -118,14 +118,6 @@ module.exports = function(config) {
         files: [
             {
                 pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
-                watched: false
-            },
-            {
-                pattern: 'node_modules/tui-code-snippet/dist/tui-code-snippet.js',
-                watched: false
-            },
-            {
-                pattern: 'node_modules/tui-dom/dist/tui-dom.js',
                 watched: false
             },
             'test/index.js'
