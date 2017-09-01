@@ -4,7 +4,7 @@
  */
 
 import * as dom from 'tui-dom';
-import * as util from 'tui-code-snippet';
+import * as snippet from 'tui-code-snippet';
 import FloatingLayer from './floatingLayer';
 import tmpl from '../template/contextmenu.hbs';
 
@@ -41,7 +41,7 @@ class ContextMenu {
          * @type {object}
          * @private
          */
-        this.options = util.extend({}, options);
+        this.options = snippet.extend({}, options);
         /**
          * @type {HTMLElement}
          * @private
@@ -52,7 +52,7 @@ class ContextMenu {
          * @type {Map}
          * @private
          */
-        this.layerMap = new util.Map();
+        this.layerMap = new snippet.Map();
 
         /**
          * @type {FloatingLayer}
@@ -300,7 +300,7 @@ class ContextMenu {
             }
         });
 
-        layersUntilRoot.forEach(util.bind(this._showSubMenu, this));
+        layersUntilRoot.forEach(snippet.bind(this._showSubMenu, this));
     }
 
     /**
@@ -399,7 +399,7 @@ class ContextMenu {
 
         /* clickEvent's clientX, clientY */
         const [left, top] = position;
-        const debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);
+        const debouncedMouseMove = snippet.debounce(snippet.bind(this._onMouseMove, this), opt.delay);
 
         this.cloneMouseMoveEvent = function(mouseMoveEvent) {
             const virtualMouseEvent = {
