@@ -2,6 +2,8 @@
  * Config file for testing
  * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
  */
+var pkg = require('./package.json');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var SafeUmdPlugin = require('safe-umd-webpack-plugin');
 
 var webdriverConfig = {
@@ -148,6 +150,10 @@ module.exports = function(config) {
                         test: /\.js$/,
                         loader: 'eslint-loader',
                         exclude: /(dist|node_modules|bower_components)/
+                    },
+                    {
+                        test: /\.css$/,
+                        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
                     }
                 ],
                 loaders: [
@@ -164,7 +170,8 @@ module.exports = function(config) {
                 ]
             },
             plugins: [
-                new SafeUmdPlugin()
+                new SafeUmdPlugin(),
+                new ExtractTextPlugin(pkg.name + '.css')
             ]
         },
         port: 9876,

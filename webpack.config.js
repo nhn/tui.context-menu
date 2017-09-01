@@ -7,6 +7,7 @@
 var pkg = require('./package.json');
 var webpack = require('webpack');
 
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var SafeUmdPlugin = require('safe-umd-webpack-plugin');
 var UglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
     compress: true,
@@ -57,6 +58,10 @@ var config = {
                 test: /\.js$/,
                 loader: 'eslint-loader',
                 exclude: /(dist|node_modules|bower_components)/
+            },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
             }
         ],
         loaders: [
@@ -75,6 +80,7 @@ var config = {
     },
     plugins: [
         new SafeUmdPlugin(),
+        new ExtractTextPlugin(pkg.name + '.css'),
         new webpack.BannerPlugin(BANNER)
     ],
     devServer: {
