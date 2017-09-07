@@ -809,7 +809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return "\n\n<div class=\"tui-contextmenu tui-contextmenu-root\">\n"
 	    + ((stack1 = container.invokePartial(partials.menuItem,depth0,{"name":"menuItem","data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-	    + "</div>\n";
+	    + "</div>";
 	},"main_d":  function(fn, props, container, depth0, data, blockParams, depths) {
 
 	  var decorators = container.decorators;
