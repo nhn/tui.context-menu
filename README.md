@@ -14,7 +14,7 @@ TOAST UI ContextMenu Component
 
 ## Dependency
 * [tui-code-snippet](https://github.com/nhnent/tui.code-snippet) ^1.2.5
-* [tui-dom](https://github.com/nhnent/tui.dom) ^2.0.0
+* [tui-dom](https://github.com/nhnent/tui.dom) ^3.0.0
 
 ## Test Environment
 ### PC

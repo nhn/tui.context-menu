@@ -101,7 +101,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _tuiCodeSnippet = __webpack_require__(7);
 
-	var util = _interopRequireWildcard(_tuiCodeSnippet);
+	var snippet = _interopRequireWildcard(_tuiCodeSnippet);
 
 	var _floatingLayer = __webpack_require__(8);
 
@@ -158,7 +158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @type {object}
 	         * @private
 	         */
-	        this.options = util.extend({}, options);
+	        this.options = snippet.extend({}, options);
 	        /**
 	         * @type {HTMLElement}
 	         * @private
@@ -169,7 +169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @type {Map}
 	         * @private
 	         */
-	        this.layerMap = new util.Map();
+	        this.layerMap = new snippet.Map();
 
 	        /**
 	         * @type {FloatingLayer}
@@ -429,7 +429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 
-	        layersUntilRoot.forEach(util.bind(this._showSubMenu, this));
+	        layersUntilRoot.forEach(snippet.bind(this._showSubMenu, this));
 	    };
 
 	    /**
@@ -541,7 +541,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            left = _position[0],
 	            top = _position[1];
 
-	        var debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);
+	        var debouncedMouseMove = snippet.debounce(snippet.bind(this._onMouseMove, this), opt.delay);
 
 	        this.cloneMouseMoveEvent = function (mouseMoveEvent) {
 	            var virtualMouseEvent = {

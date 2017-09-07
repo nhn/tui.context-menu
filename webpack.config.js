@@ -9,16 +9,18 @@ var webpack = require('webpack');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var SafeUmdPlugin = require('safe-umd-webpack-plugin');
-var UglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
-    compress: true,
+var uglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
+    compress: {
+        'drop_console': true,
+        warnings: false
+    },
+    'support_ie8': true,
     mangle: true
 });
 
-var shouldMinify = process.argv.indexOf('--minify') > -1;
 var isProduction = process.argv.indexOf('-p') > -1;
-var minify = shouldMinify || isProduction;
 
-var FILENAME = pkg.name + (minify ? '.min.js' : '.js');
+var FILENAME = pkg.name + (isProduction ? '.min.js' : '.js');
 var BANNER = [
     FILENAME,
     '@version ' + pkg.version,
@@ -91,8 +93,8 @@ var config = {
     }
 };
 
-if (minify) {
-    config.plugins.push(UglifyJsPlugin);
+if (isProduction) {
+    config.plugins.push(uglifyJsPlugin);
 }
 
 module.exports = config;

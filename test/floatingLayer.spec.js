@@ -14,6 +14,7 @@ describe('FloatingLayer', function() {
 
     beforeEach(function() {
         const manager = document.createElement('div');
+
         manager.zIndex = 999;
         document.body.appendChild(manager);
 
@@ -27,6 +28,7 @@ describe('FloatingLayer', function() {
 
     it('#constructor', function() {
         const {style} = fl.container;
+
         expect(style.display).toBe('none');
         expect(style.position).toBe('absolute');
         expect(parseInt(style['z-index'], 10)).toBe(999);
@@ -53,6 +55,7 @@ describe('FloatingLayer', function() {
         fl.setBound(bound);
 
         const {style} = fl.container;
+
         expect(style.top).toBe(`${bound.top}px`);
         expect(style.right).toBe(`${bound.right}px`);
         expect(style.bottom).toBe(`${bound.bottom}px`);

@@ -17,6 +17,7 @@ describe('ContextMenu component', function() {
         }]);
 
         const menu1Element = document.querySelector('#menu1');
+
         expect(cm.layerMap.has(menu1Element)).toBe(true);
     });
 
@@ -54,6 +55,7 @@ describe('ContextMenu component', function() {
         cm._onMouseMove(mockMouseMove);
 
         const needHided = document.querySelectorAll('.tui-contextmenu-submenu');
+
         expect(needHided[0].style.display).toBe('none');
         expect(needHided[1].style.display).toBe('block');
         expect(needHided[2].style.display).toBe('none');

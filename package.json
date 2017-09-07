@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "main": "dist/tui-context-menu.js",
   "scripts": {
-    "test": "karma start",
+    "test": "karma start --no-single-run",
     "test:ne": "KARMA_SERVER=ne karma start",
     "bundle": "webpack && webpack -p",
     "serve": "webpack-dev-server --inline --hot -d",
@@ -53,7 +53,6 @@
     "karma-fixture": "^0.2.6",
     "karma-jasmine": "^1.0.2",
     "karma-jasmine-jquery": "^0.1.1",
-    "karma-jquery": "^0.2.2",
     "karma-junit-reporter": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webdriver-launcher": "git+https://github.com/nhnent/karma-webdriver-launcher.git#v1.1.0",
@@ -62,7 +61,6 @@
     "style-loader": "^0.13.1",
     "transform-loader": "^0.2.3",
     "tui-jsdoc-template": "^1.0.3",
-    "uglify-js": "^2.6.2",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.11.0"
   },

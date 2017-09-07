@@ -96,7 +96,7 @@ function setConfig(defaultConfig, server) {
             ]
         };
         defaultConfig.junitReporter = {
-            outputDir: 'report',
+            outputDir: 'report/junit',
             suite: ''
         };
     } else {
@@ -110,16 +110,11 @@ module.exports = function(config) {
     var defaultConfig = {
         basePath: './',
         frameworks: [
-            'jquery-1.11.0',
             'fixture',
             'jasmine',
             'es5-shim'
         ],
         files: [
-            {
-                pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
-                watched: false
-            },
             'test/index.js'
         ],
         preprocessors: {
@@ -141,7 +136,7 @@ module.exports = function(config) {
                     {
                         test: /\.js$/,
                         loader: 'eslint-loader',
-                        exclude: /(dist|node_modules|bower_components)/
+                        exclude: /(node_modules|bower_components)/
                     },
                     {
                         test: /\.css$/,
