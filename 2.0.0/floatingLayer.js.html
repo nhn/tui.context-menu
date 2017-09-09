@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home | ContextMenu</title>
+    <title>Source: floatingLayer.js | ContextMenu</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -55,56 +57,94 @@
 
 
     
-
-
-
-
-
-
-
-
-
-    
-
-
     <section>
-        <article class="readme"><h1>ContextMenu</h1><p>TOAST UI ContextMenu Component</p>
-<h2>Feature</h2><ul>
-<li>create context menu</li>
-<li>trigger a custom event, when click a menu item</li>
-<li>make a menu item enable or disable</li>
-</ul>
-<h2>Documentation</h2><ul>
-<li>API: <a href="https://nhnent.github.io/tui.context-menu/latest">https://nhnent.github.io/tui.context-menu/latest</a></li>
-<li>Tutorial: <a href="https://github.com/nhnent/tui.context-menu/wiki">https://github.com/nhnent/tui.context-menu/wiki</a></li>
-<li>Examples: <a href="https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic-usage.html">https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic-usage.html</a></li>
-</ul>
-<h2>Dependency</h2><ul>
-<li><a href="https://github.com/nhnent/tui.code-snippet">tui-code-snippet</a> ^1.2.5</li>
-<li><a href="https://github.com/nhnent/tui.dom">tui-dom</a> ^3.0.0</li>
-</ul>
-<h2>Test Environment</h2><h3>PC</h3><ul>
-<li>IE8 ~ 11</li>
-<li>Edge</li>
-<li>Chrome</li>
-<li>Firefox</li>
-<li>Safari</li>
-</ul>
-<h2>Usage</h2><h3>Use <code>npm</code></h3><p>Install the latest version using <code>npm</code> command:</p>
-<pre class="prettyprint source"><code>$ npm install tui-context-menu --save</code></pre><p>or want to install the each version:</p>
-<pre class="prettyprint source"><code>$ npm install tui-context-menu@&lt;version> --save</code></pre><p>To access as module format in your code:</p>
-<pre class="prettyprint source lang-javascript"><code>var ContextMenu = require('tui-context-menu');
-var instance = new ContextMenu(...);</code></pre><h3>Use <code>bower</code></h3><p>Install the latest version using <code>bower</code> command:</p>
-<pre class="prettyprint source"><code>$ bower install tui-context-menu</code></pre><p>or want to install the each version:</p>
-<pre class="prettyprint source"><code>$ bower install tui-context-menu#&lt;tag></code></pre><p>To access as namespace format in your code:</p>
-<pre class="prettyprint source lang-javascript"><code>var instance = new tui.ContextMenu(...);</code></pre><h3>Download</h3><ul>
-<li><a href="https://github.com/nhnent/tui.context-menu/tree/production/dist">Download bundle files from <code>dist</code> folder</a></li>
-<li><a href="https://github.com/nhnent/tui.context-menu/releases">Download all sources for each version</a></li>
-</ul>
-<h2>License</h2><p><a href="https://github.com/nhnent/tui.context-menu/blob/master/LICENSE">MIT LICENSE</a></p></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as dom from 'tui-dom';
+
+/**
+ * @class
+ * @private
+ * @classdesc Class representing floating layer of context menu
+ */
+class FloatingLayer {
+    /**
+     * Create a floating layer
+     * @constructor
+     * @param {HTMLElement} manager - parent element contains floating layer
+     */
+    constructor(manager) {
+        /**
+         * Base container element for each view instance
+         * @type {HTMLElement}
+         */
+        this.container = document.createElement('div');
+        this.initializeContainer(manager);
+    }
+
+    initializeContainer(manager) {
+        manager.appendChild(this.container);
+
+        dom.css(this.container, {
+            display: 'none',
+            position: 'absolute',
+            'z-index': manager.zIndex
+        });
+        dom.addClass(this.container, 'floating-layer');
+    }
+
+    /**
+     * Destroy view instance
+     */
+    destroy() {
+        dom.removeElement(this.container);
+
+        this.container = null;
+    }
+
+    /**
+     * Set layer content
+     * @param {string} html - html string
+     */
+    setContent(html) {
+        this.container.innerHTML = html;
+    }
+
+    /**
+     * Set container's size and position
+     * @param {object} bound - bound rect
+     *   @param {number} [options.top] - top pixel
+     *   @param {number} [options.right] - right pixel
+     *   @param {number} [options.bottom] - bottom pixel
+     *   @param {number} [options.left] - left pixel
+     *   @param {number} [options.width] - width pixel
+     *   @param {number} [options.height] - height pixel
+     */
+    setBound(bound) {
+        dom.setBound(
+            this.container,
+            bound
+        );
+    }
+
+    /**
+     * Show layer
+     */
+    show() {
+        dom.css(this.container, 'display', 'block');
+    }
+
+    /**
+     * Hide layer
+     */
+    hide() {
+        dom.css(this.container, 'display', 'none');
+    }
+}
+
+export default FloatingLayer;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
@@ -121,7 +161,7 @@ var instance = new ContextMenu(...);</code></pre><h3>Use <code>bower</code></h3>
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'package:tui-context-menu_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
