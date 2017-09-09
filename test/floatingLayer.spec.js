@@ -1,7 +1,7 @@
+import * as dom from 'tui-dom';
 import FloatingLayer from '../src/js/floatingLayer.js';
-const dom = tui.dom;
 
-describe('FloatingLayer', function() {
+describe('FloatingLayer', () => {
     const bound = {
         left: 1,
         top: 2,
@@ -12,21 +12,23 @@ describe('FloatingLayer', function() {
     };
     let fl;
 
-    beforeEach(function() {
+    beforeEach(() => {
         const manager = document.createElement('div');
+
         manager.zIndex = 999;
         document.body.appendChild(manager);
 
         fl = new FloatingLayer(manager);
     });
 
-    afterEach(function() {
+    afterEach(() => {
         fl.destroy();
         fl = null;
     });
 
-    it('#constructor', function() {
-        const style = fl.container.style;
+    it('#constructor', () => {
+        const {style} = fl.container;
+
         expect(style.display).toBe('none');
         expect(style.position).toBe('absolute');
         expect(parseInt(style['z-index'], 10)).toBe(999);
@@ -34,13 +36,13 @@ describe('FloatingLayer', function() {
         expect(dom.hasClass(fl.container, 'floating-layer')).toBe(true);
     });
 
-    it('#destroy()', function() {
+    it('#destroy()', () => {
         fl.destroy();
 
         expect(fl.container).toBeNull();
     });
 
-    it('#setContent()', function() {
+    it('#setContent()', () => {
         const html = '<p>inner-html</p>';
 
         fl.setContent(html);
@@ -49,10 +51,11 @@ describe('FloatingLayer', function() {
         expect(innerHtml).toBe(html);
     });
 
-    it('#setBound()', function() {
+    it('#setBound()', () => {
         fl.setBound(bound);
 
-        const style = fl.container.style;
+        const {style} = fl.container;
+
         expect(style.top).toBe(`${bound.top}px`);
         expect(style.right).toBe(`${bound.right}px`);
         expect(style.bottom).toBe(`${bound.bottom}px`);
@@ -61,12 +64,12 @@ describe('FloatingLayer', function() {
         expect(style.height).toBe(`${bound.height}px`);
     });
 
-    it('#show()', function() {
+    it('#show()', () => {
         fl.show();
         expect(fl.container.style.display).toBe('block');
     });
 
-    it('#hide()', function() {
+    it('#hide()', () => {
         fl.hide();
         expect(fl.container.style.display).toBe('none');
     });

@@ -1,42 +1,74 @@
-var webpack = require('webpack');
+/**
+ * Configs file for bundling
+ * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
+ */
+/* global process:true */
+
 var pkg = require('./package.json');
+var webpack = require('webpack');
 
-var shouldMinify = process.argv.indexOf('--minify') > -1;
-
-var FILENAME = shouldMinify ? pkg.name + '.min.js' : pkg.name + '.js';
-var VERSION = pkg.version;
-
-var minifyPlugin = new webpack.optimize.UglifyJsPlugin({
-    compress: true,
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var SafeUmdPlugin = require('safe-umd-webpack-plugin');
+var uglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
+    compress: {
+        'drop_console': true,
+        warnings: false
+    },
+    'support_ie8': true,
     mangle: true
 });
-var bannerPlugin = new webpack.BannerPlugin(
-    FILENAME
-    + '\nVersion: ' + VERSION
-);
-var plugins = shouldMinify ? [bannerPlugin, minifyPlugin] : [bannerPlugin];
 
-module.exports = {
-    entry: './src/index.js',
+var isProduction = process.argv.indexOf('-p') > -1;
+
+var FILENAME = pkg.name + (isProduction ? '.min.js' : '.js');
+var BANNER = [
+    FILENAME,
+    '@version ' + pkg.version,
+    '@author ' + pkg.author,
+    '@license ' + pkg.license
+].join('\n');
+
+var config = {
+    eslint: {
+        failOnError: isProduction
+    },
+    entry: './src/js/index.js',
     output: {
+        library: ['tui', 'ContextMenu'],
+        libraryTarget: 'umd',
         path: 'dist',
-        publicPath: 'dist',
+        publicPath: 'dist/',
         filename: FILENAME
     },
-    frameworks: [
-        'es5-shim' // for ie8
-    ],
+    externals: {
+        'tui-code-snippet': {
+            'commonjs': 'tui-code-snippet',
+            'commonjs2': 'tui-code-snippet',
+            'amd': 'tui-code-snippet',
+            'root': ['tui', 'util']
+        },
+        'tui-dom': {
+            'commonjs': 'tui-dom',
+            'commonjs2': 'tui-dom',
+            'amd': 'tui-dom',
+            'root': ['tui', 'dom']
+        }
+    },
     module: {
         preLoaders: [
             {
                 test: /\.js$/,
-                loader: 'eslint',
-                exclude: /(test|node_modules|bower_components)/
+                loader: 'eslint-loader',
+                exclude: /(dist|node_modules|bower_components)/
+            },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
             }
         ],
         loaders: [
             {
-                //Handlebars-loader issue: https://github.com/pcardune/handlebars-loader/issues/106
+                // Handlebars-loader issue: https://github.com/pcardune/handlebars-loader/issues/106
                 test: /\.hbs$/,
                 exclude: /(test|node_modules|bower_components)/,
                 loader: 'transform?hbsfy'
@@ -44,17 +76,25 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(test|node_modules|bower_components)/,
-                loader: 'babel'
+                loader: 'babel-loader'
             }
         ]
     },
-    plugins: plugins,
-    devtool: 'inline-source-map',
+    plugins: [
+        new SafeUmdPlugin(),
+        new ExtractTextPlugin(pkg.name + '.css'),
+        new webpack.BannerPlugin(BANNER)
+    ],
     devServer: {
         historyApiFallback: false,
         progress: true,
-        inline: true,
         host: '0.0.0.0',
         disableHostCheck: true
     }
 };
+
+if (isProduction) {
+    config.plugins.push(uglifyJsPlugin);
+}
+
+module.exports = config;

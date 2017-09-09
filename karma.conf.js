@@ -1,11 +1,22 @@
+/**
+ * Config file for testing
+ * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
+ */
 var pkg = require('./package.json');
-var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var SafeUmdPlugin = require('safe-umd-webpack-plugin');
+
 var webdriverConfig = {
     hostname: 'fe.nhnent.com',
     port: 4444,
     remoteHost: true
 };
 
+/**
+ * Set config by environment
+ * @param {object} defaultConfig - default config
+ * @param {string} server - server type ('ne' or local)
+ */
 function setConfig(defaultConfig, server) {
     if (server === 'ne') {
         defaultConfig.customLaunchers = {
@@ -13,25 +24,30 @@ function setConfig(defaultConfig, server) {
                 base: 'WebDriver',
                 config: webdriverConfig,
                 browserName: 'internet explorer',
-                version: 8
+                version: '8'
             },
             'IE9': {
                 base: 'WebDriver',
                 config: webdriverConfig,
                 browserName: 'internet explorer',
-                version: 9
+                version: '9'
             },
             'IE10': {
                 base: 'WebDriver',
                 config: webdriverConfig,
                 browserName: 'internet explorer',
-                version: 10
+                version: '10'
             },
             'IE11': {
                 base: 'WebDriver',
                 config: webdriverConfig,
                 browserName: 'internet explorer',
-                version: 11
+                version: '11'
+            },
+            'Edge': {
+                base: 'WebDriver',
+                config: webdriverConfig,
+                browserName: 'MicrosoftEdge'
             },
             'Chrome-WebDriver': {
                 base: 'WebDriver',
@@ -42,6 +58,11 @@ function setConfig(defaultConfig, server) {
                 base: 'WebDriver',
                 config: webdriverConfig,
                 browserName: 'firefox'
+            },
+            'Safari-WebDriver': {
+                base: 'WebDriver',
+                config: webdriverConfig,
+                browserName: 'safari'
             }
         };
         defaultConfig.browsers = [
@@ -49,8 +70,10 @@ function setConfig(defaultConfig, server) {
             'IE9',
             'IE10',
             'IE11',
+            'Edge',
             'Chrome-WebDriver',
-            'Firefox-WebDriver'
+            'Firefox-WebDriver',
+            'Safari-WebDriver' // active only when safari test is needed
         ];
         defaultConfig.reporters.push('coverage');
         defaultConfig.reporters.push('junit');
@@ -73,80 +96,12 @@ function setConfig(defaultConfig, server) {
             ]
         };
         defaultConfig.junitReporter = {
-            outputDir: 'report',
+            outputDir: 'report/junit',
             suite: ''
         };
-    } else if (server === 'bs') {
-        defaultConfig.browserStack = {
-            username: process.env.BROWSER_STACK_USERNAME,
-            accessKey: process.env.BROWSER_STACK_ACCESS_KEY,
-            project: pkg.name
-        };
-
-        defaultConfig.customLaunchers = {
-            bs_ie8: {
-                base: 'BrowserStack',
-                os: 'Windows',
-                os_version: 'XP',
-                browser_version: '8.0',
-                browser: 'ie'
-            },
-            bs_ie9: {
-                base: 'BrowserStack',
-                os: 'Windows',
-                os_version: '7',
-                browser_version: '9.0',
-                browser: 'ie'
-            },
-            bs_ie10: {
-                base: 'BrowserStack',
-                os: 'Windows',
-                os_version: '7',
-                browser_version: '10.0',
-                browser: 'ie'
-            },
-            bs_ie11: {
-                base: 'BrowserStack',
-                os: 'Windows',
-                os_version: '7',
-                browser_version: '11.0',
-                browser: 'ie'
-            },
-            bs_edge: {
-                base: 'BrowserStack',
-                os: 'Windows',
-                os_version: '10',
-                browser: 'edge',
-                browser_version: 'latest'
-            },
-            bs_chrome_mac: {
-                base: 'BrowserStack',
-                os: 'OS X',
-                os_version: 'sierra',
-                browser: 'chrome',
-                browser_version: 'latest'
-            },
-            bs_firefox_mac: {
-                base: 'BrowserStack',
-                os: 'OS X',
-                os_version: 'sierra',
-                browser: 'firefox',
-                browser_version: 'latest'
-            }
-        };
-        defaultConfig.browsers = [
-            'bs_ie8',
-            'bs_ie9',
-            'bs_ie10',
-            'bs_ie11',
-            'bs_edge',
-            'bs_chrome_mac',
-            'bs_firefox_mac'
-        ];
-        defaultConfig.browserNoActivityTimeout = 30000;
     } else {
         defaultConfig.browsers = [
-            'Chrome'
+            'ChromeHeadless'
         ];
     }
 }
@@ -154,15 +109,16 @@ function setConfig(defaultConfig, server) {
 module.exports = function(config) {
     var defaultConfig = {
         basePath: './',
-        frameworks: ['jasmine', 'fixture'],
+        frameworks: [
+            'fixture',
+            'jasmine',
+            'es5-shim'
+        ],
         files: [
-            'node_modules/babel-polyfill/dist/polyfill.js',
-            'bower_components/tui-code-snippet/dist/tui-code-snippet.js',
-            'bower_components/tui-dom/dist/tui-dom.js',
             'test/index.js'
         ],
         preprocessors: {
-            'test/index.js': ['webpack']
+            'test/index.js': ['webpack', 'sourcemap']
         },
         reporters: ['dots'],
         webpack: {
@@ -171,8 +127,20 @@ module.exports = function(config) {
                 preLoaders: [
                     {
                         test: /\.js$/,
-                        loader: 'eslint',
-                        exclude: /(test|node_modules|bower_components)/
+                        exclude: /(test|bower_components|node_modules)/,
+                        loader: 'istanbul-instrumenter',
+                        query: {
+                            esModules: true
+                        }
+                    },
+                    {
+                        test: /\.js$/,
+                        loader: 'eslint-loader',
+                        exclude: /(node_modules|bower_components)/
+                    },
+                    {
+                        test: /\.css$/,
+                        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
                     }
                 ],
                 loaders: [
@@ -184,12 +152,13 @@ module.exports = function(config) {
                     {
                         test: /\.js$/,
                         exclude: /(node_modules|bower_components)/,
-                        loader: 'babel'
+                        loader: 'babel-loader'
                     }
                 ]
             },
             plugins: [
-                new webpack.HotModuleReplacementPlugin()
+                new SafeUmdPlugin(),
+                new ExtractTextPlugin(pkg.name + '.css')
             ]
         },
         port: 9876,
@@ -198,6 +167,7 @@ module.exports = function(config) {
         singleRun: true
     };
 
+    /* eslint-disable */
     setConfig(defaultConfig, process.env.KARMA_SERVER);
     config.set(defaultConfig);
 };

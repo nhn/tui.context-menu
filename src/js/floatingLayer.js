@@ -1,8 +1,11 @@
-const dom = tui.dom;
+import * as dom from 'tui-dom';
 
-/** Class representing floating layer of context menu */
+/**
+ * @class
+ * @private
+ * @classdesc Class representing floating layer of context menu
+ */
 class FloatingLayer {
-
     /**
      * Create a floating layer
      * @constructor
