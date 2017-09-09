@@ -117,7 +117,7 @@ class ContextMenu {
 
         layer.hide();
 
-        let hideElement = (menu) => {
+        const hideElement = menu => {
             dom.css(menu, {
                 display: 'none',
                 marginTop: ''
@@ -126,7 +126,7 @@ class ContextMenu {
 
         dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
         dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
-        dom.findAll(layer.container, '.tui-contextmenu-selected').forEach((highlightMenu) => {
+        dom.findAll(layer.container, '.tui-contextmenu-selected').forEach(highlightMenu => {
             dom.removeClass(highlightMenu, 'tui-contextmenu-selected');
         });
 
@@ -140,7 +140,7 @@ class ContextMenu {
      * @private
      */
     _onMouseDown(mouseDownEvent) {
-        var target = mouseDownEvent.target || mouseDownEvent.srcElement;
+        const target = mouseDownEvent.target || mouseDownEvent.srcElement;
 
         if (!dom.closest(target, '.tui-contextmenu-root')) {
             this._hideContextMenu();
@@ -193,7 +193,7 @@ class ContextMenu {
      */
     _showWithoutOverflow(
         element,
-        strategy = {rightOverflow: function() {}, bottomOverflow: function() {}},
+        strategy = {rightOverflow() {}, bottomOverflow() {}},
         initialStyle = {marginTop: '', marginLeft: ''}
     ) {
         dom.css(element, 'visibility', 'hidden');
@@ -240,10 +240,10 @@ class ContextMenu {
         this._showWithoutOverflow(
             rootMenuElement,
             {
-                rightOverflow: function(el, right, viewportWidth) {
+                rightOverflow(el, right, viewportWidth) {
                     dom.css(el, 'marginLeft', `${viewportWidth - right}px`);
                 },
-                bottomOverflow: function(el, bottom, viewportHeight) {
+                bottomOverflow(el, bottom, viewportHeight) {
                     dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
                 }
             }
@@ -350,7 +350,7 @@ class ContextMenu {
             return;
         }
 
-        let selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
+        const selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
 
         dom.addClass(selectedMenu, 'tui-contextmenu-selected');
 
@@ -377,7 +377,7 @@ class ContextMenu {
         let relatedLayer;
 
         while (target.parentNode) {
-            let findElement = this.layerMap.get(target);
+            const findElement = this.layerMap.get(target);
 
             if (findElement) {
                 relatedLayer = findElement;
@@ -395,7 +395,7 @@ class ContextMenu {
 
         this.activeLayer = relatedLayer;
 
-        let position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
+        const position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
 
         /* clickEvent's clientX, clientY */
         const [left, top] = position;

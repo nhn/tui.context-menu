@@ -1,7 +1,7 @@
 import * as dom from 'tui-dom';
 import FloatingLayer from '../src/js/floatingLayer.js';
 
-describe('FloatingLayer', function() {
+describe('FloatingLayer', () => {
     const bound = {
         left: 1,
         top: 2,
@@ -12,7 +12,7 @@ describe('FloatingLayer', function() {
     };
     let fl;
 
-    beforeEach(function() {
+    beforeEach(() => {
         const manager = document.createElement('div');
 
         manager.zIndex = 999;
@@ -21,12 +21,12 @@ describe('FloatingLayer', function() {
         fl = new FloatingLayer(manager);
     });
 
-    afterEach(function() {
+    afterEach(() => {
         fl.destroy();
         fl = null;
     });
 
-    it('#constructor', function() {
+    it('#constructor', () => {
         const {style} = fl.container;
 
         expect(style.display).toBe('none');
@@ -36,13 +36,13 @@ describe('FloatingLayer', function() {
         expect(dom.hasClass(fl.container, 'floating-layer')).toBe(true);
     });
 
-    it('#destroy()', function() {
+    it('#destroy()', () => {
         fl.destroy();
 
         expect(fl.container).toBeNull();
     });
 
-    it('#setContent()', function() {
+    it('#setContent()', () => {
         const html = '<p>inner-html</p>';
 
         fl.setContent(html);
@@ -51,7 +51,7 @@ describe('FloatingLayer', function() {
         expect(innerHtml).toBe(html);
     });
 
-    it('#setBound()', function() {
+    it('#setBound()', () => {
         fl.setBound(bound);
 
         const {style} = fl.container;
@@ -64,12 +64,12 @@ describe('FloatingLayer', function() {
         expect(style.height).toBe(`${bound.height}px`);
     });
 
-    it('#show()', function() {
+    it('#show()', () => {
         fl.show();
         expect(fl.container.style.display).toBe('block');
     });
 
-    it('#hide()', function() {
+    it('#hide()', () => {
         fl.hide();
         expect(fl.container.style.display).toBe('none');
     });

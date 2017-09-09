@@ -319,7 +319,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    ContextMenu.prototype._showWithoutOverflow = function _showWithoutOverflow(element) {
-	        var strategy = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { rightOverflow: function rightOverflow() {}, bottomOverflow: function bottomOverflow() {} };
+	        var strategy = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+	            rightOverflow: function rightOverflow() {},
+	            bottomOverflow: function bottomOverflow() {}
+	        };
 	        var initialStyle = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { marginTop: '', marginLeft: '' };
 
 	        dom.css(element, 'visibility', 'hidden');
@@ -809,7 +812,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return "\n\n<div class=\"tui-contextmenu tui-contextmenu-root\">\n"
 	    + ((stack1 = container.invokePartial(partials.menuItem,depth0,{"name":"menuItem","data":data,"indent":"    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-	    + "</div>";
+	    + "</div>\n";
 	},"main_d":  function(fn, props, container, depth0, data, blockParams, depths) {
 
 	  var decorators = container.decorators;

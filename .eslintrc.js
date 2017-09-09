@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "tui",
+    "extends": "tui/es6",
     "parserOptions": {
         "sourceType": "module"
     },
@@ -8,12 +8,8 @@ module.exports = {
         "jasmine": true
     },
     "globals": {
-        "util": true,
-        "dom": true,
-        "tui": true,
         "fixture": true
     },
-    "plugins": ["babel"],
     "rules": {
         "lines-around-directive": 0,
         "newline-before-return": 0,

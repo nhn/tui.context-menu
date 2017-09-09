@@ -10,7 +10,7 @@ TOAST UI ContextMenu Component
 ## Documentation
 * API: [https://nhnent.github.io/tui.context-menu/latest](https://nhnent.github.io/tui.context-menu/latest)
 * Tutorial: [https://github.com/nhnent/tui.context-menu/wiki](https://github.com/nhnent/tui.context-menu/wiki)
-* Examples: [https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html)
+* Examples: [https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic-usage.html](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic-usage.html)
 
 ## Dependency
 * [tui-code-snippet](https://github.com/nhnent/tui.code-snippet) ^1.2.5
