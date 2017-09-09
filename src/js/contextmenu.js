@@ -2,11 +2,11 @@
  * @fileoverview Context menu component
  * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
  */
-const util = tui.util;
-const dom = tui.dom;
 
-import tmpl from '../template/contextmenu.hbs';
+import * as dom from 'tui-dom';
+import * as snippet from 'tui-code-snippet';
 import FloatingLayer from './floatingLayer';
+import tmpl from '../template/contextmenu.hbs';
 
 const DEFAULT_ZINDEX = 999;
 
@@ -19,19 +19,20 @@ const DEFAULT_ZINDEX = 999;
  * @property {MenuItem[]} [menu] - you can define submenu recursivly
  */
 
-/**
- * ContextMenu
- * @tutorial default
- */
+/** Toast UI ContextMenu Component */
 class ContextMenu {
     /**
      * Constructor
-     * @constructor
      * @param {HTMLElement} container - container for placing context menu floating layers
      * @param {object} options - options for context menu
      *   @param {number} [options.delay=100] - delay for displaying submenu
      * @example
-     * var menu = new tui.component.ContextMenu(document.querySelector('#fl'));
+     * //-- #1. Get Module --//
+     * var ContextMenu = require('tui-context-menu'); // node, commonjs
+     * var ContextMenu = tui.ContextMenu; // distribution file
+     *
+     * //-- #2. Use property --//
+     * var contextMenu = new ContextMenu(...)
      */
     constructor(container, options = {
         delay: 130
@@ -40,7 +41,7 @@ class ContextMenu {
          * @type {object}
          * @private
          */
-        this.options = util.extend({}, options);
+        this.options = snippet.extend({}, options);
         /**
          * @type {HTMLElement}
          * @private
@@ -51,7 +52,7 @@ class ContextMenu {
          * @type {Map}
          * @private
          */
-        this.layerMap = new util.Map();
+        this.layerMap = new snippet.Map();
 
         /**
          * @type {FloatingLayer}
@@ -67,6 +68,7 @@ class ContextMenu {
 
         /**
          * @type {HTMLElement}
+         * @private
          */
         this.prevElement = null;
 
@@ -115,7 +117,7 @@ class ContextMenu {
 
         layer.hide();
 
-        let hideElement = (menu) => {
+        const hideElement = menu => {
             dom.css(menu, {
                 display: 'none',
                 marginTop: ''
@@ -124,7 +126,7 @@ class ContextMenu {
 
         dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
         dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
-        dom.findAll(layer.container, '.tui-contextmenu-selected').forEach((highlightMenu) => {
+        dom.findAll(layer.container, '.tui-contextmenu-selected').forEach(highlightMenu => {
             dom.removeClass(highlightMenu, 'tui-contextmenu-selected');
         });
 
@@ -138,7 +140,7 @@ class ContextMenu {
      * @private
      */
     _onMouseDown(mouseDownEvent) {
-        var target = mouseDownEvent.target || mouseDownEvent.srcElement;
+        const target = mouseDownEvent.target || mouseDownEvent.srcElement;
 
         if (!dom.closest(target, '.tui-contextmenu-root')) {
             this._hideContextMenu();
@@ -176,8 +178,6 @@ class ContextMenu {
             if (container === layer.container) {
                 layer.callback(clickEvent, command || title);
                 this._hideContextMenu();
-
-                return;
             }
         }, this);
     } /* eslint-ensable complexity */
@@ -193,7 +193,7 @@ class ContextMenu {
      */
     _showWithoutOverflow(
         element,
-        strategy = {rightOverflow: function() {}, bottomOverflow: function() {}},
+        strategy = {rightOverflow() {}, bottomOverflow() {}},
         initialStyle = {marginTop: '', marginLeft: ''}
     ) {
         dom.css(element, 'visibility', 'hidden');
@@ -240,10 +240,10 @@ class ContextMenu {
         this._showWithoutOverflow(
             rootMenuElement,
             {
-                rightOverflow: function(el, right, viewportWidth) {
+                rightOverflow(el, right, viewportWidth) {
                     dom.css(el, 'marginLeft', `${viewportWidth - right}px`);
                 },
-                bottomOverflow: function(el, bottom, viewportHeight) {
+                bottomOverflow(el, bottom, viewportHeight) {
                     dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
                 }
             }
@@ -282,7 +282,7 @@ class ContextMenu {
      * @private
      */
     _refreshMenuDisplay(layerOnCursor) {
-        const container = this.activeLayer.container;
+        const {container} = this.activeLayer;
         const allSubmenus = dom.findAll(container, '.tui-contextmenu-submenu');
         const layersUntilRoot = [];
 
@@ -300,7 +300,7 @@ class ContextMenu {
             }
         });
 
-        layersUntilRoot.forEach(util.bind(this._showSubMenu, this));
+        layersUntilRoot.forEach(snippet.bind(this._showSubMenu, this));
     }
 
     /**
@@ -316,7 +316,7 @@ class ContextMenu {
         }
 
         const target = mouseMoveEvent.target || mouseMoveEvent.srcElement;
-        const activeLayer = this.activeLayer;
+        const {activeLayer} = this;
 
         if (this.prevElement) {
             dom.removeClass(this.prevElement, 'tui-contextmenu-selected');
@@ -350,7 +350,7 @@ class ContextMenu {
             return;
         }
 
-        let selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
+        const selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
 
         dom.addClass(selectedMenu, 'tui-contextmenu-selected');
 
@@ -377,7 +377,7 @@ class ContextMenu {
         let relatedLayer;
 
         while (target.parentNode) {
-            let findElement = this.layerMap.get(target);
+            const findElement = this.layerMap.get(target);
 
             if (findElement) {
                 relatedLayer = findElement;
@@ -395,12 +395,11 @@ class ContextMenu {
 
         this.activeLayer = relatedLayer;
 
-        let position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
+        const position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
 
         /* clickEvent's clientX, clientY */
-        const left = position[0];
-        const top = position[1];
-        const debouncedMouseMove = util.debounce(util.bind(this._onMouseMove, this), opt.delay);
+        const [left, top] = position;
+        const debouncedMouseMove = snippet.debounce(snippet.bind(this._onMouseMove, this), opt.delay);
 
         this.cloneMouseMoveEvent = function(mouseMoveEvent) {
             const virtualMouseEvent = {
@@ -446,7 +445,7 @@ class ContextMenu {
      * @returns {boolean} whether unregister is successful?
      */
     unregister(selector) {
-        const layerMap = this.layerMap;
+        const {layerMap} = this;
         const target = dom.find(selector);
 
         if (!target) {

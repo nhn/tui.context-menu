@@ -1,6 +1,6 @@
 {
-    presets: ["es2015"],
-    plugins: [
+    "presets": ["es2015"],
+    "plugins": [
         ["transform-es2015-classes", {"loose": true}],
         ["transform-es2015-modules-commonjs", {"loose": true}],
         "transform-es3-property-literals",
