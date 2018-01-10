@@ -1,6 +1,5 @@
 # ContextMenu
-
-TOAST UI ContextMenu Component
+ContextMenu Component
 
 ## Feature
 * create context menu
@@ -8,17 +7,17 @@ TOAST UI ContextMenu Component
 * make a menu item enable or disable
 
 ## Documentation
-* API: [https://nhnent.github.io/tui.context-menu/latest](https://nhnent.github.io/tui.context-menu/latest)
-* Tutorial: [https://github.com/nhnent/tui.context-menu/wiki](https://github.com/nhnent/tui.context-menu/wiki)
-* Examples: [https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic-usage.html](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic-usage.html)
+* **API** : [https://nhnent.github.io/tui.context-menu/latest](https://nhnent.github.io/tui.context-menu/latest)
+* **Tutorial** : [https://github.com/nhnent/tui.context-menu/wiki](https://github.com/nhnent/tui.context-menu/wiki)
+* **Example** : [https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html)
 
 ## Dependency
-* [tui-code-snippet](https://github.com/nhnent/tui.code-snippet) ^1.2.5
-* [tui-dom](https://github.com/nhnent/tui.dom) ^3.0.0
+* [tui-code-snippet](https://github.com/nhnent/tui.code-snippet) >=1.2.5
+* [tui-dom](https://github.com/nhnent/tui.dom) >=3.0.0
 
 ## Test Environment
 ### PC
-* IE8 ~ 11
+* IE8~11
 * Edge
 * Chrome
 * Firefox
