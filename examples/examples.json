@@ -1,5 +1,5 @@
 {
-    "default": {
-      "title": "Generate Context Menu"
+    "example01-basic": {
+        "title": "1. Basic"
     }
 }
