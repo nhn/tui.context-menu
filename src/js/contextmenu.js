@@ -4,11 +4,27 @@
  */
 
 import * as dom from 'tui-dom';
-import * as snippet from 'tui-code-snippet';
 import FloatingLayer from './floatingLayer';
+import snippet from 'tui-code-snippet';
 import tmpl from '../template/contextmenu.hbs';
 
 const DEFAULT_ZINDEX = 999;
+
+/**
+ * Send information to google analytics
+ */
+const sendHostNameToGA = () => {
+    const {hostname} = location;
+
+    snippet.imagePing('https://www.google-analytics.com/collect', {
+        v: 1,
+        t: 'event',
+        tid: 'UA-115377265-9',
+        cid: hostname,
+        dp: hostname,
+        dh: 'grid'
+    });
+};
 
 /**
  * @typedef MenuItem
@@ -26,6 +42,8 @@ class ContextMenu {
      * @param {HTMLElement} container - container for placing context menu floating layers
      * @param {object} options - options for context menu
      *   @param {number} [options.delay=100] - delay for displaying submenu
+     *   @param {boolean} [options.usageStatistics=true] Send the host name to google analytics.
+     *     If you do not want to send the host name, this option set to false.
      * @example
      * //-- #1. Get Module --//
      * var ContextMenu = require('tui-context-menu'); // node, commonjs
@@ -35,7 +53,8 @@ class ContextMenu {
      * var contextMenu = new ContextMenu(...)
      */
     constructor(container, options = {
-        delay: 130
+        delay: 130,
+        usageStatistics: true
     }) {
         /**
          * @type {object}
@@ -83,6 +102,10 @@ class ContextMenu {
          * @type {number}
          */
         this.zIndex = DEFAULT_ZINDEX;
+
+        if (this.options.usageStatistics) {
+            sendHostNameToGA();
+        }
 
         dom.on(document, 'contextmenu', this._onContextMenu, this);
     }
