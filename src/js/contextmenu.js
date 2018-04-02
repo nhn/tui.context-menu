@@ -41,9 +41,9 @@ class ContextMenu {
      * Constructor
      * @param {HTMLElement} container - container for placing context menu floating layers
      * @param {object} options - options for context menu
-     *   @param {number} [options.delay=100] - delay for displaying submenu
-     *   @param {boolean} [options.usageStatistics=true] Send the host name to google analytics.
-     *     If you do not want to send the host name, this option set to false.
+     *     @param {number} [options.delay=100] - delay for displaying submenu
+     *     @param {boolean} [options.usageStatistics=true] Send the host name to google analytics.
+     *         sIf you do not want to send the host name, this option set to false.
      * @example
      * //-- #1. Get Module --//
      * var ContextMenu = require('tui-context-menu'); // node, commonjs
