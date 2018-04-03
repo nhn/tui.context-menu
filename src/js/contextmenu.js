@@ -12,8 +12,9 @@ const DEFAULT_ZINDEX = 999;
 
 /**
  * Send information to google analytics
+ * @ignore
  */
-const sendHostNameToGA = () => {
+export function sendHostNameToGA() {
     const {hostname} = location;
 
     snippet.imagePing('https://www.google-analytics.com/collect', {
@@ -24,7 +25,7 @@ const sendHostNameToGA = () => {
         dp: hostname,
         dh: 'context-menu'
     });
-};
+}
 
 /**
  * @typedef MenuItem
