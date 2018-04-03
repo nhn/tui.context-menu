@@ -76,6 +76,7 @@ TOAST UI products are available over the CDN powered by [TOAST Cloud](https://ww
 You can use the CDN as below.
 
 ```html
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.context-menu/latest/tui-context-menu.css" />
 <script src="https://uicdn.toast.com/tui.context-menu/latest/tui-context-menu.js"></script>
 ```
 
@@ -86,6 +87,7 @@ The CDN directory has the following structure.
 ```
 tui.context-menu/
 ├─ latest/
+│  ├─ tui-context-menu.css
 │  ├─ tui-context-menu.js
 │  └─ tui-context-menu.min.js
 ├─ v2.1.0/
