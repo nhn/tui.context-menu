@@ -22,7 +22,7 @@ const sendHostNameToGA = () => {
         tid: 'UA-115377265-9',
         cid: hostname,
         dp: hostname,
-        dh: 'grid'
+        dh: 'context-menu'
     });
 };
 
