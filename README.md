@@ -76,21 +76,21 @@ $ bower install tui-context-menu#<tag> # Specific version
 
 
 ### Via Contents Delivery Network (CDN)
-TOAST UI products are available over a CDN.
+TOAST UI products are available over a CDN powered by [TOAST Cloud](https://www.toast.com).
 
 You can use cdn as below.
 
 ```html
-<script src="https://uicdn.toast.com/tui.context-menu/latest/tui-context-menu.js"></script>
+<script src="https://uicdn.toast.com/[[repo name]]/latest/[[package name]].js"></script>
 ```
 
 Within the download you'll find the following directories.
 
 ```
-tui.virtual-scroll/
+[[repo name]]/
 ├─ latest
-│  ├─ tui-virtual-scroll.js
-│  ├─ tui-virtual-scroll.min.js
+│  ├─ [[product name]].js
+│  ├─ [[product name]].min.js
 ```
 
 
