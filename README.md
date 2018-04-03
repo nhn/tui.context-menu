@@ -14,8 +14,8 @@
 * [Examples](#-examples)
 * [Install](#-install)
     * [Via Package Manager](#via-package-manager)
-    * [Download Source Files](#download-source-files)
     * [Via Contents Delivery Network (CDN)](#via-contents-delivery-network-cdn)
+    * [Download Source Files](#download-source-files)
 * [Usage](#-usage)
     * [HTML](#html)
     * [JavaScript](#javascript)
@@ -70,28 +70,31 @@ $ bower install tui-context-menu # Latest version
 $ bower install tui-context-menu#<tag> # Specific version
 ```
 
-### Download Source Files
-* [Download bundle files](https://github.com/nhnent/tui.context-menu/tree/production/dist)
-* [Download all sources for each version](https://github.com/nhnent/tui.context-menu/releases)
-
-
 ### Via Contents Delivery Network (CDN)
-TOAST UI products are available over a CDN powered by [TOAST Cloud](https://www.toast.com).
+TOAST UI products are available over the CDN powered by [TOAST Cloud](https://www.toast.com).
 
-You can use cdn as below.
+You can use the CDN as below.
 
 ```html
 <script src="https://uicdn.toast.com/tui.context-menu/latest/tui-context-menu.js"></script>
 ```
 
-Within the download you'll find the following directories.
+If you want to use a specific version, use the tag name instead of `latest` in the url's path.
+
+The CDN directory has the following structure.
 
 ```
 tui.context-menu/
-├─ latest
+├─ latest/
 │  ├─ tui-context-menu.js
-│  ├─ tui-context-menu.min.js
+│  └─ tui-context-menu.min.js
+├─ v2.1.0/
+│  ├─ ...
 ```
+
+### Download Source Files
+* [Download bundle files](https://github.com/nhnent/tui.context-menu/tree/production/dist)
+* [Download all sources for each version](https://github.com/nhnent/tui.context-menu/releases)
 
 
 ## 🔨 Usage
