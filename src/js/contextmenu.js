@@ -104,11 +104,11 @@ class ContextMenu {
          */
         this.zIndex = DEFAULT_ZINDEX;
 
-        dom.on(document, 'contextmenu', this._onContextMenu, this);
-
         if (this.options.usageStatistics) {
             sendHostNameToGA();
         }
+
+        dom.on(document, 'contextmenu', this._onContextMenu, this);
     }
 
     /**
