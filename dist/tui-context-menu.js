@@ -1,6 +1,6 @@
 /*!
  * tui-context-menu.js
- * @version 2.0.0
+ * @version 2.1.0
  * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
  * @license MIT
  */
@@ -13,7 +13,7 @@
 		exports["ContextMenu"] = factory(require("tui-dom"), require("tui-code-snippet"));
 	else
 		root["tui"] = root["tui"] || {}, root["tui"]["ContextMenu"] = factory((root["tui"] && root["tui"]["dom"]), (root["tui"] && root["tui"]["util"]));
-})(this, function(__WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_8__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -99,13 +99,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var dom = _interopRequireWildcard(_tuiDom);
 
-	var _tuiCodeSnippet = __webpack_require__(7);
-
-	var snippet = _interopRequireWildcard(_tuiCodeSnippet);
-
-	var _floatingLayer = __webpack_require__(8);
+	var _floatingLayer = __webpack_require__(7);
 
 	var _floatingLayer2 = _interopRequireDefault(_floatingLayer);
+
+	var _tuiCodeSnippet = __webpack_require__(8);
+
+	var _tuiCodeSnippet2 = _interopRequireDefault(_tuiCodeSnippet);
 
 	var _contextmenu = __webpack_require__(9);
 
@@ -123,6 +123,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DEFAULT_ZINDEX = 999;
 
 	/**
+	 * Send information to google analytics
+	 * @ignore
+	 */
+	function sendHostNameToGA() {
+	    var _location = location,
+	        hostname = _location.hostname;
+
+
+	    _tuiCodeSnippet2['default'].imagePing('https://www.google-analytics.com/collect', {
+	        v: 1,
+	        t: 'event',
+	        tid: 'UA-115377265-9',
+	        cid: hostname,
+	        dp: hostname,
+	        dh: 'context-menu'
+	    });
+	}
+
+	/**
 	 * @typedef MenuItem
 	 * @property {string} title - title of menu item
 	 * @property {string} [command] - string for alternative of using title to command
@@ -138,7 +157,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Constructor
 	     * @param {HTMLElement} container - container for placing context menu floating layers
 	     * @param {object} options - options for context menu
-	     *   @param {number} [options.delay=100] - delay for displaying submenu
+	     *     @param {number} [options.delay=100] - delay for displaying submenu
+	     *     @param {boolean} [options.usageStatistics=true] Send the hostname to google analytics.
+	     *         If you do not want to send the hostname, this option set to false.
 	     * @example
 	     * //-- #1. Get Module --//
 	     * var ContextMenu = require('tui-context-menu'); // node, commonjs
@@ -149,7 +170,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    function ContextMenu(container) {
 	        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-	            delay: 130
+	            delay: 130,
+	            usageStatistics: true
 	        };
 
 	        _classCallCheck(this, ContextMenu);
@@ -158,7 +180,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @type {object}
 	         * @private
 	         */
-	        this.options = snippet.extend({}, options);
+	        this.options = _tuiCodeSnippet2['default'].extend({}, options);
+
 	        /**
 	         * @type {HTMLElement}
 	         * @private
@@ -169,7 +192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @type {Map}
 	         * @private
 	         */
-	        this.layerMap = new snippet.Map();
+	        this.layerMap = new _tuiCodeSnippet2['default'].Map();
 
 	        /**
 	         * @type {FloatingLayer}
@@ -202,6 +225,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.zIndex = DEFAULT_ZINDEX;
 
 	        dom.on(document, 'contextmenu', this._onContextMenu, this);
+
+	        if (this.options.usageStatistics) {
+	            sendHostNameToGA();
+	        }
 	    }
 
 	    /**
@@ -432,7 +459,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 
-	        layersUntilRoot.forEach(snippet.bind(this._showSubMenu, this));
+	        layersUntilRoot.forEach(_tuiCodeSnippet2['default'].bind(this._showSubMenu, this));
 	    };
 
 	    /**
@@ -544,7 +571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            left = _position[0],
 	            top = _position[1];
 
-	        var debouncedMouseMove = snippet.debounce(snippet.bind(this._onMouseMove, this), opt.delay);
+	        var debouncedMouseMove = _tuiCodeSnippet2['default'].debounce(_tuiCodeSnippet2['default'].bind(this._onMouseMove, this), opt.delay);
 
 	        this.cloneMouseMoveEvent = function (mouseMoveEvent) {
 	            var virtualMouseEvent = {
@@ -628,12 +655,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -740,6 +761,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	exports['default'] = FloatingLayer;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
 
 /***/ }),
 /* 9 */
