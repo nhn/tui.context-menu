@@ -130,7 +130,6 @@ var ContextMenu = require('tui-context-menu'); /* CommonJS */
 import {ContextMenu} from 'tui-context-menu'; /* ES6 */
 ```
 
-
 You should call `register` method with [options](https://nhnent.github.io/tui.context-menu/latest/ContextMenu.html#register) after creating an instance to attach a context menu.
 
 ``` javascript
