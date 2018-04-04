@@ -1,6 +1,8 @@
 import * as dom from 'tui-dom';
 import ContextMenu from '../src/js/contextmenu.js';
 
+import snippet from 'tui-code-snippet';
+
 describe('ContextMenu component', () => {
     beforeEach(() => {
         fixture.set('<style>html, body { overflow: hidden; }</style>' +
@@ -19,6 +21,33 @@ describe('ContextMenu component', () => {
         const menu1Element = document.querySelector('#menu1');
 
         expect(cm.layerMap.has(menu1Element)).toBe(true);
+    });
+
+    describe('use "usageStatistics" option', () => {
+        let container, cm;
+
+        beforeEach(() => {
+            spyOn(snippet, 'imagePing');
+            container = document.querySelector('#flContainer');
+        });
+
+        afterEach(() => {
+            cm.destroy();
+        });
+
+        it('when the value set to true by default, the host name is send.', () => {
+            cm = new ContextMenu(container);
+
+            expect(snippet.imagePing).toHaveBeenCalled();
+        });
+
+        it('when the value set to false, the host name is not send to server.', () => {
+            cm = new ContextMenu(container, {
+                usageStatistics: false
+            });
+
+            expect(snippet.imagePing).not.toHaveBeenCalled();
+        });
     });
 
     it('show context menus that only below of mouse cursor.', () => {
