@@ -14,7 +14,7 @@ const DEFAULT_ZINDEX = 999;
  * Send information to google analytics
  * @ignore
  */
-export function sendHostNameToGA() {
+function sendHostNameToGA() {
     const {hostname} = location;
 
     snippet.imagePing('https://www.google-analytics.com/collect', {
@@ -43,8 +43,8 @@ class ContextMenu {
      * @param {HTMLElement} container - container for placing context menu floating layers
      * @param {object} options - options for context menu
      *     @param {number} [options.delay=100] - delay for displaying submenu
-     *     @param {boolean} [options.usageStatistics=true] Send the host name to google analytics.
-     *         If you do not want to send the host name, this option set to false.
+     *     @param {boolean} [options.usageStatistics=true] Send the hostname to google analytics.
+     *         If you do not want to send the hostname, this option set to false.
      * @example
      * //-- #1. Get Module --//
      * var ContextMenu = require('tui-context-menu'); // node, commonjs
@@ -62,6 +62,7 @@ class ContextMenu {
          * @private
          */
         this.options = snippet.extend({}, options);
+
         /**
          * @type {HTMLElement}
          * @private
