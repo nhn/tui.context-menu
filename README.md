@@ -29,7 +29,6 @@
 * [Dependency](#-dependency)
 * [License](#-license)
 
-
 ## Collect statistics on the use of open source
 
 TOAST UI ContextMenu applies Google Analytics (GA) to collect statistics on the use of open source, in order to identify how widely TOAST UI ContextMenu is used throughout the world.
