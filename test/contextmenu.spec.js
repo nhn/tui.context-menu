@@ -27,7 +27,7 @@ describe('ContextMenu component', () => {
         let container, cm;
 
         beforeEach(() => {
-            spyOn(snippet, 'imagePing');
+            spyOn(snippet, 'sendHostname');
             container = document.querySelector('#flContainer');
         });
 
@@ -38,7 +38,7 @@ describe('ContextMenu component', () => {
         it('when the value set to true by default, the host name is send.', () => {
             cm = new ContextMenu(container);
 
-            expect(snippet.imagePing).toHaveBeenCalled();
+            expect(snippet.sendHostname).toHaveBeenCalled();
         });
 
         it('when the value set to false, the host name is not send to server.', () => {
@@ -46,7 +46,7 @@ describe('ContextMenu component', () => {
                 usageStatistics: false
             });
 
-            expect(snippet.imagePing).not.toHaveBeenCalled();
+            expect(snippet.sendHostname).not.toHaveBeenCalled();
         });
     });
 
