@@ -1,6 +1,6 @@
 /*!
  * tui-context-menu.js
- * @version 2.1.0
+ * @version 2.1.1
  * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
  * @license MIT
  */
@@ -123,25 +123,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DEFAULT_ZINDEX = 999;
 
 	/**
-	 * Send information to google analytics
-	 * @ignore
-	 */
-	function sendHostNameToGA() {
-	    var _location = location,
-	        hostname = _location.hostname;
-
-
-	    _tuiCodeSnippet2['default'].imagePing('https://www.google-analytics.com/collect', {
-	        v: 1,
-	        t: 'event',
-	        tid: 'UA-115377265-9',
-	        cid: hostname,
-	        dp: hostname,
-	        dh: 'context-menu'
-	    });
-	}
-
-	/**
 	 * @typedef MenuItem
 	 * @property {string} title - title of menu item
 	 * @property {string} [command] - string for alternative of using title to command
@@ -227,7 +208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        dom.on(document, 'contextmenu', this._onContextMenu, this);
 
 	        if (this.options.usageStatistics) {
-	            sendHostNameToGA();
+	            _tuiCodeSnippet2['default'].sendHostname('context-menu', 'UA-129987462-1');
 	        }
 	    }
 
