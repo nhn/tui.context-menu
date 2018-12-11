@@ -11,23 +11,6 @@ import tmpl from '../template/contextmenu.hbs';
 const DEFAULT_ZINDEX = 999;
 
 /**
- * Send information to google analytics
- * @ignore
- */
-function sendHostNameToGA() {
-    const {hostname} = location;
-
-    snippet.imagePing('https://www.google-analytics.com/collect', {
-        v: 1,
-        t: 'event',
-        tid: 'UA-115377265-9',
-        cid: hostname,
-        dp: hostname,
-        dh: 'context-menu'
-    });
-}
-
-/**
  * @typedef MenuItem
  * @property {string} title - title of menu item
  * @property {string} [command] - string for alternative of using title to command
@@ -108,7 +91,7 @@ class ContextMenu {
         dom.on(document, 'contextmenu', this._onContextMenu, this);
 
         if (this.options.usageStatistics) {
-            sendHostNameToGA();
+            snippet.sendHostname('context-menu', 'UA-129987462-1');
         }
     }
 
