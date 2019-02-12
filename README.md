@@ -66,7 +66,7 @@ tui.usageStatistics = false;
 
 
 ## 🐾 Examples
-* [Basic](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html) : Example of using default options.
+* [Basic](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic) : Example of using default options.
 
 
 ## 💾 Install
@@ -151,10 +151,10 @@ var ContextMenu = require('tui-context-menu'); /* CommonJS */
 ```
 
 ``` javascript
-import {ContextMenu} from 'tui-context-menu'; /* ES6 */
+import ContextMenu from 'tui-context-menu'; /* ES6 */
 ```
 
-You should call `register` method with [options](https://nhnent.github.io/tui.context-menu/latest/ContextMenu.html#register) after creating an instance to attach a context menu.
+You should call `register` method with [options](https://nhnent.github.io/tui.context-menu/latest/ContextMenu#register) after creating an instance to attach a context menu.
 
 ``` javascript
 var container = document.getElementById('tui-context-menu-container');
@@ -165,7 +165,7 @@ var instance = new ContextMenu(container);
 instance.register(target, { ... });
 ```
 
-For more information about the API, please see [here](http://nhnent.github.io/tui.context-menu/latest/ContextMenu.html).
+For more information about the API, please see [here](http://nhnent.github.io/tui.context-menu/latest/ContextMenu).
 
 
 ## 🔧 Pull Request Steps
