@@ -1,6 +1,6 @@
 /*!
  * tui-context-menu.js
- * @version 2.1.1
+ * @version 2.1.2
  * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
  * @license MIT
  */
@@ -123,7 +123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DEFAULT_ZINDEX = 999;
 
 	/**
-	 * @typedef MenuItem
+	 * @typedef {object} MenuItem
 	 * @property {string} title - title of menu item
 	 * @property {string} [command] - string for alternative of using title to command
 	 * @property {boolean} [separator=false] - set true then this menu will use
@@ -135,7 +135,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var ContextMenu = function () {
 	    /**
-	     * Constructor
 	     * @param {HTMLElement} container - container for placing context menu floating layers
 	     * @param {object} options - options for context menu
 	     *     @param {number} [options.delay=100] - delay for displaying submenu
