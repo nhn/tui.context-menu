@@ -1,6 +1,6 @@
 /**
  * @fileoverview Context menu component
- * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
 
 import * as dom from 'tui-dom';
