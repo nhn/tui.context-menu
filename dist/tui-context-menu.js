@@ -1,7 +1,7 @@
 /*!
  * tui-context-menu.js
- * @version 2.1.2
- * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
+ * @version 2.1.3
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -72,7 +72,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * @fileoverview
-	 * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
+	 * @author NHN FE Development Lab <dl_javascript@nhn.com>
 	 */
 	module.exports = _contextmenu2['default'];
 
@@ -117,7 +117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
 	                                                                                                                                                           * @fileoverview Context menu component
-	                                                                                                                                                           * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
+	                                                                                                                                                           * @author NHN. FE Development Lab <dl_javascript@nhn.com>
 	                                                                                                                                                           */
 
 	var DEFAULT_ZINDEX = 999;
