@@ -1,7 +1,7 @@
 {
   "name": "tui-context-menu",
   "authors": [
-    "NHNEnt FE Development Lab <dl_javascript@nhnent.com>"
+    "NHN FE Development Lab <dl_javascript@nhn.com>"
   ],
   "main": [
     "dist/tui-context-menu.js",
