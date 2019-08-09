@@ -2,11 +2,11 @@
  * Config file for testing
  * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
-let pkg = require('./package.json');
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let SafeUmdPlugin = require('safe-umd-webpack-plugin');
+const pkg = require('./package.json');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const SafeUmdPlugin = require('safe-umd-webpack-plugin');
 
-let webdriverConfig = {
+const webdriverConfig = {
     hostname: 'fe.nhnent.com',
     port: 4444,
     remoteHost: true
@@ -83,13 +83,13 @@ function setConfig(defaultConfig, server) {
                 {
                     type: 'html',
                     subdir(browser) {
-                        return 'report-html/' + browser;
+                        return `report-html/${browser}`;
                     }
                 },
                 {
                     type: 'cobertura',
                     subdir(browser) {
-                        return 'report-cobertura/' + browser;
+                        return `report-cobertura/${browser}`;
                     },
                     file: 'cobertura.txt'
                 }
@@ -107,7 +107,7 @@ function setConfig(defaultConfig, server) {
 }
 
 module.exports = function(config) {
-    let defaultConfig = {
+    const defaultConfig = {
         basePath: './',
         frameworks: [
             'fixture',
@@ -158,7 +158,7 @@ module.exports = function(config) {
             },
             plugins: [
                 new SafeUmdPlugin(),
-                new ExtractTextPlugin(`${pkg.name  }.css`)
+                new ExtractTextPlugin(`${pkg.name}.css`)
             ]
         },
         port: 9876,
