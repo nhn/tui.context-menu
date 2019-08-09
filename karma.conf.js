@@ -2,11 +2,11 @@
  * Config file for testing
  * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
-var pkg = require('./package.json');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var SafeUmdPlugin = require('safe-umd-webpack-plugin');
+let pkg = require('./package.json');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let SafeUmdPlugin = require('safe-umd-webpack-plugin');
 
-var webdriverConfig = {
+let webdriverConfig = {
     hostname: 'fe.nhnent.com',
     port: 4444,
     remoteHost: true
@@ -69,8 +69,8 @@ function setConfig(defaultConfig, server) {
             'IE8',
             'IE9',
             'IE10',
-            // 'IE11',
-            // 'Edge',
+            'IE11',
+            'Edge',
             'Chrome-WebDriver',
             'Firefox-WebDriver'
             // 'Safari-WebDriver' // active only when safari test is needed
@@ -82,13 +82,13 @@ function setConfig(defaultConfig, server) {
             reporters: [
                 {
                     type: 'html',
-                    subdir: function(browser) {
+                    subdir(browser) {
                         return 'report-html/' + browser;
                     }
                 },
                 {
                     type: 'cobertura',
-                    subdir: function(browser) {
+                    subdir(browser) {
                         return 'report-cobertura/' + browser;
                     },
                     file: 'cobertura.txt'
@@ -107,7 +107,7 @@ function setConfig(defaultConfig, server) {
 }
 
 module.exports = function(config) {
-    var defaultConfig = {
+    let defaultConfig = {
         basePath: './',
         frameworks: [
             'fixture',
@@ -158,7 +158,7 @@ module.exports = function(config) {
             },
             plugins: [
                 new SafeUmdPlugin(),
-                new ExtractTextPlugin(pkg.name + '.css')
+                new ExtractTextPlugin(`${pkg.name  }.css`)
             ]
         },
         port: 9876,
