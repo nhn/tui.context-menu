@@ -38,13 +38,12 @@ It also serves as important index to determine the future course of projects.
 To disable GA, use the following `usageStatistics` option when creating the instance.
 
 ```js
-var instance = new ContextMenu(container);
+
 var options = {
     ...
     usageStatistics: false
 }
-
-instance.register(target, options);
+var instance = new ContextMenu(container, options);
 ```
 
 Or, include [`tui-code-snippet`](https://github.com/nhn/tui.code-snippet)(**v1.5.0** or **later**) and then immediately write the options as follows:
