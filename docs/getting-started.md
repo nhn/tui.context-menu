@@ -67,7 +67,7 @@ function handleClick(e, cmd) {
 menu.register(document.getElementById('tui-context-menu-target'), handleClick, menuData);
 ```
 
-You can see the action from [example](https://nhnent.github.io/tui.context-menu/latest/tutorial-example01-basic.html).
+You can see the action from [example](https://nhn.github.io/tui.context-menu/latest/tutorial-example01-basic).
 
 ### How to remove the context menu
 
