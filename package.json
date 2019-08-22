@@ -1,6 +1,6 @@
 {
   "name": "tui-context-menu",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "main": "dist/tui-context-menu.js",
   "files": [
     "dist"
