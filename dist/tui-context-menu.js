@@ -1,6 +1,6 @@
 /*!
  * tui-context-menu.js
- * @version 2.1.3
+ * @version 2.1.4
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
@@ -137,7 +137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * @param {HTMLElement} container - container for placing context menu floating layers
 	     * @param {object} options - options for context menu
-	     *     @param {number} [options.delay=100] - delay for displaying submenu
+	     *     @param {number} [options.delay=130] - delay for displaying submenu
 	     *     @param {boolean} [options.usageStatistics=true] Send the hostname to google analytics.
 	     *         If you do not want to send the hostname, this option set to false.
 	     * @example

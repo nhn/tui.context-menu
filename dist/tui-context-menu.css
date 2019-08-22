@@ -1,6 +1,6 @@
 /*!
  * tui-context-menu.min.js
- * @version 2.1.3
+ * @version 2.1.4
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
