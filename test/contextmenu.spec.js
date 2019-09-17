@@ -4,202 +4,213 @@ import ContextMenu from '../src/js/contextmenu.js';
 import snippet from 'tui-code-snippet';
 
 describe('ContextMenu component', () => {
+  beforeEach(() => {
+    fixture.set(
+      '<style>html, body { overflow: hidden; }</style>' +
+        '<div id="menu1"></div>' +
+        '<div id="menu2"></div>' +
+        '<div id="flContainer"></div>'
+    );
+  });
+
+  it('use selector for displaying context menu.', () => {
+    const cm = new ContextMenu(document.querySelector('#flContainer'));
+
+    cm.register('#menu1', null, [
+      {
+        title: 'open'
+      }
+    ]);
+
+    const menu1Element = document.querySelector('#menu1');
+
+    expect(cm.layerMap.has(menu1Element)).toBe(true);
+  });
+
+  describe('use "usageStatistics" option', () => {
+    let container, cm;
+
     beforeEach(() => {
-        fixture.set('<style>html, body { overflow: hidden; }</style>' +
-                    '<div id="menu1"></div>' +
-                    '<div id="menu2"></div>' +
-                    '<div id="flContainer"></div>');
+      spyOn(snippet, 'sendHostname');
+      container = document.querySelector('#flContainer');
     });
 
-    it('use selector for displaying context menu.', () => {
-        const cm = new ContextMenu(document.querySelector('#flContainer'));
-
-        cm.register('#menu1', null, [{
-            title: 'open'
-        }]);
-
-        const menu1Element = document.querySelector('#menu1');
-
-        expect(cm.layerMap.has(menu1Element)).toBe(true);
+    afterEach(() => {
+      cm.destroy();
     });
 
-    describe('use "usageStatistics" option', () => {
-        let container, cm;
+    it('when the value set to true by default, the host name is send.', () => {
+      cm = new ContextMenu(container);
 
-        beforeEach(() => {
-            spyOn(snippet, 'sendHostname');
-            container = document.querySelector('#flContainer');
-        });
-
-        afterEach(() => {
-            cm.destroy();
-        });
-
-        it('when the value set to true by default, the host name is send.', () => {
-            cm = new ContextMenu(container);
-
-            expect(snippet.sendHostname).toHaveBeenCalled();
-        });
-
-        it('when the value set to false, the host name is not send to server.', () => {
-            cm = new ContextMenu(container, {
-                usageStatistics: false
-            });
-
-            expect(snippet.sendHostname).not.toHaveBeenCalled();
-        });
+      expect(snippet.sendHostname).toHaveBeenCalled();
     });
 
-    it('show context menus that only below of mouse cursor.', () => {
-        const cm = new ContextMenu(document.querySelector('#flContainer'));
+    it('when the value set to false, the host name is not send to server.', () => {
+      cm = new ContextMenu(container, {
+        usageStatistics: false
+      });
 
-        cm.register('#menu1', null, [
-            {
-                title: 'a',
-                menu: [{
-                    title: 'a-1'
-                }]
-            },
-            {
-                title: 'b',
-                menu: [{
-                    title: 'b-1'
-                }]
-            },
-            {
-                title: 'c',
-                menu: [{
-                    title: 'c-1'
-                }]
-            }
-        ]);
+      expect(snippet.sendHostname).not.toHaveBeenCalled();
+    });
+  });
 
-        cm.activeLayer = cm.layerMap.values().next().value;
+  it('show context menus that only below of mouse cursor.', () => {
+    const cm = new ContextMenu(document.querySelector('#flContainer'));
 
-        const mockMouseMove = {
-            target: document.querySelectorAll('.tui-contextmenu-button')[3],
-            preventDefault() {}
-        };
+    cm.register('#menu1', null, [
+      {
+        title: 'a',
+        menu: [
+          {
+            title: 'a-1'
+          }
+        ]
+      },
+      {
+        title: 'b',
+        menu: [
+          {
+            title: 'b-1'
+          }
+        ]
+      },
+      {
+        title: 'c',
+        menu: [
+          {
+            title: 'c-1'
+          }
+        ]
+      }
+    ]);
 
-        cm._onMouseMove(mockMouseMove);
+    cm.activeLayer = cm.layerMap.values().next().value;
 
-        const needHided = document.querySelectorAll('.tui-contextmenu-submenu');
+    const mockMouseMove = {
+      target: document.querySelectorAll('.tui-contextmenu-button')[3],
+      preventDefault() {}
+    };
 
-        expect(needHided[0].style.display).toBe('none');
-        expect(needHided[1].style.display).toBe('block');
-        expect(needHided[2].style.display).toBe('none');
+    cm._onMouseMove(mockMouseMove);
+
+    const needHided = document.querySelectorAll('.tui-contextmenu-submenu');
+
+    expect(needHided[0].style.display).toBe('none');
+    expect(needHided[1].style.display).toBe('block');
+    expect(needHided[2].style.display).toBe('none');
+  });
+
+  it('invoke callback when menu item clicked.', () => {
+    const cm = new ContextMenu(document.querySelector('#flContainer')),
+      callback = jasmine.createSpy('contextMenu');
+
+    cm.register('#menu1', callback, [
+      {
+        title: 'open'
+      }
+    ]);
+
+    const layer = cm.layerMap.values().next().value;
+
+    const mockMouseClick = {
+      target: layer.container.querySelector('.tui-contextmenu-button'),
+      preventDefault() {}
+    };
+
+    cm._onMouseClick(mockMouseClick);
+
+    expect(callback).toHaveBeenCalledWith(mockMouseClick, 'open');
+  });
+
+  it('can unregister registered context menu.', () => {
+    const cm = new ContextMenu(document.querySelector('#flContainer')),
+      callback = jasmine.createSpy('contextMenu');
+
+    cm.register('#menu1', callback, [
+      {
+        title: 'open'
+      }
+    ]);
+
+    cm.unregister('#menu1');
+
+    expect(cm.layerMap.size).toBe(0);
+    expect(document.querySelectorAll('.floating-layer').length).toBe(0);
+  });
+
+  describe('can placing', () => {
+    let ce, vWidth, vHeight;
+
+    beforeEach(() => {
+      ce = new ContextMenu(document.querySelector('#flContainer'));
+
+      ce.register('#menu1', null, [
+        {title: 'root-a'},
+        {
+          title: 'root-b',
+          menu: [{title: 'sub-a'}, {title: 'sub-b'}]
+        },
+        {title: 'root-c'}
+      ]);
+
+      ce.activeLayer = ce.layerMap.values().next().value;
+
+      vWidth = document.documentElement.clientWidth;
+      vHeight = document.documentElement.clientHeight;
     });
 
-    it('invoke callback when menu item clicked.', () => {
-        const cm = new ContextMenu(document.querySelector('#flContainer')),
-            callback = jasmine.createSpy('contextMenu');
+    it('menu element.', () => {
+      ce._showRootMenu(10, 10);
 
-        cm.register('#menu1', callback, [{
-            title: 'open'
-        }]);
+      const menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
 
-        const layer = cm.layerMap.values().next().value;
-
-        const mockMouseClick = {
-            target: layer.container.querySelector('.tui-contextmenu-button'),
-            preventDefault() {}
-        };
-
-        cm._onMouseClick(mockMouseClick);
-
-        expect(callback).toHaveBeenCalledWith(mockMouseClick, 'open');
+      expect(menu.style.marginLeft).toBe('');
+      expect(menu.style.marginTop).toBe('');
     });
 
-    it('can unregister registered context menu.', () => {
-        const cm = new ContextMenu(document.querySelector('#flContainer')),
-            callback = jasmine.createSpy('contextMenu');
+    it('root menu element without veil viewport limit.', () => {
+      // When it is rendering outside of viewport,
+      // size of menu is set to 180 as a default
+      ce._showRootMenu(vWidth - 20, vHeight - 20);
 
-        cm.register('#menu1', callback, [{
-            title: 'open'
-        }]);
+      const menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
 
-        cm.unregister('#menu1');
+      expect(menu.style.marginLeft).not.toBe('');
+      expect(menu.style.marginTop).not.toBe('');
+    });
+  });
 
-        expect(cm.layerMap.size).toBe(0);
-        expect(document.querySelectorAll('.floating-layer').length).toBe(0);
+  describe('has disable property in menu data,', () => {
+    let cm, callback;
+
+    beforeEach(() => {
+      cm = new ContextMenu(document.querySelector('#flContainer'));
+      callback = jasmine.createSpy('contextMenu');
+
+      cm.register('#menu1', callback, [
+        {title: 'menu-disable1', disable: true},
+        {title: 'menu-enable'},
+        {title: 'menu-disable2', disable: true}
+      ]);
     });
 
-    describe('can placing', () => {
-        let ce, vWidth, vHeight;
+    it('menus that have disable state are generated.', () => {
+      const menus = cm.container.querySelectorAll('.tui-contextmenu-disable');
 
-        beforeEach(() => {
-            ce = new ContextMenu(document.querySelector('#flContainer'));
-
-            ce.register('#menu1', null, [
-                {title: 'root-a'},
-                {
-                    title: 'root-b',
-                    menu: [
-                        {title: 'sub-a'},
-                        {title: 'sub-b'}
-                    ]
-                },
-                {title: 'root-c'}
-            ]);
-
-            ce.activeLayer = ce.layerMap.values().next().value;
-
-            vWidth = document.documentElement.clientWidth;
-            vHeight = document.documentElement.clientHeight;
-        });
-
-        it('menu element.', () => {
-            ce._showRootMenu(10, 10);
-
-            const menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
-
-            expect(menu.style.marginLeft).toBe('');
-            expect(menu.style.marginTop).toBe('');
-        });
-
-        it('root menu element without veil viewport limit.', () => {
-            // When it is rendering outside of viewport,
-            // size of menu is set to 180 as a default
-            ce._showRootMenu(vWidth - 20, vHeight - 20);
-
-            const menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
-
-            expect(menu.style.marginLeft).not.toBe('');
-            expect(menu.style.marginTop).not.toBe('');
-        });
+      expect(menus.length).toEqual(2);
     });
 
-    describe('has disable property in menu data,', () => {
-        let cm, callback;
+    it('when click the disabled menu, the context menu is hidden.', () => {
+      const mockMouseClick = {
+        target: cm.container.querySelector('.tui-contextmenu-disable'),
+        preventDefault() {}
+      };
 
-        beforeEach(() => {
-            cm = new ContextMenu(document.querySelector('#flContainer'));
-            callback = jasmine.createSpy('contextMenu');
+      spyOn(cm, '_hideContextMenu');
 
-            cm.register('#menu1', callback, [
-                {title: 'menu-disable1', disable: true},
-                {title: 'menu-enable'},
-                {title: 'menu-disable2', disable: true}
-            ]);
-        });
+      cm._onMouseClick(mockMouseClick);
 
-        it('menus that have disable state are generated.', () => {
-            const menus = cm.container.querySelectorAll('.tui-contextmenu-disable');
-
-            expect(menus.length).toEqual(2);
-        });
-
-        it('when click the disabled menu, the context menu is hidden.', () => {
-            const mockMouseClick = {
-                target: cm.container.querySelector('.tui-contextmenu-disable'),
-                preventDefault() {}
-            };
-
-            spyOn(cm, '_hideContextMenu');
-
-            cm._onMouseClick(mockMouseClick);
-
-            expect(cm._hideContextMenu).toHaveBeenCalled();
-        });
+      expect(cm._hideContextMenu).toHaveBeenCalled();
     });
+  });
 });
