@@ -21,456 +21,453 @@ const DEFAULT_ZINDEX = 999;
 
 /** Toast UI ContextMenu Component */
 class ContextMenu {
+  /**
+   * @param {HTMLElement} container - container for placing context menu floating layers
+   * @param {object} options - options for context menu
+   *     @param {number} [options.delay=130] - delay for displaying submenu
+   *     @param {boolean} [options.usageStatistics=true] Send the hostname to google analytics.
+   *         If you do not want to send the hostname, this option set to false.
+   * @example
+   * //-- #1. Get Module --//
+   * var ContextMenu = require('tui-context-menu'); // node, commonjs
+   * var ContextMenu = tui.ContextMenu; // distribution file
+   *
+   * //-- #2. Use property --//
+   * var contextMenu = new ContextMenu(...)
+   */
+  constructor(
+    container,
+    options = {
+      delay: 130,
+      usageStatistics: true
+    }
+  ) {
     /**
-     * @param {HTMLElement} container - container for placing context menu floating layers
-     * @param {object} options - options for context menu
-     *     @param {number} [options.delay=130] - delay for displaying submenu
-     *     @param {boolean} [options.usageStatistics=true] Send the hostname to google analytics.
-     *         If you do not want to send the hostname, this option set to false.
-     * @example
-     * //-- #1. Get Module --//
-     * var ContextMenu = require('tui-context-menu'); // node, commonjs
-     * var ContextMenu = tui.ContextMenu; // distribution file
-     *
-     * //-- #2. Use property --//
-     * var contextMenu = new ContextMenu(...)
+     * @type {object}
+     * @private
      */
-    constructor(container, options = {
-        delay: 130,
-        usageStatistics: true
-    }) {
-        /**
-         * @type {object}
-         * @private
-         */
-        this.options = snippet.extend({}, options);
+    this.options = snippet.extend({}, options);
 
-        /**
-         * @type {HTMLElement}
-         * @private
-         */
-        this.container = container;
+    /**
+     * @type {HTMLElement}
+     * @private
+     */
+    this.container = container;
 
-        /**
-         * @type {Map}
-         * @private
-         */
-        this.layerMap = new snippet.Map();
+    /**
+     * @type {Map}
+     * @private
+     */
+    this.layerMap = new snippet.Map();
 
-        /**
-         * @type {FloatingLayer}
-         * @private
-         */
-        this.activeLayer = null;
+    /**
+     * @type {FloatingLayer}
+     * @private
+     */
+    this.activeLayer = null;
 
-        /**
-         * @type {boolean}
-         * @private
-         */
-        this.pageScrolled = false;
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.pageScrolled = false;
 
-        /**
-         * @type {HTMLElement}
-         * @private
-         */
-        this.prevElement = null;
+    /**
+     * @type {HTMLElement}
+     * @private
+     */
+    this.prevElement = null;
 
-        /**
-         * @type {function}
-         * @private
-         */
-        this.cloneMouseMoveEvent = null;
+    /**
+     * @type {function}
+     * @private
+     */
+    this.cloneMouseMoveEvent = null;
 
-        /**
-         * floating layer z-index
-         * @type {number}
-         */
-        this.zIndex = DEFAULT_ZINDEX;
+    /**
+     * floating layer z-index
+     * @type {number}
+     */
+    this.zIndex = DEFAULT_ZINDEX;
 
-        dom.on(document, 'contextmenu', this._onContextMenu, this);
+    dom.on(document, 'contextmenu', this._onContextMenu, this);
 
-        if (this.options.usageStatistics) {
-            snippet.sendHostname('context-menu', 'UA-129987462-1');
-        }
+    if (this.options.usageStatistics) {
+      snippet.sendHostname('context-menu', 'UA-129987462-1');
+    }
+  }
+
+  /**
+   * Destructor
+   */
+  destroy() {
+    dom.off(document, 'contextmenu', this._onContextMenu, this);
+
+    this._hideContextMenu();
+
+    this.container = this.layerMap = this.activeLayer = this.pageScolled = this.cloneMouseMoveEvent = null;
+  }
+
+  /**
+   * Hide activated context menu and unbind related DOM events
+   * @private
+   */
+  _hideContextMenu() {
+    const layer = this.activeLayer;
+
+    if (!layer) {
+      return;
     }
 
-    /**
-     * Destructor
-     */
-    destroy() {
-        dom.off(document, 'contextmenu', this._onContextMenu, this);
+    dom.off(layer.container, 'mousemove', this.cloneMouseMoveEvent, this);
+    dom.off(document, 'mousedown', this._onMouseDown, this);
+    dom.off(document, 'click', this._onMouseClick, this);
+    dom.off(document, 'scroll', this._onPageScroll, this);
 
+    layer.hide();
+
+    const hideElement = menu => {
+      dom.css(menu, {
+        display: 'none',
+        marginTop: ''
+      });
+    };
+
+    dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
+    dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
+    dom.findAll(layer.container, '.tui-contextmenu-selected').forEach(highlightMenu => {
+      dom.removeClass(highlightMenu, 'tui-contextmenu-selected');
+    });
+
+    this.pageScrolled = false;
+    this.activeLayer = this.cloneMouseMoveEvent = null;
+  }
+
+  /**
+   * Mouse down event handler for close context menu
+   * @param {MouseEvent} mouseDownEvent - mouseDown event object
+   * @private
+   */
+  _onMouseDown(mouseDownEvent) {
+    const target = mouseDownEvent.target || mouseDownEvent.srcElement;
+
+    if (!dom.closest(target, '.tui-contextmenu-root')) {
+      this._hideContextMenu();
+    }
+  }
+
+  /**
+   * Mouse click event handler for invoking callback when click menu item
+   * @param {MouseEvent} clickEvent - click MouseEvent object
+   * @private
+   */
+  /* eslint-disable complexity */
+  _onMouseClick(clickEvent) {
+    const target = clickEvent.target || clickEvent.srcElement;
+    const title = dom.textContent(target).trim();
+    const command = dom.getData(target, 'command');
+    const container = dom.closest(target, '.floating-layer');
+    const isMenuButton = dom.hasClass(target, 'tui-contextmenu-button');
+    const isSeparator = dom.hasClass(target, 'tui-contextmenu-separator');
+    const hasSubmenu = dom.hasClass(target, 'tui-contextmenu-has-submenu');
+    const isDisableButton = dom.hasClass(target, 'tui-contextmenu-disable');
+
+    if (isDisableButton) {
+      this._hideContextMenu();
+
+      return;
+    }
+
+    if (!(container && isMenuButton) || isSeparator || hasSubmenu) {
+      return;
+    }
+
+    this.layerMap.forEach(layer => {
+      if (container === layer.container) {
+        layer.callback(clickEvent, command || title);
         this._hideContextMenu();
+      }
+    }, this);
+  } /* eslint-ensable complexity */
 
-        this.container = this.layerMap = this.activeLayer =
-            this.pageScolled = this.cloneMouseMoveEvent = null;
+  /**
+   * Show menu element without veil browser viewport
+   * @param {HTMLElement} element - menu element
+   * @param {object} [strategy] - methods for handle situations that
+   *  menu veil by browser viewports
+   * @param {object} [initialStyle] - initial style before
+   *  calculating new bound
+   * @private
+   */
+  _showWithoutOverflow(
+    element,
+    strategy = {rightOverflow() {}, bottomOverflow() {}},
+    initialStyle = {marginTop: '', marginLeft: ''}
+  ) {
+    dom.css(element, 'visibility', 'hidden');
+    dom.css(element, initialStyle);
+    dom.css(element, 'display', 'block');
+
+    const {right: menuRight, bottom: menuBottom} = dom.getRect(element);
+
+    const menuDoc = (element.document || element.ownerDocument).documentElement;
+    const {clientWidth: viewportWidth, clientHeight: viewportHeight} = menuDoc;
+
+    const isRightOverflowed = menuRight > viewportWidth;
+    const isBottomOverflowed = menuBottom > viewportHeight;
+
+    if (isRightOverflowed) {
+      strategy.rightOverflow(element, menuRight, viewportWidth);
     }
 
-    /**
-     * Hide activated context menu and unbind related DOM events
-     * @private
-     */
-    _hideContextMenu() {
-        const layer = this.activeLayer;
-
-        if (!layer) {
-            return;
-        }
-
-        dom.off(layer.container, 'mousemove', this.cloneMouseMoveEvent, this);
-        dom.off(document, 'mousedown', this._onMouseDown, this);
-        dom.off(document, 'click', this._onMouseClick, this);
-        dom.off(document, 'scroll', this._onPageScroll, this);
-
-        layer.hide();
-
-        const hideElement = menu => {
-            dom.css(menu, {
-                display: 'none',
-                marginTop: ''
-            });
-        };
-
-        dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
-        dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
-        dom.findAll(layer.container, '.tui-contextmenu-selected').forEach(highlightMenu => {
-            dom.removeClass(highlightMenu, 'tui-contextmenu-selected');
-        });
-
-        this.pageScrolled = false;
-        this.activeLayer = this.cloneMouseMoveEvent = null;
+    if (isBottomOverflowed) {
+      strategy.bottomOverflow(element, menuBottom, viewportHeight);
     }
 
-    /**
-     * Mouse down event handler for close context menu
-     * @param {MouseEvent} mouseDownEvent - mouseDown event object
-     * @private
-     */
-    _onMouseDown(mouseDownEvent) {
-        const target = mouseDownEvent.target || mouseDownEvent.srcElement;
+    dom.css(element, 'visibility', '');
+  }
 
-        if (!dom.closest(target, '.tui-contextmenu-root')) {
-            this._hideContextMenu();
-        }
+  /**
+   * Show root menu element
+   * @param {number} left - left pixel position
+   * @param {number} top - top pixel position
+   * @private
+   */
+  _showRootMenu(left, top) {
+    const layer = this.activeLayer;
+
+    if (!layer) {
+      return;
     }
 
-    /**
-     * Mouse click event handler for invoking callback when click menu item
-     * @param {MouseEvent} clickEvent - click MouseEvent object
-     * @private
-     */
-    /* eslint-disable complexity */
-    _onMouseClick(clickEvent) {
-        const target = clickEvent.target || clickEvent.srcElement;
-        const title = dom.textContent(target).trim();
-        const command = dom.getData(target, 'command');
-        const container = dom.closest(target, '.floating-layer');
-        const isMenuButton = dom.hasClass(target, 'tui-contextmenu-button');
-        const isSeparator = dom.hasClass(target, 'tui-contextmenu-separator');
-        const hasSubmenu = dom.hasClass(target, 'tui-contextmenu-has-submenu');
-        const isDisableButton = dom.hasClass(target, 'tui-contextmenu-disable');
+    const rootMenuElement = dom.find(layer.container, '.tui-contextmenu-root');
 
-        if (isDisableButton) {
-            this._hideContextMenu();
+    layer.setBound({left, top});
+    layer.show();
 
-            return;
+    this._showWithoutOverflow(rootMenuElement, {
+      rightOverflow(el, right, viewportWidth) {
+        dom.css(el, 'marginLeft', `${viewportWidth - right}px`);
+      },
+      bottomOverflow(el, bottom, viewportHeight) {
+        dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
+      }
+    });
+  }
+
+  /**
+   * Show sub menu element
+   * @param {HTMLElement} element - submenu root element
+   * @private
+   */
+  _showSubMenu(element) {
+    this._showWithoutOverflow(
+      element,
+      {
+        rightOverflow: (el, right, viewportWidth) => {
+          dom.css(el, 'marginLeft', `${viewportWidth - right + el.clientWidth}px`);
+        },
+        bottomOverflow: (el, bottom, viewportHeight) => {
+          dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
         }
+      },
+      {
+        marginTop: '',
+        marginLeft: '100%'
+      }
+    );
+  }
 
-        if (!(container && isMenuButton) ||
-            isSeparator || hasSubmenu) {
-            return;
-        }
+  /**
+   * Refresh all submenu element
+   *
+   * Hide elements that no related with mouse event and show others
+   * @param {HTMLElement} layerOnCursor - layer element on cursor
+   * @private
+   */
+  _refreshMenuDisplay(layerOnCursor) {
+    const {container} = this.activeLayer;
+    const allSubmenus = dom.findAll(container, '.tui-contextmenu-submenu');
+    const layersUntilRoot = [];
 
-        this.layerMap.forEach(layer => {
-            if (container === layer.container) {
-                layer.callback(clickEvent, command || title);
-                this._hideContextMenu();
-            }
-        }, this);
-    } /* eslint-ensable complexity */
+    while (layerOnCursor && container !== layerOnCursor) {
+      if (dom.hasClass(layerOnCursor, 'tui-contextmenu-submenu')) {
+        layersUntilRoot.push(layerOnCursor);
+      }
 
-    /**
-     * Show menu element without veil browser viewport
-     * @param {HTMLElement} element - menu element
-     * @param {object} [strategy] - methods for handle situations that
-     *  menu veil by browser viewports
-     * @param {object} [initialStyle] - initial style before
-     *  calculating new bound
-     * @private
-     */
-    _showWithoutOverflow(
-        element,
-        strategy = {rightOverflow() {}, bottomOverflow() {}},
-        initialStyle = {marginTop: '', marginLeft: ''}
-    ) {
-        dom.css(element, 'visibility', 'hidden');
-        dom.css(element, initialStyle);
-        dom.css(element, 'display', 'block');
-
-        const {right: menuRight, bottom: menuBottom} = dom.getRect(element);
-
-        const menuDoc = (element.document || element.ownerDocument).documentElement;
-        const {clientWidth: viewportWidth, clientHeight: viewportHeight} = menuDoc;
-
-        const isRightOverflowed = menuRight > viewportWidth;
-        const isBottomOverflowed = menuBottom > viewportHeight;
-
-        if (isRightOverflowed) {
-            strategy.rightOverflow(element, menuRight, viewportWidth);
-        }
-
-        if (isBottomOverflowed) {
-            strategy.bottomOverflow(element, menuBottom, viewportHeight);
-        }
-
-        dom.css(element, 'visibility', '');
+      layerOnCursor = layerOnCursor.parentNode;
     }
 
-    /**
-     * Show root menu element
-     * @param {number} left - left pixel position
-     * @param {number} top - top pixel position
-     * @private
-     */
-    _showRootMenu(left, top) {
-        const layer = this.activeLayer;
+    allSubmenus.forEach(menuElement => {
+      if (layersUntilRoot.indexOf(menuElement) < 0) {
+        dom.css(menuElement, 'display', 'none');
+      }
+    });
 
-        if (!layer) {
-            return;
-        }
+    layersUntilRoot.forEach(snippet.bind(this._showSubMenu, this));
+  }
 
-        const rootMenuElement = dom.find(layer.container, '.tui-contextmenu-root');
+  /**
+   * Mouse move event handler for reveal context menus
+   * @param {MouseEvent} mouseMoveEvent - mouse move event object
+   * @private
+   */
+  _onMouseMove(mouseMoveEvent) {
+    if (this.pageScrolled) {
+      this.pageScrolled = false;
 
-        layer.setBound({left, top});
-        layer.show();
-
-        this._showWithoutOverflow(
-            rootMenuElement,
-            {
-                rightOverflow(el, right, viewportWidth) {
-                    dom.css(el, 'marginLeft', `${viewportWidth - right}px`);
-                },
-                bottomOverflow(el, bottom, viewportHeight) {
-                    dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
-                }
-            }
-        );
+      return;
     }
 
-    /**
-     * Show sub menu element
-     * @param {HTMLElement} element - submenu root element
-     * @private
-     */
-    _showSubMenu(element) {
-        this._showWithoutOverflow(
-            element,
-            {
-                rightOverflow: (el, right, viewportWidth) => {
-                    dom.css(el, 'marginLeft',
-                        `${(viewportWidth - right) + el.clientWidth}px`);
-                },
-                bottomOverflow: (el, bottom, viewportHeight) => {
-                    dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
-                }
-            },
-            {
-                marginTop: '',
-                marginLeft: '100%'
-            }
-        );
+    const target = mouseMoveEvent.target || mouseMoveEvent.srcElement;
+    const {activeLayer} = this;
+
+    if (this.prevElement) {
+      dom.removeClass(this.prevElement, 'tui-contextmenu-selected');
     }
 
-    /**
-     * Refresh all submenu element
-     *
-     * Hide elements that no related with mouse event and show others
-     * @param {HTMLElement} layerOnCursor - layer element on cursor
-     * @private
-     */
-    _refreshMenuDisplay(layerOnCursor) {
-        const {container} = this.activeLayer;
-        const allSubmenus = dom.findAll(container, '.tui-contextmenu-submenu');
-        const layersUntilRoot = [];
-
-        while (layerOnCursor && container !== layerOnCursor) {
-            if (dom.hasClass(layerOnCursor, 'tui-contextmenu-submenu')) {
-                layersUntilRoot.push(layerOnCursor);
-            }
-
-            layerOnCursor = layerOnCursor.parentNode;
-        }
-
-        allSubmenus.forEach(menuElement => {
-            if (layersUntilRoot.indexOf(menuElement) < 0) {
-                dom.css(menuElement, 'display', 'none');
-            }
-        });
-
-        layersUntilRoot.forEach(snippet.bind(this._showSubMenu, this));
+    if (!(activeLayer && dom.closest(target, '.tui-contextmenu-root'))) {
+      return;
     }
 
-    /**
-     * Mouse move event handler for reveal context menus
-     * @param {MouseEvent} mouseMoveEvent - mouse move event object
-     * @private
-     */
-    _onMouseMove(mouseMoveEvent) {
-        if (this.pageScrolled) {
-            this.pageScrolled = false;
+    let layerOnCursor;
 
-            return;
-        }
-
-        const target = mouseMoveEvent.target || mouseMoveEvent.srcElement;
-        const {activeLayer} = this;
-
-        if (this.prevElement) {
-            dom.removeClass(this.prevElement, 'tui-contextmenu-selected');
-        }
-
-        if (!(activeLayer && dom.closest(target, '.tui-contextmenu-root'))) {
-            return;
-        }
-
-        let layerOnCursor;
-
-        if (dom.hasClass(target, 'tui-contextmenu-has-submenu')) {
-            layerOnCursor = dom.find(target.parentNode, '.tui-contextmenu-submenu');
-        } else {
-            layerOnCursor = dom.closest(target, '.tui-contextmenu-submenu');
-        }
-
-        this._refreshMenuDisplay(layerOnCursor);
-        this._highlightMenuHasSubmenu(layerOnCursor);
+    if (dom.hasClass(target, 'tui-contextmenu-has-submenu')) {
+      layerOnCursor = dom.find(target.parentNode, '.tui-contextmenu-submenu');
+    } else {
+      layerOnCursor = dom.closest(target, '.tui-contextmenu-submenu');
     }
 
-    /**
-     * Select
-     * @param {HTMLElement} layer - current layer located mouse pointer
-     * @private
-     */
-    _highlightMenuHasSubmenu(layer) {
-        if (!layer) {
-            this.prevElement = null;
+    this._refreshMenuDisplay(layerOnCursor);
+    this._highlightMenuHasSubmenu(layerOnCursor);
+  }
 
-            return;
-        }
+  /**
+   * Select
+   * @param {HTMLElement} layer - current layer located mouse pointer
+   * @private
+   */
+  _highlightMenuHasSubmenu(layer) {
+    if (!layer) {
+      this.prevElement = null;
 
-        const selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
-
-        dom.addClass(selectedMenu, 'tui-contextmenu-selected');
-
-        this.prevElement = selectedMenu;
+      return;
     }
 
-    /**
-     * Scroll handle for prevent break position after scrolling
-     * @private
-     */
-    _onPageScroll() {
-        this.pageScrolled = true;
+    const selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
+
+    dom.addClass(selectedMenu, 'tui-contextmenu-selected');
+
+    this.prevElement = selectedMenu;
+  }
+
+  /**
+   * Scroll handle for prevent break position after scrolling
+   * @private
+   */
+  _onPageScroll() {
+    this.pageScrolled = true;
+  }
+
+  /**
+   * Event handler
+   * @param {MouseEvent} clickEvent - mouse event object
+   * @private
+   */
+  _onContextMenu(clickEvent) {
+    const opt = this.options;
+
+    let target = clickEvent.target || clickEvent.srcElement;
+    let relatedLayer;
+
+    while (target.parentNode) {
+      const findElement = this.layerMap.get(target);
+
+      if (findElement) {
+        relatedLayer = findElement;
+        break;
+      }
+
+      target = target.parentNode;
     }
 
-    /**
-     * Event handler
-     * @param {MouseEvent} clickEvent - mouse event object
-     * @private
-     */
-    _onContextMenu(clickEvent) {
-        const opt = this.options;
-
-        let target = clickEvent.target || clickEvent.srcElement;
-        let relatedLayer;
-
-        while (target.parentNode) {
-            const findElement = this.layerMap.get(target);
-
-            if (findElement) {
-                relatedLayer = findElement;
-                break;
-            }
-
-            target = target.parentNode;
-        }
-
-        if (!relatedLayer) {
-            return;
-        }
-
-        dom.preventDefault(clickEvent);
-
-        this.activeLayer = relatedLayer;
-
-        const position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
-
-        /* clickEvent's clientX, clientY */
-        const [left, top] = position;
-        const debouncedMouseMove = snippet.debounce(snippet.bind(this._onMouseMove, this), opt.delay);
-
-        this.cloneMouseMoveEvent = function(mouseMoveEvent) {
-            const virtualMouseEvent = {
-                target: (mouseMoveEvent.target || mouseMoveEvent.srcElement)
-            };
-
-            debouncedMouseMove(virtualMouseEvent);
-        };
-
-        this._showRootMenu(left, top);
-
-        dom.on(relatedLayer.container, 'mousemove', this.cloneMouseMoveEvent, this);
-        dom.on(document, 'mousedown', this._onMouseDown, this);
-        dom.on(document, 'click', this._onMouseClick, this);
-        dom.on(document, 'scroll', this._onPageScroll, this);
+    if (!relatedLayer) {
+      return;
     }
 
-    /**
-     * Register context menu
-     * @param {string} selector - css selector for displaying contextmenu at secondary mouse button click
-     * @param {function} callback - callback for each menu item clicked
-     * @param {MenuItem[]} menuItems - menu item schema
-     */
-    register(selector, callback, menuItems) {
-        const target = dom.find(selector);
+    dom.preventDefault(clickEvent);
 
-        if (!target) {
-            return;
-        }
+    this.activeLayer = relatedLayer;
 
-        const layer = new FloatingLayer(this.container);
+    const position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
 
-        layer.callback = callback;
-        layer.setBound({width: 'auto', height: 'auto'});
-        layer.setContent(tmpl(menuItems));
+    /* clickEvent's clientX, clientY */
+    const [left, top] = position;
+    const debouncedMouseMove = snippet.debounce(snippet.bind(this._onMouseMove, this), opt.delay);
 
-        this.layerMap.set(target, layer);
+    this.cloneMouseMoveEvent = function(mouseMoveEvent) {
+      const virtualMouseEvent = {
+        target: mouseMoveEvent.target || mouseMoveEvent.srcElement
+      };
+
+      debouncedMouseMove(virtualMouseEvent);
+    };
+
+    this._showRootMenu(left, top);
+
+    dom.on(relatedLayer.container, 'mousemove', this.cloneMouseMoveEvent, this);
+    dom.on(document, 'mousedown', this._onMouseDown, this);
+    dom.on(document, 'click', this._onMouseClick, this);
+    dom.on(document, 'scroll', this._onPageScroll, this);
+  }
+
+  /**
+   * Register context menu
+   * @param {string} selector - css selector for displaying contextmenu at secondary mouse button click
+   * @param {function} callback - callback for each menu item clicked
+   * @param {MenuItem[]} menuItems - menu item schema
+   */
+  register(selector, callback, menuItems) {
+    const target = dom.find(selector);
+
+    if (!target) {
+      return;
     }
 
-    /**
-     * Unregister context menu
-     * @param {string} selector - css selector used for register context menu
-     * @returns {boolean} whether unregister is successful?
-     */
-    unregister(selector) {
-        const {layerMap} = this;
-        const target = dom.find(selector);
+    const layer = new FloatingLayer(this.container);
 
-        if (!target) {
-            return false;
-        }
+    layer.callback = callback;
+    layer.setBound({width: 'auto', height: 'auto'});
+    layer.setContent(tmpl(menuItems));
 
-        const layer = layerMap.get(target);
+    this.layerMap.set(target, layer);
+  }
 
-        if (!layer) {
-            return false;
-        }
+  /**
+   * Unregister context menu
+   * @param {string} selector - css selector used for register context menu
+   * @returns {boolean} whether unregister is successful?
+   */
+  unregister(selector) {
+    const {layerMap} = this;
+    const target = dom.find(selector);
 
-        layer.destroy();
-
-        layerMap.delete(target);
-
-        return true;
+    if (!target) {
+      return false;
     }
+
+    const layer = layerMap.get(target);
+
+    if (!layer) {
+      return false;
+    }
+
+    layer.destroy();
+
+    layerMap.delete(target);
+
+    return true;
+  }
 }
 
 export default ContextMenu;
