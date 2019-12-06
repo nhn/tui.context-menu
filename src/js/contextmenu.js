@@ -3,9 +3,23 @@
  * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
 
-import * as dom from 'tui-dom';
+import forEachArray from 'tui-code-snippet/collection/forEachArray';
+import off from 'tui-code-snippet/domEvent/off';
+import on from 'tui-code-snippet/domEvent/on';
+import getMousePosition from 'tui-code-snippet/domEvent/getMousePosition';
+import preventDefault from 'tui-code-snippet/domEvent/preventDefault';
+import addClass from 'tui-code-snippet/domUtil/addClass';
+import closest from 'tui-code-snippet/domUtil/closest';
+import css from 'tui-code-snippet/domUtil/css';
+import getData from 'tui-code-snippet/domUtil/getData';
+import hasClass from 'tui-code-snippet/domUtil/hasClass';
+import removeClass from 'tui-code-snippet/domUtil/removeClass';
+import extend from 'tui-code-snippet/object/extend';
+import sendHostname from 'tui-code-snippet/request/sendHostname';
+import debounce from 'tui-code-snippet/tricks/debounce';
+
 import FloatingLayer from './floatingLayer';
-import snippet from 'tui-code-snippet';
+import Map from './Map';
 import tmpl from '../template/contextmenu.hbs';
 
 const DEFAULT_ZINDEX = 999;
@@ -46,7 +60,7 @@ class ContextMenu {
      * @type {object}
      * @private
      */
-    this.options = snippet.extend({}, options);
+    this.options = extend({}, options);
 
     /**
      * @type {HTMLElement}
@@ -58,7 +72,7 @@ class ContextMenu {
      * @type {Map}
      * @private
      */
-    this.layerMap = new snippet.Map();
+    this.layerMap = new Map();
 
     /**
      * @type {FloatingLayer}
@@ -90,10 +104,10 @@ class ContextMenu {
      */
     this.zIndex = DEFAULT_ZINDEX;
 
-    dom.on(document, 'contextmenu', this._onContextMenu, this);
+    on(document, 'contextmenu', this._onContextMenu, this);
 
     if (this.options.usageStatistics) {
-      snippet.sendHostname('context-menu', 'UA-129987462-1');
+      sendHostname('context-menu', 'UA-129987462-1');
     }
   }
 
@@ -101,7 +115,7 @@ class ContextMenu {
    * Destructor
    */
   destroy() {
-    dom.off(document, 'contextmenu', this._onContextMenu, this);
+    off(document, 'contextmenu', this._onContextMenu, this);
 
     this._hideContextMenu();
 
@@ -119,25 +133,23 @@ class ContextMenu {
       return;
     }
 
-    dom.off(layer.container, 'mousemove', this.cloneMouseMoveEvent, this);
-    dom.off(document, 'mousedown', this._onMouseDown, this);
-    dom.off(document, 'click', this._onMouseClick, this);
-    dom.off(document, 'scroll', this._onPageScroll, this);
+    off(layer.container, 'mousemove', this.cloneMouseMoveEvent, this);
+    off(document, 'mousedown', this._onMouseDown, this);
+    off(document, 'click', this._onMouseClick, this);
+    off(document, 'scroll', this._onPageScroll, this);
 
     layer.hide();
 
     const hideElement = menu => {
-      dom.css(menu, {
+      css(menu, {
         display: 'none',
         marginTop: ''
       });
     };
 
-    dom.findAll(layer.container, '.tui-contextmenu-root').forEach(hideElement);
-    dom.findAll(layer.container, '.tui-contextmenu-submenu').forEach(hideElement);
-    dom.findAll(layer.container, '.tui-contextmenu-selected').forEach(highlightMenu => {
-      dom.removeClass(highlightMenu, 'tui-contextmenu-selected');
-    });
+    layer.container.querySelectorAll('.tui-contextmenu-root').forEach(hideElement);
+    layer.container.querySelectorAll('.tui-contextmenu-submenu').forEach(hideElement);
+    layer.container.querySelectorAll('.tui-contextmenu-selected').forEach(highlightMenu => removeClass(highlightMenu, 'tui-contextmenu-selected'));
 
     this.pageScrolled = false;
     this.activeLayer = this.cloneMouseMoveEvent = null;
@@ -151,7 +163,7 @@ class ContextMenu {
   _onMouseDown(mouseDownEvent) {
     const target = mouseDownEvent.target || mouseDownEvent.srcElement;
 
-    if (!dom.closest(target, '.tui-contextmenu-root')) {
+    if (!closest(target, '.tui-contextmenu-root')) {
       this._hideContextMenu();
     }
   }
@@ -164,13 +176,13 @@ class ContextMenu {
   /* eslint-disable complexity */
   _onMouseClick(clickEvent) {
     const target = clickEvent.target || clickEvent.srcElement;
-    const title = dom.textContent(target).trim();
-    const command = dom.getData(target, 'command');
-    const container = dom.closest(target, '.floating-layer');
-    const isMenuButton = dom.hasClass(target, 'tui-contextmenu-button');
-    const isSeparator = dom.hasClass(target, 'tui-contextmenu-separator');
-    const hasSubmenu = dom.hasClass(target, 'tui-contextmenu-has-submenu');
-    const isDisableButton = dom.hasClass(target, 'tui-contextmenu-disable');
+    const title = target.innerText.trim();
+    const command = getData(target, 'command');
+    const container = closest(target, '.floating-layer');
+    const isMenuButton = hasClass(target, 'tui-contextmenu-button');
+    const isSeparator = hasClass(target, 'tui-contextmenu-separator');
+    const hasSubmenu = hasClass(target, 'tui-contextmenu-has-submenu');
+    const isDisableButton = hasClass(target, 'tui-contextmenu-disable');
 
     if (isDisableButton) {
       this._hideContextMenu();
@@ -188,7 +200,7 @@ class ContextMenu {
         this._hideContextMenu();
       }
     }, this);
-  } /* eslint-ensable complexity */
+  }
 
   /**
    * Show menu element without veil browser viewport
@@ -204,11 +216,11 @@ class ContextMenu {
     strategy = {rightOverflow() {}, bottomOverflow() {}},
     initialStyle = {marginTop: '', marginLeft: ''}
   ) {
-    dom.css(element, 'visibility', 'hidden');
-    dom.css(element, initialStyle);
-    dom.css(element, 'display', 'block');
+    css(element, 'visibility', 'hidden');
+    css(element, initialStyle);
+    css(element, 'display', 'block');
 
-    const {right: menuRight, bottom: menuBottom} = dom.getRect(element);
+    const {right: menuRight, bottom: menuBottom} = element.getBoundingClientRect();
 
     const menuDoc = (element.document || element.ownerDocument).documentElement;
     const {clientWidth: viewportWidth, clientHeight: viewportHeight} = menuDoc;
@@ -224,7 +236,7 @@ class ContextMenu {
       strategy.bottomOverflow(element, menuBottom, viewportHeight);
     }
 
-    dom.css(element, 'visibility', '');
+    css(element, 'visibility', '');
   }
 
   /**
@@ -240,17 +252,17 @@ class ContextMenu {
       return;
     }
 
-    const rootMenuElement = dom.find(layer.container, '.tui-contextmenu-root');
+    const rootMenuElement = layer.container.querySelector('.tui-contextmenu-root');
 
     layer.setBound({left, top});
     layer.show();
 
     this._showWithoutOverflow(rootMenuElement, {
       rightOverflow(el, right, viewportWidth) {
-        dom.css(el, 'marginLeft', `${viewportWidth - right}px`);
+        css(el, 'marginLeft', `${viewportWidth - right}px`);
       },
       bottomOverflow(el, bottom, viewportHeight) {
-        dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
+        css(el, 'marginTop', `${viewportHeight - bottom}px`);
       }
     });
   }
@@ -265,10 +277,10 @@ class ContextMenu {
       element,
       {
         rightOverflow: (el, right, viewportWidth) => {
-          dom.css(el, 'marginLeft', `${viewportWidth - right + el.clientWidth}px`);
+          css(el, 'marginLeft', `${viewportWidth - right + el.clientWidth}px`);
         },
         bottomOverflow: (el, bottom, viewportHeight) => {
-          dom.css(el, 'marginTop', `${viewportHeight - bottom}px`);
+          css(el, 'marginTop', `${viewportHeight - bottom}px`);
         }
       },
       {
@@ -287,24 +299,24 @@ class ContextMenu {
    */
   _refreshMenuDisplay(layerOnCursor) {
     const {container} = this.activeLayer;
-    const allSubmenus = dom.findAll(container, '.tui-contextmenu-submenu');
+    const allSubmenus = container.querySelectorAll('.tui-contextmenu-submenu');
     const layersUntilRoot = [];
 
     while (layerOnCursor && container !== layerOnCursor) {
-      if (dom.hasClass(layerOnCursor, 'tui-contextmenu-submenu')) {
+      if (hasClass(layerOnCursor, 'tui-contextmenu-submenu')) {
         layersUntilRoot.push(layerOnCursor);
       }
 
       layerOnCursor = layerOnCursor.parentNode;
     }
 
-    allSubmenus.forEach(menuElement => {
+    forEachArray(allSubmenus, menuElement => {
       if (layersUntilRoot.indexOf(menuElement) < 0) {
-        dom.css(menuElement, 'display', 'none');
+        css(menuElement, 'display', 'none');
       }
     });
 
-    layersUntilRoot.forEach(snippet.bind(this._showSubMenu, this));
+    layersUntilRoot.forEach(elem => this._showSubMenu(elem));
   }
 
   /**
@@ -323,19 +335,19 @@ class ContextMenu {
     const {activeLayer} = this;
 
     if (this.prevElement) {
-      dom.removeClass(this.prevElement, 'tui-contextmenu-selected');
+      removeClass(this.prevElement, 'tui-contextmenu-selected');
     }
 
-    if (!(activeLayer && dom.closest(target, '.tui-contextmenu-root'))) {
+    if (!(activeLayer && closest(target, '.tui-contextmenu-root'))) {
       return;
     }
 
     let layerOnCursor;
 
-    if (dom.hasClass(target, 'tui-contextmenu-has-submenu')) {
-      layerOnCursor = dom.find(target.parentNode, '.tui-contextmenu-submenu');
+    if (hasClass(target, 'tui-contextmenu-has-submenu')) {
+      layerOnCursor = target.parentNode.querySelector('.tui-contextmenu-submenu');
     } else {
-      layerOnCursor = dom.closest(target, '.tui-contextmenu-submenu');
+      layerOnCursor = closest(target, '.tui-contextmenu-submenu');
     }
 
     this._refreshMenuDisplay(layerOnCursor);
@@ -354,9 +366,9 @@ class ContextMenu {
       return;
     }
 
-    const selectedMenu = dom.find(layer.parentNode, '.tui-contextmenu-button');
+    const selectedMenu = layer.parentNode.querySelector('.tui-contextmenu-button');
 
-    dom.addClass(selectedMenu, 'tui-contextmenu-selected');
+    addClass(selectedMenu, 'tui-contextmenu-selected');
 
     this.prevElement = selectedMenu;
   }
@@ -395,15 +407,15 @@ class ContextMenu {
       return;
     }
 
-    dom.preventDefault(clickEvent);
+    preventDefault(clickEvent);
 
     this.activeLayer = relatedLayer;
 
-    const position = dom.getMousePosition(clickEvent, document.body || document.documentElement);
+    const position = getMousePosition(clickEvent, document.body || document.documentElement);
 
     /* clickEvent's clientX, clientY */
     const [left, top] = position;
-    const debouncedMouseMove = snippet.debounce(snippet.bind(this._onMouseMove, this), opt.delay);
+    const debouncedMouseMove = debounce(mouseMoveEvent => this._onMouseMove(mouseMoveEvent), opt.delay);
 
     this.cloneMouseMoveEvent = function(mouseMoveEvent) {
       const virtualMouseEvent = {
@@ -415,10 +427,10 @@ class ContextMenu {
 
     this._showRootMenu(left, top);
 
-    dom.on(relatedLayer.container, 'mousemove', this.cloneMouseMoveEvent, this);
-    dom.on(document, 'mousedown', this._onMouseDown, this);
-    dom.on(document, 'click', this._onMouseClick, this);
-    dom.on(document, 'scroll', this._onPageScroll, this);
+    on(relatedLayer.container, 'mousemove', this.cloneMouseMoveEvent, this);
+    on(document, 'mousedown', this._onMouseDown, this);
+    on(document, 'click', this._onMouseClick, this);
+    on(document, 'scroll', this._onPageScroll, this);
   }
 
   /**
@@ -428,7 +440,7 @@ class ContextMenu {
    * @param {MenuItem[]} menuItems - menu item schema
    */
   register(selector, callback, menuItems) {
-    const target = dom.find(selector);
+    const target = document.querySelector(selector);
 
     if (!target) {
       return;
@@ -450,7 +462,7 @@ class ContextMenu {
    */
   unregister(selector) {
     const {layerMap} = this;
-    const target = dom.find(selector);
+    const target = document.querySelector(selector);
 
     if (!target) {
       return false;

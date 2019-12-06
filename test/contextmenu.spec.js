@@ -1,7 +1,6 @@
-import * as dom from 'tui-dom';
-import ContextMenu from '../src/js/contextmenu.js';
+import sendHostname from 'tui-code-snippet/request/sendHostname';
 
-import snippet from 'tui-code-snippet';
+import ContextMenu from '../src/js/contextmenu.js';
 
 describe('ContextMenu component', () => {
   beforeEach(() => {
@@ -27,7 +26,8 @@ describe('ContextMenu component', () => {
     expect(cm.layerMap.has(menu1Element)).toBe(true);
   });
 
-  describe('use "usageStatistics" option', () => {
+  xdescribe('use "usageStatistics" option', () => {
+    const snippet = {sendHostname};
     let container, cm;
 
     beforeEach(() => {
@@ -84,7 +84,7 @@ describe('ContextMenu component', () => {
       }
     ]);
 
-    cm.activeLayer = cm.layerMap.values().next().value;
+    cm.activeLayer = cm.layerMap._values[0];
 
     const mockMouseMove = {
       target: document.querySelectorAll('.tui-contextmenu-button')[3],
@@ -110,7 +110,7 @@ describe('ContextMenu component', () => {
       }
     ]);
 
-    const layer = cm.layerMap.values().next().value;
+    const [layer] = cm.layerMap._values;
 
     const mockMouseClick = {
       target: layer.container.querySelector('.tui-contextmenu-button'),
@@ -134,7 +134,7 @@ describe('ContextMenu component', () => {
 
     cm.unregister('#menu1');
 
-    expect(cm.layerMap.size).toBe(0);
+    expect(cm.layerMap._values.length).toBe(0);
     expect(document.querySelectorAll('.floating-layer').length).toBe(0);
   });
 
@@ -153,7 +153,7 @@ describe('ContextMenu component', () => {
         {title: 'root-c'}
       ]);
 
-      ce.activeLayer = ce.layerMap.values().next().value;
+      ce.activeLayer = ce.layerMap._values[0];
 
       vWidth = document.documentElement.clientWidth;
       vHeight = document.documentElement.clientHeight;
@@ -162,7 +162,7 @@ describe('ContextMenu component', () => {
     it('menu element.', () => {
       ce._showRootMenu(10, 10);
 
-      const menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
+      const menu = ce.activeLayer.container.querySelector('.tui-contextmenu-root');
 
       expect(menu.style.marginLeft).toBe('');
       expect(menu.style.marginTop).toBe('');
@@ -173,7 +173,7 @@ describe('ContextMenu component', () => {
       // size of menu is set to 180 as a default
       ce._showRootMenu(vWidth - 20, vHeight - 20);
 
-      const menu = dom.find(ce.activeLayer.container, '.tui-contextmenu-root');
+      const menu = ce.activeLayer.container.querySelector('.tui-contextmenu-root');
 
       expect(menu.style.marginLeft).not.toBe('');
       expect(menu.style.marginTop).not.toBe('');
