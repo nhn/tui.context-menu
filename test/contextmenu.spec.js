@@ -6,9 +6,9 @@ describe('ContextMenu component', () => {
   beforeEach(() => {
     fixture.set(
       '<style>html, body { overflow: hidden; }</style>' +
-        '<div id="menu1"></div>' +
-        '<div id="menu2"></div>' +
-        '<div id="flContainer"></div>'
+      '<div id="menu1"></div>' +
+      '<div id="menu2"></div>' +
+      '<div id="flContainer"></div>'
     );
   });
 

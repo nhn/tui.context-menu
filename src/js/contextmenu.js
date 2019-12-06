@@ -20,7 +20,7 @@ import debounce from 'tui-code-snippet/tricks/debounce';
 
 import FloatingLayer from './floatingLayer';
 import Map from './Map';
-import tmpl from '../template/contextmenu.hbs';
+import tmpl from '../template/contextmenu';
 
 const DEFAULT_ZINDEX = 999;
 
@@ -28,8 +28,8 @@ const DEFAULT_ZINDEX = 999;
  * @typedef {object} MenuItem
  * @property {string} title - title of menu item
  * @property {string} [command] - string for alternative of using title to command
- * @property {boolean} [separator=false] - set true then this menu will use
- *  separator
+ * @property {boolean} [separator=false] - set true then this menu will use separator
+ * @property {boolean} [disable=false] - set true then this menu will be disabled
  * @property {MenuItem[]} [menu] - you can define submenu recursivly
  */
 
@@ -450,7 +450,11 @@ class ContextMenu {
 
     layer.callback = callback;
     layer.setBound({width: 'auto', height: 'auto'});
-    layer.setContent(tmpl(menuItems));
+    layer.setContent(tmpl({
+      root: true,
+      menuItems,
+      tmpl: menu => tmpl({menuItems: menu, tmpl})
+    }));
 
     this.layerMap.set(target, layer);
   }
