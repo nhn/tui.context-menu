@@ -15,11 +15,11 @@ import getData from 'tui-code-snippet/domUtil/getData';
 import hasClass from 'tui-code-snippet/domUtil/hasClass';
 import removeClass from 'tui-code-snippet/domUtil/removeClass';
 import extend from 'tui-code-snippet/object/extend';
-import sendHostname from 'tui-code-snippet/request/sendHostname';
 import debounce from 'tui-code-snippet/tricks/debounce';
 
 import FloatingLayer from './floatingLayer';
 import Map from './Map';
+import {sendHostName} from './util';
 import tmpl from '../template/contextmenu';
 
 const DEFAULT_ZINDEX = 999;
@@ -107,7 +107,7 @@ class ContextMenu {
     on(document, 'contextmenu', this._onContextMenu, this);
 
     if (this.options.usageStatistics) {
-      sendHostname('context-menu', 'UA-129987462-1');
+      sendHostName();
     }
   }
 

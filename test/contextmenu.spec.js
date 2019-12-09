@@ -1,6 +1,5 @@
-import sendHostname from 'tui-code-snippet/request/sendHostname';
-
-import ContextMenu from '../src/js/contextmenu.js';
+import ContextMenu from '../src/js/contextmenu';
+import * as util from '../src/js/util';
 
 describe('ContextMenu component', () => {
   beforeEach(() => {
@@ -26,12 +25,11 @@ describe('ContextMenu component', () => {
     expect(cm.layerMap.has(menu1Element)).toBe(true);
   });
 
-  xdescribe('use "usageStatistics" option', () => {
-    const snippet = {sendHostname};
-    let container, cm;
+  describe('use "usageStatistics" option', () => {
+    let container, cm, sendHostName;
 
     beforeEach(() => {
-      spyOn(snippet, 'sendHostname');
+      sendHostName = spyOn(util, 'sendHostName');
       container = document.querySelector('#flContainer');
     });
 
@@ -42,7 +40,7 @@ describe('ContextMenu component', () => {
     it('when the value set to true by default, the host name is send.', () => {
       cm = new ContextMenu(container);
 
-      expect(snippet.sendHostname).toHaveBeenCalled();
+      expect(sendHostName).toHaveBeenCalled();
     });
 
     it('when the value set to false, the host name is not send to server.', () => {
@@ -50,7 +48,7 @@ describe('ContextMenu component', () => {
         usageStatistics: false
       });
 
-      expect(snippet.sendHostname).not.toHaveBeenCalled();
+      expect(sendHostName).not.toHaveBeenCalled();
     });
   });
 
