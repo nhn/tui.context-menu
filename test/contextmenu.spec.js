@@ -4,10 +4,12 @@ import * as util from '../src/js/util';
 describe('ContextMenu component', () => {
   beforeEach(() => {
     fixture.set(
-      '<style>html, body { overflow: hidden; }</style>' +
-      '<div id="menu1"></div>' +
-      '<div id="menu2"></div>' +
-      '<div id="flContainer"></div>'
+      [
+        '<style>html, body { overflow: hidden; }</style>',
+        '<div id="menu1"></div>',
+        '<div id="menu2"></div>',
+        '<div id="flContainer"></div>'
+      ].join('')
     );
   });
 

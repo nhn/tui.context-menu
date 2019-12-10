@@ -1,20 +1,15 @@
 import inArray from 'tui-code-snippet/array/inArray';
 import forEachArray from 'tui-code-snippet/collection/forEachArray';
-import isArray from 'tui-code-snippet/type/isArray';
 
 /**
  * @class
- * @private
+ * @ignore
  * @classdesc ES6 Map
  */
 class Map {
-  constructor(initData) {
+  constructor() {
     this._keys = [];
     this._values = [];
-
-    if (initData) {
-      this.set(initData);
-    }
   }
 
   _getKeyIndex(key) {
@@ -25,7 +20,7 @@ class Map {
     return this._values[this._getKeyIndex(key)];
   }
 
-  _setOne(key, value) {
+  set(key, value) {
     const keyIndex = this._getKeyIndex(key);
 
     if (keyIndex > -1) {
@@ -33,14 +28,6 @@ class Map {
     } else {
       this._keys.push(key);
       this._values.push(value);
-    }
-  }
-
-  set(key, value) {
-    if (isArray(key)) {
-      forEachArray(key, ([k, v]) => this._setOne(k, v));
-    } else {
-      this._setOne(key, value);
     }
   }
 
@@ -59,7 +46,7 @@ class Map {
 
   forEach(callback, thisArg = this) {
     forEachArray(this._values, (value, index) => {
-      callback.call(thisArg, value, this._keys[index]);
+      callback.call(thisArg, value, this._keys[index], this);
     });
   }
 }
