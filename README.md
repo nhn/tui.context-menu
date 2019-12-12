@@ -111,6 +111,7 @@ tui.context-menu/
 ├─ latest/
 │  ├─ tui-context-menu.css
 │  ├─ tui-context-menu.js
+│  ├─ tui-context-menu.min.css
 │  └─ tui-context-menu.min.js
 ├─ v2.1.0/
 │  ├─ ...
@@ -185,7 +186,7 @@ Run npm scripts and develop yourself with the following process.
 
 Fork `develop` branch into your personal repository.
 Clone it to local computer. Install node modules.
-Before starting development, you should check to haveany errors.
+Before starting development, you should check to have any errors.
 
 ``` sh
 $ git clone https://github.com/{your-personal-repo}/tui.context-menu.git
