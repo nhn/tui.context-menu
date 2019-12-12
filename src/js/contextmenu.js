@@ -147,9 +147,9 @@ class ContextMenu {
       });
     };
 
-    layer.container.querySelectorAll('.tui-contextmenu-root').forEach(hideElement);
-    layer.container.querySelectorAll('.tui-contextmenu-submenu').forEach(hideElement);
-    layer.container.querySelectorAll('.tui-contextmenu-selected').forEach(highlightMenu => removeClass(highlightMenu, 'tui-contextmenu-selected'));
+    forEachArray(layer.container.querySelectorAll('.tui-contextmenu-root'), hideElement);
+    forEachArray(layer.container.querySelectorAll('.tui-contextmenu-submenu'), hideElement);
+    forEachArray(layer.container.querySelectorAll('.tui-contextmenu-selected'), highlightMenu => removeClass(highlightMenu, 'tui-contextmenu-selected'));
 
     this.pageScrolled = false;
     this.activeLayer = this.cloneMouseMoveEvent = null;
@@ -316,7 +316,7 @@ class ContextMenu {
       }
     });
 
-    layersUntilRoot.forEach(elem => this._showSubMenu(elem));
+    forEachArray(layersUntilRoot, elem => this._showSubMenu(elem));
   }
 
   /**
