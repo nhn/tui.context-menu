@@ -28,28 +28,8 @@ module.exports = (env, argv) => {
       publicPath: 'dist/',
       filename: FILENAME
     },
-    externals: {
-      'tui-code-snippet': {
-        commonjs: 'tui-code-snippet',
-        commonjs2: 'tui-code-snippet',
-        amd: 'tui-code-snippet',
-        root: ['tui', 'util']
-      },
-      'tui-dom': {
-        commonjs: 'tui-dom',
-        commonjs2: 'tui-dom',
-        amd: 'tui-dom',
-        root: ['tui', 'dom']
-      }
-    },
     module: {
       rules: [
-        {
-          // Handlebars-loader issue: https://github.com/pcardune/handlebars-loader/issues/106
-          test: /\.hbs$/,
-          exclude: /(test|node_modules|bower_components)/,
-          loader: 'transform-loader?hbsfy'
-        },
         {
           test: /\.js$/,
           exclude: /(test|node_modules|bower_components)/,

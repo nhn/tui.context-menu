@@ -119,11 +119,6 @@ module.exports = function(config) {
       module: {
         rules: [
           {
-            test: /\.hbs$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'transform-loader?hbsfy'
-          },
-          {
             test: /\.js$/,
             exclude: /(node_modules|bower_components)/,
             loader: 'babel-loader'
