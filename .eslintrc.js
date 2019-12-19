@@ -21,7 +21,6 @@ module.exports = {
       { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
       { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }
     ],
-    'sort-imports': 'error',
     'no-useless-rename': 'error',
     'no-duplicate-imports': ['error', { includeExports: true }],
     'dot-notation': ['error', { allowKeywords: true }],

@@ -42,7 +42,7 @@ var options = {
 var instance = new ContextMenu(container, options);
 ```
 
-Or, include [`tui-code-snippet`](https://github.com/nhn/tui.code-snippet)(**v1.5.0** or **later**) and then immediately write the options as follows:
+Or, include [`tui-code-snippet`](https://github.com/nhn/tui.code-snippet)(**v2.2.0** or **later**) and then immediately write the options as follows:
 
 ```js
 tui.usageStatistics = false;
@@ -111,6 +111,7 @@ tui.context-menu/
 ├─ latest/
 │  ├─ tui-context-menu.css
 │  ├─ tui-context-menu.js
+│  ├─ tui-context-menu.min.css
 │  └─ tui-context-menu.min.js
 ├─ v2.1.0/
 │  ├─ ...
@@ -167,14 +168,13 @@ For more information about the API, please see [here](http://nhn.github.io/tui.c
 
 
 ## 🔩 Dependency
-* [tui-code-snippet](https://github.com/nhn/tui.code-snippet) >=1.5.0
-* [tui-dom](https://github.com/nhn/tui.dom) >=3.0.0
+* [tui-code-snippet](https://github.com/nhn/tui.code-snippet) >= 2.2.0
 
 
 ## 🌏 Browser Support
 | <img src="https://user-images.githubusercontent.com/1215767/34348387-a2e64588-ea4d-11e7-8267-a43365103afe.png" alt="Chrome" width="16px" height="16px" /> Chrome | <img src="https://user-images.githubusercontent.com/1215767/34348590-250b3ca2-ea4f-11e7-9efb-da953359321f.png" alt="IE" width="16px" height="16px" /> Internet Explorer | <img src="https://user-images.githubusercontent.com/1215767/34348380-93e77ae8-ea4d-11e7-8696-9a989ddbbbf5.png" alt="Edge" width="16px" height="16px" /> Edge | <img src="https://user-images.githubusercontent.com/1215767/34348394-a981f892-ea4d-11e7-9156-d128d58386b9.png" alt="Safari" width="16px" height="16px" /> Safari | <img src="https://user-images.githubusercontent.com/1215767/34348383-9e7ed492-ea4d-11e7-910c-03b39d52f496.png" alt="Firefox" width="16px" height="16px" /> Firefox |
 | :---------: | :---------: | :---------: | :---------: | :---------: |
-| Yes | 8+ | Yes | Yes | Yes |
+| Yes | 9+ | Yes | Yes | Yes |
 
 
 ## 🔧 Pull Request Steps
@@ -186,7 +186,7 @@ Run npm scripts and develop yourself with the following process.
 
 Fork `develop` branch into your personal repository.
 Clone it to local computer. Install node modules.
-Before starting development, you should check to haveany errors.
+Before starting development, you should check to have any errors.
 
 ``` sh
 $ git clone https://github.com/{your-personal-repo}/tui.context-menu.git
@@ -205,7 +205,6 @@ Don't miss adding test cases and then make green rights.
 
 ``` sh
 $ npm run serve
-$ npm run serve:ie8 # Run on Internet Explorer 8
 ```
 
 #### Run karma test

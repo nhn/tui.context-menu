@@ -1,4 +1,5 @@
-import * as dom from 'tui-dom';
+import hasClass from 'tui-code-snippet/domUtil/hasClass';
+
 import FloatingLayer from '../src/js/floatingLayer.js';
 
 describe('FloatingLayer', () => {
@@ -33,7 +34,7 @@ describe('FloatingLayer', () => {
     expect(style.position).toBe('absolute');
     expect(parseInt(style['z-index'], 10)).toBe(999);
 
-    expect(dom.hasClass(fl.container, 'floating-layer')).toBe(true);
+    expect(hasClass(fl.container, 'floating-layer')).toBe(true);
   });
 
   it('#destroy()', () => {

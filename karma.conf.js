@@ -19,12 +19,6 @@ const webdriverConfig = {
 function setConfig(defaultConfig, server) {
   if (server === 'ne') {
     defaultConfig.customLaunchers = {
-      IE8: {
-        base: 'WebDriver',
-        config: webdriverConfig,
-        browserName: 'internet explorer',
-        version: '8'
-      },
       IE9: {
         base: 'WebDriver',
         config: webdriverConfig,
@@ -66,7 +60,6 @@ function setConfig(defaultConfig, server) {
       }
     };
     defaultConfig.browsers = [
-      'IE8',
       'IE9',
       'IE10',
       'IE11',
@@ -118,11 +111,6 @@ module.exports = function(config) {
       devtool: 'inline-source-map',
       module: {
         rules: [
-          {
-            test: /\.hbs$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'transform-loader?hbsfy'
-          },
           {
             test: /\.js$/,
             exclude: /(node_modules|bower_components)/,
