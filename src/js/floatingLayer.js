@@ -1,4 +1,10 @@
-import * as dom from 'tui-dom';
+import forEachOwnProperties from 'tui-code-snippet/collection/forEachOwnProperties';
+import addClass from 'tui-code-snippet/domUtil/addClass';
+import css from 'tui-code-snippet/domUtil/css';
+import removeElement from 'tui-code-snippet/domUtil/removeElement';
+import extend from 'tui-code-snippet/object/extend';
+import isExisty from 'tui-code-snippet/type/isExisty';
+import isNumber from 'tui-code-snippet/type/isNumber';
 
 /**
  * @class
@@ -23,19 +29,19 @@ class FloatingLayer {
   initializeContainer(manager) {
     manager.appendChild(this.container);
 
-    dom.css(this.container, {
+    css(this.container, {
       display: 'none',
       position: 'absolute',
       'z-index': manager.zIndex
     });
-    dom.addClass(this.container, 'floating-layer');
+    addClass(this.container, 'floating-layer');
   }
 
   /**
    * Destroy view instance
    */
   destroy() {
-    dom.removeElement(this.container);
+    removeElement(this.container);
 
     this.container = null;
   }
@@ -59,21 +65,29 @@ class FloatingLayer {
    *   @param {number} [options.height] - height pixel
    */
   setBound(bound) {
-    dom.setBound(this.container, bound);
+    const newBound = {};
+
+    forEachOwnProperties(bound, (value, prop) => {
+      if (isExisty(value)) {
+        newBound[prop] = isNumber(value) ? `${value}px` : value;
+      }
+    });
+
+    extend(this.container.style, newBound);
   }
 
   /**
    * Show layer
    */
   show() {
-    dom.css(this.container, 'display', 'block');
+    css(this.container, 'display', 'block');
   }
 
   /**
    * Hide layer
    */
   hide() {
-    dom.css(this.container, 'display', 'none');
+    css(this.container, 'display', 'none');
   }
 }
 

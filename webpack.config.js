@@ -7,10 +7,33 @@ const path = require('path');
 const pkg = require('./package.json');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+function getOptimization(isMinified) {
+  if (isMinified) {
+    return {
+      minimizer: [
+        new TerserPlugin({
+          cache: true,
+          parallel: true,
+          sourceMap: false,
+          extractComments: false
+        }),
+        new OptimizeCSSAssetsPlugin()
+      ]
+    };
+  }
+
+  return {
+    minimize: false
+  };
+}
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
-  const FILENAME = pkg.name + (isProduction ? '.min.js' : '.js');
+  const isMinified = !!argv.minify;
+  const FILENAME = pkg.name + (isMinified ? '.min' : '');
   const BANNER = [
     'TOAST UI Context Menu',
     `@version ${pkg.version}`,
@@ -19,37 +42,17 @@ module.exports = (env, argv) => {
   ].join('\n');
 
   return {
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development',
     entry: './src/js/index.js',
     output: {
       library: ['tui', 'ContextMenu'],
       libraryTarget: 'umd',
       path: path.resolve(__dirname, 'dist'),
       publicPath: 'dist/',
-      filename: FILENAME
-    },
-    externals: {
-      'tui-code-snippet': {
-        commonjs: 'tui-code-snippet',
-        commonjs2: 'tui-code-snippet',
-        amd: 'tui-code-snippet',
-        root: ['tui', 'util']
-      },
-      'tui-dom': {
-        commonjs: 'tui-dom',
-        commonjs2: 'tui-dom',
-        amd: 'tui-dom',
-        root: ['tui', 'dom']
-      }
+      filename: `${FILENAME}.js`
     },
     module: {
       rules: [
-        {
-          // Handlebars-loader issue: https://github.com/pcardune/handlebars-loader/issues/106
-          test: /\.hbs$/,
-          exclude: /(test|node_modules|bower_components)/,
-          loader: 'transform-loader?hbsfy'
-        },
         {
           test: /\.js$/,
           exclude: /(test|node_modules|bower_components)/,
@@ -74,9 +77,10 @@ module.exports = (env, argv) => {
       ]
     },
     plugins: [
-      new MiniCssExtractPlugin({filename: `${pkg.name}.css`}),
+      new MiniCssExtractPlugin({filename: `${FILENAME}.css`}),
       new webpack.BannerPlugin(BANNER)
     ],
+    optimization: getOptimization(isMinified),
     devServer: {
       historyApiFallback: false,
       progress: true,
