@@ -1,6 +1,6 @@
 /*!
  * TOAST UI Context Menu
- * @version 2.1.6
+ * @version 2.1.7
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
