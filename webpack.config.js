@@ -10,7 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-function setOptimization(isMinified) {
+function getOptimization(isMinified) {
   if (isMinified) {
     return {
       minimizer: [
@@ -42,7 +42,7 @@ module.exports = (env, argv) => {
   ].join('\n');
 
   return {
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development',
     entry: './src/js/index.js',
     output: {
       library: ['tui', 'ContextMenu'],
@@ -80,7 +80,7 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({filename: `${FILENAME}.css`}),
       new webpack.BannerPlugin(BANNER)
     ],
-    optimization: setOptimization(isMinified),
+    optimization: getOptimization(isMinified),
     devServer: {
       historyApiFallback: false,
       progress: true,
