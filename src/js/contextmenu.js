@@ -33,22 +33,25 @@ const DEFAULT_ZINDEX = 999;
  * @property {MenuItem[]} [menu] - you can define submenu recursivly
  */
 
-/** Toast UI ContextMenu Component */
+/**
+ * tui-context-menu creates a menu when the right mouse button is clicked.
+ * To register a context menu, please refer to {@link ContextMenu#register}.
+ * @class ContextMenu
+ * @param {HTMLElement} container - container for placing context menu floating layers
+ * @param {object} options - options for context menu
+ *   @param {number} [options.delay=130] - delay for displaying submenu
+ *   @param {boolean} [options.usageStatistics=true] Send the hostname to google analytics.
+ *     If you do not want to send the hostname, this option set to false.
+ * @example
+ * //-- #1. Get Module --//
+ * var ContextMenu = require('tui-context-menu'); // node, commonjs
+ * var ContextMenu = tui.ContextMenu; // distribution file
+ *
+ * //-- #2. Use property --//
+ * var container = document.getElementById('context-menu');
+ * var contextMenu = new ContextMenu(container);
+ */
 class ContextMenu {
-  /**
-   * @param {HTMLElement} container - container for placing context menu floating layers
-   * @param {object} options - options for context menu
-   *     @param {number} [options.delay=130] - delay for displaying submenu
-   *     @param {boolean} [options.usageStatistics=true] Send the hostname to google analytics.
-   *         If you do not want to send the hostname, this option set to false.
-   * @example
-   * //-- #1. Get Module --//
-   * var ContextMenu = require('tui-context-menu'); // node, commonjs
-   * var ContextMenu = tui.ContextMenu; // distribution file
-   *
-   * //-- #2. Use property --//
-   * var contextMenu = new ContextMenu(...)
-   */
   constructor(
     container,
     options = {
@@ -437,7 +440,26 @@ class ContextMenu {
    * Register context menu
    * @param {string} selector - css selector for displaying contextmenu at secondary mouse button click
    * @param {function} callback - callback for each menu item clicked
-   * @param {MenuItem[]} menuItems - menu item schema
+   * @param {MenuItem[]} menuItems - {@link MenuItem} schema
+   * @example
+   * const contextMenu = new ContextMenu(document.getElementById('context-menu'));
+   * 
+   * function onClick(ev, cmd) {
+   *   console.log(`${ev.type}ed ${cmd}.`);
+   * }
+   * 
+   * contextMenu.register('#folder', [
+   *   {title: 'Open'},
+   *   {
+   *     title: 'Create',
+   *     menu: [
+   *       {title: 'a File', cmd: 'Create a file'},
+   *       {title: 'a Folder', cmd: 'Create a folder'}
+   *     ]
+   *   }
+   * ]);
+   * 
+   * // When click 'a File': "Create a file"
    */
   register(selector, callback, menuItems) {
     const target = document.querySelector(selector);
