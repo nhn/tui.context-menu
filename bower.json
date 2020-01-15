@@ -15,12 +15,11 @@
     "examples",
     "src",
     "test",
-    "jsdoc.conf.json",
     "karma.conf.js",
-    "webpack.config.js",
-    "package.json"
-  ],
-  "dependencies": {
-    "tui-code-snippet": "^2.2.0"
-  }
+    "package-lock.json",
+    "package.json",
+    "tui-note.config.js",
+    "tuidoc.config.json",
+    "webpack.config.js"
+  ]
 }
