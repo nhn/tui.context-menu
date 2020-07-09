@@ -1,6 +1,6 @@
 /*!
  * TOAST UI Context Menu
- * @version 2.1.7
+ * @version 2.1.8
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
@@ -1145,7 +1145,7 @@ function () {
 
     (0, _preventDefault["default"])(clickEvent);
     this.activeLayer = relatedLayer;
-    var position = (0, _getMousePosition["default"])(clickEvent, document.body || document.documentElement);
+    var position = (0, _getMousePosition["default"])(clickEvent, this.activeLayer.container);
     /* clickEvent's clientX, clientY */
 
     var _position = _slicedToArray(position, 2),
