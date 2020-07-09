@@ -414,7 +414,7 @@ class ContextMenu {
 
     this.activeLayer = relatedLayer;
 
-    const position = getMousePosition(clickEvent, document.body || document.documentElement);
+    const position = getMousePosition(clickEvent, this.activeLayer.container);
 
     /* clickEvent's clientX, clientY */
     const [left, top] = position;
