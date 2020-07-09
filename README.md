@@ -1,4 +1,5 @@
 # TOAST UI Component : Context Menu
+
 > Component that creates a menu when the right mouse button is clicked.
 
 [![GitHub release](https://img.shields.io/github/release/nhn/tui.context-menu.svg)](https://github.com/nhn/tui.context-menu/releases/latest)
@@ -7,23 +8,21 @@
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/nhn/tui.project-name/labels/help%20wanted)
 [![code with hearth by NHN](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-NHN-ff1414.svg)](https://github.com/nhn)
 
-
 <p><a href="https://nhn.github.io/tui.context-menu/latest/"><img src="https://user-images.githubusercontent.com/8615506/64497322-13ec2700-d2e8-11e9-9f6a-a4b6b5dfa4a3.gif" /></a></p>
 
-
 ## 🚩 Table of Contents
-* [Collect statistics on the use of open source](#Collect-statistics-on-the-use-of-open-source)
-* [Documents](#-documents)
-* [Features](#-features)
-* [Examples](#-examples)
-* [Install](#-install)
-* [Usage](#-usage)
-* [Dependency](#-dependency)
-* [Browser Support](#-browser-support)
-* [Pull Request Steps](#-pull-request-steps)
-* [Contributing](#-contributing)
-* [TOAST UI Family](#-toast-ui-family)
-* [License](#-license)
+
+- [Collect statistics on the use of open source](#Collect-statistics-on-the-use-of-open-source)
+- [Documents](#-documents)
+- [Features](#-features)
+- [Examples](#-examples)
+- [Install](#-install)
+- [Usage](#-usage)
+- [Browser Support](#-browser-support)
+- [Pull Request Steps](#-pull-request-steps)
+- [Contributing](#-contributing)
+- [TOAST UI Family](#-toast-ui-family)
+- [License](#-license)
 
 ## Collect statistics on the use of open source
 
@@ -48,24 +47,23 @@ Or, include [`tui-code-snippet`](https://github.com/nhn/tui.code-snippet)(**v2.2
 tui.usageStatistics = false;
 ```
 
-
 ## 📙 Documents
-* [Getting Started](https://github.com/nhn/tui.context-menu/blob/production/docs/getting-started.md)
-* [Tutorials](https://github.com/nhn/tui.context-menu/tree/production/docs)
-* [APIs](https://nhn.github.io/tui.context-menu/latest/)
+
+- [Getting Started](https://github.com/nhn/tui.context-menu/blob/production/docs/getting-started.md)
+- [Tutorials](https://github.com/nhn/tui.context-menu/tree/production/docs)
+- [APIs](https://nhn.github.io/tui.context-menu/latest/)
 
 You can also see the older versions of API page on the [releases page](https://github.com/nhn/tui.context-menu/releases).
 
-
 ## 🎨 Features
-* Creates a context menu hierarchically by data.
-* Makes each menu item enable or disable.
-* Supports custom events.
 
+- Creates a context menu hierarchically by data.
+- Makes each menu item enable or disable.
+- Supports custom events.
 
 ## 🐾 Examples
-* [Basic](https://nhn.github.io/tui.context-menu/latest/tutorial-example01-basic) : Example of using default options.
 
+- [Basic](https://nhn.github.io/tui.context-menu/latest/tutorial-example01-basic) : Example of using default options.
 
 ## 💾 Install
 
@@ -80,25 +78,29 @@ When using npm, be sure to use it in the environment [Node.js](https://nodejs.or
 
 #### npm
 
-``` sh
+```sh
 $ npm install --save tui-context-menu # Latest version
 $ npm install --save tui-context-menu@<version> # Specific version
 ```
 
 #### bower
 
-``` sh
+```sh
 $ bower install tui-context-menu # Latest version
 $ bower install tui-context-menu#<tag> # Specific version
 ```
 
 ### Via Contents Delivery Network (CDN)
+
 TOAST UI products are available over the CDN powered by [TOAST Cloud](https://www.toast.com).
 
 You can use the CDN as below.
 
 ```html
-<link rel="stylesheet" href="https://uicdn.toast.com/tui.context-menu/latest/tui-context-menu.css" />
+<link
+  rel="stylesheet"
+  href="https://uicdn.toast.com/tui.context-menu/latest/tui-context-menu.css"
+/>
 <script src="https://uicdn.toast.com/tui.context-menu/latest/tui-context-menu.js"></script>
 ```
 
@@ -118,9 +120,9 @@ tui.context-menu/
 ```
 
 ### Download Source Files
-* [Download bundle files](https://github.com/nhn/tui.context-menu/tree/production/dist)
-* [Download all sources for each version](https://github.com/nhn/tui.context-menu/releases)
 
+- [Download bundle files](https://github.com/nhn/tui.context-menu/tree/production/dist)
+- [Download all sources for each version](https://github.com/nhn/tui.context-menu/releases)
 
 ## 🔨 Usage
 
@@ -129,7 +131,7 @@ tui.context-menu/
 You need to add two elements.
 One is the container element to display a context menu, and the other is a target element in which a context menu is attached.
 
-``` html
+```html
 <div id="tui-context-menu-container"></div>
 <div id="tui-context-menu-target"></div>
 ```
@@ -140,22 +142,24 @@ This component can be used by creating an instance with the constructor function
 To get the constructor function, you should import the module using one of the following ways depending on your environment.
 
 #### Using namespace in browser environment
-``` javascript
+
+```javascript
 var ContextMenu = tui.ContextMenu;
 ```
 
 #### Using module format in node environment
-``` javascript
+
+```javascript
 var ContextMenu = require('tui-context-menu'); /* CommonJS */
 ```
 
-``` javascript
+```javascript
 import ContextMenu from 'tui-context-menu'; /* ES6 */
 ```
 
 You should call `register` method with [options](https://nhn.github.io/tui.context-menu/latest/ContextMenu#register) after creating an instance to attach a context menu.
 
-``` javascript
+```javascript
 var container = document.getElementById('tui-context-menu-container');
 var target = document.getElementById('tui-context-menu-target');
 
@@ -166,16 +170,11 @@ instance.register(target, { ... });
 
 For more information about the API, please see [here](http://nhn.github.io/tui.context-menu/latest/ContextMenu).
 
-
-## 🔩 Dependency
-* [tui-code-snippet](https://github.com/nhn/tui.code-snippet) >= 2.2.0
-
-
 ## 🌏 Browser Support
-| <img src="https://user-images.githubusercontent.com/1215767/34348387-a2e64588-ea4d-11e7-8267-a43365103afe.png" alt="Chrome" width="16px" height="16px" /> Chrome | <img src="https://user-images.githubusercontent.com/1215767/34348590-250b3ca2-ea4f-11e7-9efb-da953359321f.png" alt="IE" width="16px" height="16px" /> Internet Explorer | <img src="https://user-images.githubusercontent.com/1215767/34348380-93e77ae8-ea4d-11e7-8696-9a989ddbbbf5.png" alt="Edge" width="16px" height="16px" /> Edge | <img src="https://user-images.githubusercontent.com/1215767/34348394-a981f892-ea4d-11e7-9156-d128d58386b9.png" alt="Safari" width="16px" height="16px" /> Safari | <img src="https://user-images.githubusercontent.com/1215767/34348383-9e7ed492-ea4d-11e7-910c-03b39d52f496.png" alt="Firefox" width="16px" height="16px" /> Firefox |
-| :---------: | :---------: | :---------: | :---------: | :---------: |
-| Yes | 9+ | Yes | Yes | Yes |
 
+| <img src="https://user-images.githubusercontent.com/1215767/34348387-a2e64588-ea4d-11e7-8267-a43365103afe.png" alt="Chrome" width="16px" height="16px" /> Chrome | <img src="https://user-images.githubusercontent.com/1215767/34348590-250b3ca2-ea4f-11e7-9efb-da953359321f.png" alt="IE" width="16px" height="16px" /> Internet Explorer | <img src="https://user-images.githubusercontent.com/1215767/34348380-93e77ae8-ea4d-11e7-8696-9a989ddbbbf5.png" alt="Edge" width="16px" height="16px" /> Edge | <img src="https://user-images.githubusercontent.com/1215767/34348394-a981f892-ea4d-11e7-9156-d128d58386b9.png" alt="Safari" width="16px" height="16px" /> Safari | <img src="https://user-images.githubusercontent.com/1215767/34348383-9e7ed492-ea4d-11e7-910c-03b39d52f496.png" alt="Firefox" width="16px" height="16px" /> Firefox |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                                               Yes                                                                                |                                                                                   9+                                                                                    |                                                                             Yes                                                                              |                                                                               Yes                                                                                |                                                                                Yes                                                                                 |
 
 ## 🔧 Pull Request Steps
 
@@ -188,7 +187,7 @@ Fork `develop` branch into your personal repository.
 Clone it to local computer. Install node modules.
 Before starting development, you should check to have any errors.
 
-``` sh
+```sh
 $ git clone https://github.com/{your-personal-repo}/tui.context-menu.git
 $ cd tui.context-menu
 $ npm install
@@ -203,13 +202,13 @@ Don't miss adding test cases and then make green rights.
 
 #### Run webpack-dev-server
 
-``` sh
+```sh
 $ npm run serve
 ```
 
 #### Run karma test
 
-``` sh
+```sh
 $ npm run test
 ```
 
@@ -220,23 +219,21 @@ If it has no error, commit and then push it!
 
 For more information on PR's step, please see links of Contributing section.
 
-
 ## 💬 Contributing
-* [Code of Conduct](https://github.com/nhn/tui.context-menu/blob/master/CODE_OF_CONDUCT.md)
-* [Contributing guideline](https://github.com/nhn/tui.context-menu/blob/master/CONTRIBUTING.md)
-* [Issue guideline](https://github.com/nhn/tui.context-menu/blob/master/ISSUE_TEMPLATE.md)
-* [Commit convention](https://github.com/nhn/tui.context-menu/blob/master/docs/COMMIT_MESSAGE_CONVENTION.md)
 
+- [Code of Conduct](https://github.com/nhn/tui.context-menu/blob/master/CODE_OF_CONDUCT.md)
+- [Contributing guideline](https://github.com/nhn/tui.context-menu/blob/master/CONTRIBUTING.md)
+- [Issue guideline](https://github.com/nhn/tui.context-menu/blob/master/ISSUE_TEMPLATE.md)
+- [Commit convention](https://github.com/nhn/tui.context-menu/blob/master/docs/COMMIT_MESSAGE_CONVENTION.md)
 
 ## 🍞 TOAST UI Family
 
-* [TOAST UI Editor](https://github.com/nhn/tui.editor)
-* [TOAST UI Calendar](https://github.com/nhn/tui.calendar)
-* [TOAST UI Chart](https://github.com/nhn/tui.chart)
-* [TOAST UI Image-Editor](https://github.com/nhn/tui.image-editor)
-* [TOAST UI Grid](https://github.com/nhn/tui.grid)
-* [TOAST UI Components](https://github.com/nhn)
-
+- [TOAST UI Editor](https://github.com/nhn/tui.editor)
+- [TOAST UI Calendar](https://github.com/nhn/tui.calendar)
+- [TOAST UI Chart](https://github.com/nhn/tui.chart)
+- [TOAST UI Image-Editor](https://github.com/nhn/tui.image-editor)
+- [TOAST UI Grid](https://github.com/nhn/tui.grid)
+- [TOAST UI Components](https://github.com/nhn)
 
 ## 📜 License
 
