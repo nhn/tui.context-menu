@@ -16,7 +16,7 @@ describe('ContextMenu component', () => {
   it('use selector for displaying context menu.', () => {
     const cm = new ContextMenu(document.querySelector('#flContainer'));
 
-    cm.register('#menu1', null, [
+    cm.register(document.querySelector('#menu1'), null, [
       {
         title: 'open'
       }
@@ -57,7 +57,7 @@ describe('ContextMenu component', () => {
   it('show context menus that only below of mouse cursor.', () => {
     const cm = new ContextMenu(document.querySelector('#flContainer'));
 
-    cm.register('#menu1', null, [
+    cm.register(document.querySelector('#menu1'), null, [
       {
         title: 'a',
         menu: [
@@ -104,7 +104,7 @@ describe('ContextMenu component', () => {
     const cm = new ContextMenu(document.querySelector('#flContainer')),
       callback = jasmine.createSpy('contextMenu');
 
-    cm.register('#menu1', callback, [
+    cm.register(document.querySelector('#menu1'), callback, [
       {
         title: 'open'
       }
@@ -126,13 +126,13 @@ describe('ContextMenu component', () => {
     const cm = new ContextMenu(document.querySelector('#flContainer')),
       callback = jasmine.createSpy('contextMenu');
 
-    cm.register('#menu1', callback, [
+    cm.register(document.querySelector('#menu1'), callback, [
       {
         title: 'open'
       }
     ]);
 
-    cm.unregister('#menu1');
+    cm.unregister(document.querySelector('#menu1'));
 
     expect(cm.layerMap._values.length).toBe(0);
     expect(document.querySelectorAll('.floating-layer').length).toBe(0);
@@ -144,7 +144,7 @@ describe('ContextMenu component', () => {
     beforeEach(() => {
       ce = new ContextMenu(document.querySelector('#flContainer'));
 
-      ce.register('#menu1', null, [
+      ce.register(document.querySelector('#menu1'), null, [
         {title: 'root-a'},
         {
           title: 'root-b',
@@ -187,7 +187,7 @@ describe('ContextMenu component', () => {
       cm = new ContextMenu(document.querySelector('#flContainer'));
       callback = jasmine.createSpy('contextMenu');
 
-      cm.register('#menu1', callback, [
+      cm.register(document.querySelector('#menu1'), callback, [
         {title: 'menu-disable1', disable: true},
         {title: 'menu-enable'},
         {title: 'menu-disable2', disable: true}

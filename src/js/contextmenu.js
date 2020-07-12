@@ -438,7 +438,7 @@ class ContextMenu {
 
   /**
    * Register context menu
-   * @param {string} selector - css selector for displaying contextmenu at secondary mouse button click
+   * @param {HTMLElement} target - target element for displaying contextmenu at secondary mouse button click
    * @param {function} callback - callback for each menu item clicked
    * @param {MenuItem[]} menuItems - {@link MenuItem} schema
    * @example
@@ -448,7 +448,7 @@ class ContextMenu {
    *   console.log(`${ev.type}ed ${cmd}.`);
    * }
    * 
-   * contextMenu.register('#folder', [
+   * contextMenu.register(document.querySelector('#folder'), [
    *   {title: 'Open'},
    *   {
    *     title: 'Create',
@@ -461,9 +461,7 @@ class ContextMenu {
    * 
    * // When click 'a File': "Create a file"
    */
-  register(selector, callback, menuItems) {
-    const target = document.querySelector(selector);
-
+  register(target, callback, menuItems) {
     if (!target) {
       return;
     }
@@ -483,12 +481,11 @@ class ContextMenu {
 
   /**
    * Unregister context menu
-   * @param {string} selector - css selector used for register context menu
+   * @param {HTMLElement} target - target used for register context menu
    * @returns {boolean} whether unregister is successful?
    */
-  unregister(selector) {
+  unregister(target) {
     const {layerMap} = this;
-    const target = document.querySelector(selector);
 
     if (!target) {
       return false;
