@@ -44,12 +44,18 @@ const DEFAULT_ZINDEX = 999;
  *     If you do not want to send the hostname, this option set to false.
  * @example
  * //-- #1. Get Module --//
- * var ContextMenu = require('tui-context-menu'); // node, commonjs
- * var ContextMenu = tui.ContextMenu; // distribution file
+ * //ES6
+ * import ContextMenu from 'tui-context-menu';
+ * 
+ * // CommonJS
+ * const ContextMenu = require('tui-context-menu'); 
+ * 
+ * // Browser
+ * const ContextMenu = tui.ContextMenu;
  *
  * //-- #2. Use property --//
- * var container = document.getElementById('context-menu');
- * var contextMenu = new ContextMenu(container);
+ * const container = document.getElementById('context-menu');
+ * const contextMenu = new ContextMenu(container);
  */
 class ContextMenu {
   constructor(

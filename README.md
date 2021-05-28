@@ -12,17 +12,31 @@
 
 ## 🚩 Table of Contents
 
-- [Collect statistics on the use of open source](#Collect-statistics-on-the-use-of-open-source)
-- [Documents](#-documents)
-- [Features](#-features)
-- [Examples](#-examples)
-- [Install](#-install)
-- [Usage](#-usage)
-- [Browser Support](#-browser-support)
-- [Pull Request Steps](#-pull-request-steps)
-- [Contributing](#-contributing)
-- [TOAST UI Family](#-toast-ui-family)
-- [License](#-license)
+- [Collect statistics on the use of open source](#collect-statistics-on-the-use-of-open-source)
+- [📙 Documents](#-documents)
+- [🎨 Features](#-features)
+- [🐾 Examples](#-examples)
+- [💾 Install](#-install)
+  - [Via Package Manager](#via-package-manager)
+    - [npm](#npm)
+    - [bower](#bower)
+  - [Via Contents Delivery Network (CDN)](#via-contents-delivery-network-cdn)
+  - [Download Source Files](#download-source-files)
+- [🔨 Usage](#-usage)
+  - [HTML](#html)
+  - [JavaScript](#javascript)
+    - [Using namespace in browser environment](#using-namespace-in-browser-environment)
+    - [Using module format in node environment](#using-module-format-in-node-environment)
+- [🌏 Browser Support](#-browser-support)
+- [🔧 Pull Request Steps](#-pull-request-steps)
+  - [Setup](#setup)
+  - [Develop](#develop)
+    - [Run webpack-dev-server](#run-webpack-dev-server)
+    - [Run karma test](#run-karma-test)
+  - [Pull Request](#pull-request)
+- [💬 Contributing](#-contributing)
+- [🍞 TOAST UI Family](#-toast-ui-family)
+- [📜 License](#-license)
 
 ## Collect statistics on the use of open source
 
@@ -34,11 +48,11 @@ To disable GA, use the following `usageStatistics` option when creating the inst
 
 ```js
 
-var options = {
+const options = {
     ...
     usageStatistics: false
 }
-var instance = new ContextMenu(container, options);
+const instance = new ContextMenu(container, options);
 ```
 
 Or, include [`tui-code-snippet`](https://github.com/nhn/tui.code-snippet)(**v2.2.0** or **later**) and then immediately write the options as follows:
@@ -144,13 +158,13 @@ To get the constructor function, you should import the module using one of the f
 #### Using namespace in browser environment
 
 ```javascript
-var ContextMenu = tui.ContextMenu;
+const ContextMenu = tui.ContextMenu;
 ```
 
 #### Using module format in node environment
 
 ```javascript
-var ContextMenu = require('tui-context-menu'); /* CommonJS */
+const ContextMenu = require('tui-context-menu'); /* CommonJS */
 ```
 
 ```javascript
@@ -160,10 +174,10 @@ import ContextMenu from 'tui-context-menu'; /* ES6 */
 You should call `register` method with [options](https://nhn.github.io/tui.context-menu/latest/ContextMenu#register) after creating an instance to attach a context menu.
 
 ```javascript
-var container = document.getElementById('tui-context-menu-container');
-var target = document.getElementById('tui-context-menu-target');
+const container = document.getElementById('tui-context-menu-container');
+const target = document.getElementById('tui-context-menu-target');
 
-var instance = new ContextMenu(container);
+const instance = new ContextMenu(container);
 
 instance.register(target, { ... });
 ```
