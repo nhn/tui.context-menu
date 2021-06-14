@@ -32,7 +32,7 @@
   - [Setup](#setup)
   - [Develop](#develop)
     - [Run webpack-dev-server](#run-webpack-dev-server)
-    - [Run karma test](#run-karma-test)
+    - [Run jest test](#run-jest-test)
   - [Pull Request](#pull-request)
 - [💬 Contributing](#-contributing)
 - [🍞 TOAST UI Family](#-toast-ui-family)
@@ -220,7 +220,7 @@ Don't miss adding test cases and then make green rights.
 $ npm run serve
 ```
 
-#### Run karma test
+#### Run jest test
 
 ```sh
 $ npm run test
