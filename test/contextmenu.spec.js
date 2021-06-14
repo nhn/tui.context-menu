@@ -3,14 +3,12 @@ import * as util from '../src/js/util';
 
 describe('ContextMenu component', () => {
   beforeEach(() => {
-    fixture.set(
-      [
-        '<style>html, body { overflow: hidden; }</style>',
-        '<div id="menu1"></div>',
-        '<div id="menu2"></div>',
-        '<div id="flContainer"></div>'
-      ].join('')
-    );
+    document.body.innerHTML = [
+      '<style>html, body { overflow: hidden; }</style>',
+      '<div id="menu1"></div>',
+      '<div id="menu2"></div>',
+      '<div id="flContainer"></div>'
+    ].join('');
   });
 
   it('use selector for displaying context menu.', () => {
@@ -28,10 +26,10 @@ describe('ContextMenu component', () => {
   });
 
   describe('use "usageStatistics" option', () => {
-    let container, cm, sendHostName;
+    let container, cm;
 
     beforeEach(() => {
-      sendHostName = spyOn(util, 'sendHostName');
+      util.sendHostName = jest.fn();
       container = document.querySelector('#flContainer');
     });
 
@@ -42,7 +40,7 @@ describe('ContextMenu component', () => {
     it('when the value set to true by default, the host name is send.', () => {
       cm = new ContextMenu(container);
 
-      expect(sendHostName).toHaveBeenCalled();
+      expect(util.sendHostName).toHaveBeenCalled();
     });
 
     it('when the value set to false, the host name is not send to server.', () => {
@@ -50,7 +48,7 @@ describe('ContextMenu component', () => {
         usageStatistics: false
       });
 
-      expect(sendHostName).not.toHaveBeenCalled();
+      expect(util.sendHostName).not.toHaveBeenCalled();
     });
   });
 
@@ -102,7 +100,7 @@ describe('ContextMenu component', () => {
 
   it('invoke callback when menu item clicked.', () => {
     const cm = new ContextMenu(document.querySelector('#flContainer')),
-      callback = jasmine.createSpy('contextMenu');
+      callback = jest.fn();
 
     cm.register('#menu1', callback, [
       {
@@ -117,6 +115,8 @@ describe('ContextMenu component', () => {
       preventDefault() {}
     };
 
+    mockMouseClick.target.innerText = mockMouseClick.target.textContent;
+
     cm._onMouseClick(mockMouseClick);
 
     expect(callback).toHaveBeenCalledWith(mockMouseClick, 'open');
@@ -124,7 +124,7 @@ describe('ContextMenu component', () => {
 
   it('can unregister registered context menu.', () => {
     const cm = new ContextMenu(document.querySelector('#flContainer')),
-      callback = jasmine.createSpy('contextMenu');
+      callback = jest.fn();
 
     cm.register('#menu1', callback, [
       {
@@ -160,6 +160,10 @@ describe('ContextMenu component', () => {
     });
 
     it('menu element.', () => {
+      HTMLDivElement.prototype.getBoundingClientRect = jest.fn(() => {
+        return {right: -10, bottom: -10};
+      });
+
       ce._showRootMenu(10, 10);
 
       const menu = ce.activeLayer.container.querySelector('.tui-contextmenu-root');
@@ -171,6 +175,10 @@ describe('ContextMenu component', () => {
     it('root menu element without veil viewport limit.', () => {
       // When it is rendering outside of viewport,
       // size of menu is set to 180 as a default
+      HTMLDivElement.prototype.getBoundingClientRect = jest.fn(() => {
+        return {right: 20, bottom: 20};
+      });
+
       ce._showRootMenu(vWidth - 20, vHeight - 20);
 
       const menu = ce.activeLayer.container.querySelector('.tui-contextmenu-root');
@@ -185,7 +193,7 @@ describe('ContextMenu component', () => {
 
     beforeEach(() => {
       cm = new ContextMenu(document.querySelector('#flContainer'));
-      callback = jasmine.createSpy('contextMenu');
+      callback = jest.fn();
 
       cm.register('#menu1', callback, [
         {title: 'menu-disable1', disable: true},
@@ -206,7 +214,9 @@ describe('ContextMenu component', () => {
         preventDefault() {}
       };
 
-      spyOn(cm, '_hideContextMenu');
+      mockMouseClick.target.innerText = mockMouseClick.target.textContent;
+
+      cm._hideContextMenu = jest.fn();
 
       cm._onMouseClick(mockMouseClick);
 
