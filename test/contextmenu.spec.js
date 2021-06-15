@@ -205,7 +205,7 @@ describe('ContextMenu component', () => {
     it('menus that have disable state are generated.', () => {
       const menus = cm.container.querySelectorAll('.tui-contextmenu-disable');
 
-      expect(menus.length).toEqual(2);
+      expect(menus.length).toBe(2);
     });
 
     it('when click the disabled menu, the context menu is hidden.', () => {
