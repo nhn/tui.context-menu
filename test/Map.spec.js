@@ -147,10 +147,9 @@ describe('Map', () => {
   });
 
   describe('forEach() executes a function once per each key/value pair', () => {
-    let string;
+    const spy = jest.fn();
 
     beforeEach(() => {
-      string = '';
       map.set(1, '1');
       map.set(null, '2');
       map.set('3', '3');
@@ -158,23 +157,32 @@ describe('Map', () => {
 
     it('in insertion order', () => {
       map.forEach(value => {
-        string += value;
+        spy(value);
       });
-      expect(string).toBe('123');
+
+      expect(spy).toHaveBeenNthCalledWith(1, '1');
+      expect(spy).toHaveBeenNthCalledWith(2, '2');
+      expect(spy).toHaveBeenNthCalledWith(3, '3');
     });
 
     it('second argument is key', () => {
       map.forEach((value, key) => {
-        string += key;
+        spy(key);
       });
-      expect(string).toBe('1null3');
+
+      expect(spy).toHaveBeenNthCalledWith(1, 1);
+      expect(spy).toHaveBeenNthCalledWith(2, null);
+      expect(spy).toHaveBeenNthCalledWith(3, '3');
     });
 
     it('third argument is map itself', () => {
       map.forEach((value, key, thisMap) => {
-        string += thisMap.get(key);
+        spy(thisMap.get(key));
       });
-      expect(string).toBe('123');
+
+      expect(spy).toHaveBeenNthCalledWith(1, '1');
+      expect(spy).toHaveBeenNthCalledWith(2, '2');
+      expect(spy).toHaveBeenNthCalledWith(3, '3');
     });
 
     it('context can be set', () => {
@@ -182,9 +190,12 @@ describe('Map', () => {
 
       // eslint-disable-next-line prefer-arrow-callback
       map.forEach(function(value) {
-        string += value + this.value;
+        spy(value, this.value);
       }, context);
-      expect(string).toBe('102030');
+
+      expect(spy).toHaveBeenNthCalledWith(1, '1', '0');
+      expect(spy).toHaveBeenNthCalledWith(2, '2', '0');
+      expect(spy).toHaveBeenNthCalledWith(3, '3', '0');
     });
   });
 });

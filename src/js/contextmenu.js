@@ -185,7 +185,7 @@ class ContextMenu {
   /* eslint-disable complexity */
   _onMouseClick(clickEvent) {
     const target = clickEvent.target || clickEvent.srcElement;
-    const title = target.innerText.trim();
+    const title = target.textContent.trim();
     const command = getData(target, 'command');
     const container = closest(target, '.floating-layer');
     const isMenuButton = hasClass(target, 'tui-contextmenu-button');

@@ -3,12 +3,11 @@ import * as util from '../src/js/util';
 
 describe('ContextMenu component', () => {
   beforeEach(() => {
-    document.body.innerHTML = [
-      '<style>html, body { overflow: hidden; }</style>',
-      '<div id="menu1"></div>',
-      '<div id="menu2"></div>',
-      '<div id="flContainer"></div>'
-    ].join('');
+    document.body.innerHTML = `
+      <style>html, body { overflow: hidden; }</style>
+      <div id="menu1"></div>
+      <div id="menu2"></div>
+      <div id="flContainer"></div>`;
   });
 
   it('use selector for displaying context menu.', () => {
@@ -115,8 +114,6 @@ describe('ContextMenu component', () => {
       preventDefault() {}
     };
 
-    mockMouseClick.target.innerText = mockMouseClick.target.textContent;
-
     cm._onMouseClick(mockMouseClick);
 
     expect(callback).toHaveBeenCalledWith(mockMouseClick, 'open');
@@ -213,8 +210,6 @@ describe('ContextMenu component', () => {
         target: cm.container.querySelector('.tui-contextmenu-disable'),
         preventDefault() {}
       };
-
-      mockMouseClick.target.innerText = mockMouseClick.target.textContent;
 
       cm._hideContextMenu = jest.fn();
 
