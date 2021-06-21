@@ -31,8 +31,8 @@
 - [🔧 Pull Request Steps](#-pull-request-steps)
   - [Setup](#setup)
   - [Develop](#develop)
-    - [Run webpack-dev-server](#run-webpack-dev-server)
-    - [Run karma test](#run-karma-test)
+    - [Running dev server](#running-dev-server)
+    - [Running test](#running-test)
   - [Pull Request](#pull-request)
 - [💬 Contributing](#-contributing)
 - [🍞 TOAST UI Family](#-toast-ui-family)
@@ -214,13 +214,13 @@ Let's start development!
 You can see your code is reflected as soon as you saving the codes by running a server.
 Don't miss adding test cases and then make green rights.
 
-#### Run webpack-dev-server
+#### Running dev server
 
 ```sh
 $ npm run serve
 ```
 
-#### Run karma test
+#### Running test
 
 ```sh
 $ npm run test
