@@ -420,10 +420,8 @@ class ContextMenu {
 
     this.activeLayer = relatedLayer;
 
-    const position = getMousePosition(clickEvent, this.activeLayer.container);
+    const {left, top} = this.getMousePosition(clickEvent);
 
-    /* clickEvent's clientX, clientY */
-    const [left, top] = position;
     const debouncedMouseMove = debounce(mouseMoveEvent => this._onMouseMove(mouseMoveEvent), opt.delay);
 
     this.cloneMouseMoveEvent = function(mouseMoveEvent) {
@@ -440,6 +438,25 @@ class ContextMenu {
     on(document, 'mousedown', this._onMouseDown, this);
     on(document, 'click', this._onMouseClick, this);
     on(document, 'scroll', this._onPageScroll, this);
+  }
+
+  /**
+   * Get mouse postion
+   * @param {MouseEvent} clickEvent - mouse event object
+   * @returns {Object} object of mouse position contains left and top
+   * @private
+   */
+  getMousePosition(clickEvent) {
+    const position = getMousePosition(clickEvent, this.activeLayer.container);
+
+    /* clickEvent's clientX, clientY */
+    let [left, top] = position;
+    const {scrollLeft, scrollTop} = document.documentElement;
+
+    left += scrollLeft;
+    top += scrollTop;
+
+    return {left, top};
   }
 
   /**
