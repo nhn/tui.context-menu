@@ -6,7 +6,6 @@
 import forEachArray from 'tui-code-snippet/collection/forEachArray';
 import off from 'tui-code-snippet/domEvent/off';
 import on from 'tui-code-snippet/domEvent/on';
-import getMousePosition from 'tui-code-snippet/domEvent/getMousePosition';
 import preventDefault from 'tui-code-snippet/domEvent/preventDefault';
 import addClass from 'tui-code-snippet/domUtil/addClass';
 import closest from 'tui-code-snippet/domUtil/closest';
@@ -19,7 +18,7 @@ import debounce from 'tui-code-snippet/tricks/debounce';
 
 import FloatingLayer from './floatingLayer';
 import Map from './Map';
-import {sendHostName} from './util';
+import {sendHostName, getMousePosition} from './util';
 import tmpl from '../template/contextmenu';
 
 const DEFAULT_ZINDEX = 999;
@@ -420,7 +419,7 @@ class ContextMenu {
 
     this.activeLayer = relatedLayer;
 
-    const {left, top} = this.getMousePosition(clickEvent);
+    const {left, top} = getMousePosition(clickEvent, this.activeLayer.container);
 
     const debouncedMouseMove = debounce(mouseMoveEvent => this._onMouseMove(mouseMoveEvent), opt.delay);
 
@@ -438,25 +437,6 @@ class ContextMenu {
     on(document, 'mousedown', this._onMouseDown, this);
     on(document, 'click', this._onMouseClick, this);
     on(document, 'scroll', this._onPageScroll, this);
-  }
-
-  /**
-   * Get mouse postion
-   * @param {MouseEvent} clickEvent - mouse event object
-   * @returns {Object} object of mouse position contains left and top
-   * @private
-   */
-  getMousePosition(clickEvent) {
-    const position = getMousePosition(clickEvent, this.activeLayer.container);
-
-    /* clickEvent's clientX, clientY */
-    let [left, top] = position;
-    const {scrollLeft, scrollTop} = document.documentElement;
-
-    left += scrollLeft;
-    top += scrollTop;
-
-    return {left, top};
   }
 
   /**
