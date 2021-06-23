@@ -6,7 +6,6 @@
 import forEachArray from 'tui-code-snippet/collection/forEachArray';
 import off from 'tui-code-snippet/domEvent/off';
 import on from 'tui-code-snippet/domEvent/on';
-import getMousePosition from 'tui-code-snippet/domEvent/getMousePosition';
 import preventDefault from 'tui-code-snippet/domEvent/preventDefault';
 import addClass from 'tui-code-snippet/domUtil/addClass';
 import closest from 'tui-code-snippet/domUtil/closest';
@@ -19,7 +18,7 @@ import debounce from 'tui-code-snippet/tricks/debounce';
 
 import FloatingLayer from './floatingLayer';
 import Map from './Map';
-import {sendHostName} from './util';
+import {sendHostName, getMousePosition} from './util';
 import tmpl from '../template/contextmenu';
 
 const DEFAULT_ZINDEX = 999;
@@ -420,10 +419,8 @@ class ContextMenu {
 
     this.activeLayer = relatedLayer;
 
-    const position = getMousePosition(clickEvent, this.activeLayer.container);
+    const {left, top} = getMousePosition(clickEvent, this.activeLayer.container);
 
-    /* clickEvent's clientX, clientY */
-    const [left, top] = position;
     const debouncedMouseMove = debounce(mouseMoveEvent => this._onMouseMove(mouseMoveEvent), opt.delay);
 
     this.cloneMouseMoveEvent = function(mouseMoveEvent) {
