@@ -1,6 +1,6 @@
 /*!
  * TOAST UI Context Menu
- * @version 2.1.8
+ * @version 2.1.9
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
-var isArray = __webpack_require__(3);
+var isArray = __webpack_require__(4);
 
 /**
  * @module array
@@ -224,7 +224,7 @@ module.exports = forEachArray;
 
 
 
-var isArray = __webpack_require__(3);
+var isArray = __webpack_require__(4);
 var forEachArray = __webpack_require__(1);
 var forEachOwnProperties = __webpack_require__(6);
 
@@ -277,32 +277,6 @@ module.exports = forEach;
 
 "use strict";
 /**
- * @fileoverview Check whether the given variable is an instance of Array or not.
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
- */
-
-
-
-/**
- * Check whether the given variable is an instance of Array or not.
- * If the given variable is an instance of Array, return true.
- * @param {*} obj - Target for checking
- * @returns {boolean} Is array instance?
- * @memberof module:type
- */
-function isArray(obj) {
-  return obj instanceof Array;
-}
-
-module.exports = isArray;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
  * @fileoverview Check whether the given variable is a string or not.
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  */
@@ -321,6 +295,32 @@ function isString(obj) {
 }
 
 module.exports = isString;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is an instance of Array or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+/**
+ * Check whether the given variable is an instance of Array or not.
+ * If the given variable is an instance of Array, return true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is array instance?
+ * @memberof module:type
+ */
+function isArray(obj) {
+  return obj instanceof Array;
+}
+
+module.exports = isArray;
 
 
 /***/ }),
@@ -588,7 +588,7 @@ module.exports = addClass;
 
 
 
-var isArray = __webpack_require__(3);
+var isArray = __webpack_require__(4);
 var isUndefined = __webpack_require__(5);
 
 /**
@@ -626,7 +626,7 @@ module.exports = setClassName;
 
 
 
-var isString = __webpack_require__(4);
+var isString = __webpack_require__(3);
 var forEach = __webpack_require__(2);
 
 /**
@@ -694,44 +694,38 @@ var _off = _interopRequireDefault(__webpack_require__(16));
 
 var _on = _interopRequireDefault(__webpack_require__(17));
 
-var _getMousePosition = _interopRequireDefault(__webpack_require__(18));
-
-var _preventDefault = _interopRequireDefault(__webpack_require__(19));
+var _preventDefault = _interopRequireDefault(__webpack_require__(18));
 
 var _addClass = _interopRequireDefault(__webpack_require__(10));
 
-var _closest = _interopRequireDefault(__webpack_require__(20));
+var _closest = _interopRequireDefault(__webpack_require__(19));
 
 var _css = _interopRequireDefault(__webpack_require__(12));
 
-var _getData = _interopRequireDefault(__webpack_require__(23));
+var _getData = _interopRequireDefault(__webpack_require__(22));
 
-var _hasClass = _interopRequireDefault(__webpack_require__(25));
+var _hasClass = _interopRequireDefault(__webpack_require__(24));
 
-var _removeClass = _interopRequireDefault(__webpack_require__(26));
+var _removeClass = _interopRequireDefault(__webpack_require__(25));
 
 var _extend = _interopRequireDefault(__webpack_require__(8));
 
-var _debounce = _interopRequireDefault(__webpack_require__(27));
+var _debounce = _interopRequireDefault(__webpack_require__(26));
 
-var _floatingLayer = _interopRequireDefault(__webpack_require__(28));
+var _floatingLayer = _interopRequireDefault(__webpack_require__(27));
 
-var _Map = _interopRequireDefault(__webpack_require__(33));
+var _Map = _interopRequireDefault(__webpack_require__(32));
 
-var _util = __webpack_require__(34);
+var _util = __webpack_require__(33);
 
-var _contextmenu = _interopRequireDefault(__webpack_require__(37));
+var _contextmenu = _interopRequireDefault(__webpack_require__(36));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+/**
+ * @fileoverview Context menu component
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
 var DEFAULT_ZINDEX = 999;
 /**
  * @typedef {object} MenuItem
@@ -753,12 +747,18 @@ var DEFAULT_ZINDEX = 999;
  *     If you do not want to send the hostname, this option set to false.
  * @example
  * //-- #1. Get Module --//
- * var ContextMenu = require('tui-context-menu'); // node, commonjs
- * var ContextMenu = tui.ContextMenu; // distribution file
+ * //ES6
+ * import ContextMenu from 'tui-context-menu';
+ * 
+ * // CommonJS
+ * const ContextMenu = require('tui-context-menu'); 
+ * 
+ * // Browser
+ * const ContextMenu = tui.ContextMenu;
  *
  * //-- #2. Use property --//
- * var container = document.getElementById('context-menu');
- * var contextMenu = new ContextMenu(container);
+ * const container = document.getElementById('context-menu');
+ * const contextMenu = new ContextMenu(container);
  */
 
 var ContextMenu =
@@ -898,7 +898,7 @@ function () {
     var _this = this;
 
     var target = clickEvent.target || clickEvent.srcElement;
-    var title = target.innerText.trim();
+    var title = target.textContent.trim();
     var command = (0, _getData["default"])(target, 'command');
     var container = (0, _closest["default"])(target, '.floating-layer');
     var isMenuButton = (0, _hasClass["default"])(target, 'tui-contextmenu-button');
@@ -1145,12 +1145,10 @@ function () {
 
     (0, _preventDefault["default"])(clickEvent);
     this.activeLayer = relatedLayer;
-    var position = (0, _getMousePosition["default"])(clickEvent, this.activeLayer.container);
-    /* clickEvent's clientX, clientY */
 
-    var _position = _slicedToArray(position, 2),
-        left = _position[0],
-        top = _position[1];
+    var _getMousePosition = (0, _util.getMousePosition)(clickEvent, this.activeLayer.container),
+        left = _getMousePosition.left,
+        top = _getMousePosition.top;
 
     var debouncedMouseMove = (0, _debounce["default"])(function (mouseMoveEvent) {
       return _this3._onMouseMove(mouseMoveEvent);
@@ -1266,7 +1264,7 @@ exports["default"] = _default;
 
 
 
-var isString = __webpack_require__(4);
+var isString = __webpack_require__(3);
 var forEach = __webpack_require__(2);
 
 var safeEvent = __webpack_require__(9);
@@ -1374,7 +1372,7 @@ module.exports = off;
 
 
 
-var isString = __webpack_require__(4);
+var isString = __webpack_require__(3);
 var forEach = __webpack_require__(2);
 
 var safeEvent = __webpack_require__(9);
@@ -1489,52 +1487,6 @@ module.exports = on;
 
 "use strict";
 /**
- * @fileoverview Get mouse position from mouse event
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
- */
-
-
-
-var isArray = __webpack_require__(3);
-
-/**
- * Get mouse position from mouse event
- *
- * If supplied relatveElement parameter then return relative position based on
- *  element
- * @param {(MouseEvent|object|number[])} position - mouse position object
- * @param {HTMLElement} relativeElement HTML element that calculate relative
- *  position
- * @returns {number[]} mouse position
- * @memberof module:domEvent
- */
-function getMousePosition(position, relativeElement) {
-  var positionArray = isArray(position);
-  var clientX = positionArray ? position[0] : position.clientX;
-  var clientY = positionArray ? position[1] : position.clientY;
-  var rect;
-
-  if (!relativeElement) {
-    return [clientX, clientY];
-  }
-
-  rect = relativeElement.getBoundingClientRect();
-
-  return [
-    clientX - rect.left - relativeElement.clientLeft,
-    clientY - rect.top - relativeElement.clientTop
-  ];
-}
-
-module.exports = getMousePosition;
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
  * @fileoverview Prevent default action
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  */
@@ -1560,7 +1512,7 @@ module.exports = preventDefault;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1571,7 +1523,7 @@ module.exports = preventDefault;
 
 
 
-var matches = __webpack_require__(21);
+var matches = __webpack_require__(20);
 
 /**
  * Find parent element recursively
@@ -1602,7 +1554,7 @@ module.exports = closest;
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1614,7 +1566,7 @@ module.exports = closest;
 
 
 var inArray = __webpack_require__(0);
-var toArray = __webpack_require__(22);
+var toArray = __webpack_require__(21);
 
 var elProto = Element.prototype;
 var matchSelector = elProto.matches ||
@@ -1642,7 +1594,7 @@ module.exports = matches;
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1694,7 +1646,7 @@ module.exports = toArray;
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1705,7 +1657,7 @@ module.exports = toArray;
 
 
 
-var convertToKebabCase = __webpack_require__(24);
+var convertToKebabCase = __webpack_require__(23);
 
 /**
  * Get data value from data-attribute
@@ -1726,7 +1678,7 @@ module.exports = getData;
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1752,7 +1704,7 @@ module.exports = convertToKebabCase;
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1789,7 +1741,7 @@ module.exports = hasClass;
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1839,7 +1791,7 @@ module.exports = removeClass;
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1900,7 +1852,7 @@ module.exports = debounce;
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1915,13 +1867,13 @@ var _addClass = _interopRequireDefault(__webpack_require__(10));
 
 var _css = _interopRequireDefault(__webpack_require__(12));
 
-var _removeElement = _interopRequireDefault(__webpack_require__(29));
+var _removeElement = _interopRequireDefault(__webpack_require__(28));
 
 var _extend = _interopRequireDefault(__webpack_require__(8));
 
-var _isExisty = _interopRequireDefault(__webpack_require__(30));
+var _isExisty = _interopRequireDefault(__webpack_require__(29));
 
-var _isNumber = _interopRequireDefault(__webpack_require__(32));
+var _isNumber = _interopRequireDefault(__webpack_require__(31));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -2021,7 +1973,7 @@ var _default = FloatingLayer;
 exports["default"] = _default;
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2047,7 +1999,7 @@ module.exports = removeElement;
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2059,7 +2011,7 @@ module.exports = removeElement;
 
 
 var isUndefined = __webpack_require__(5);
-var isNull = __webpack_require__(31);
+var isNull = __webpack_require__(30);
 
 /**
  * Check whether the given variable is existing or not.
@@ -2085,7 +2037,7 @@ module.exports = isExisty;
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2111,7 +2063,7 @@ module.exports = isNull;
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2137,7 +2089,7 @@ module.exports = isNumber;
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2217,16 +2169,16 @@ var _default = Map;
 exports["default"] = _default;
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 exports.__esModule = true;
-exports.sendHostName = void 0;
+exports.getMousePosition = exports.sendHostName = void 0;
 
-var _sendHostname = _interopRequireDefault(__webpack_require__(35));
+var _sendHostname = _interopRequireDefault(__webpack_require__(34));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -2242,11 +2194,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var sendHostName = function sendHostName() {
   (0, _sendHostname["default"])('context-menu', 'UA-129987462-1');
 };
+/**
+   * Get mouse postion
+   * @param {MouseEvent} clickEvent - mouse event object
+   * @returns {Object} object of mouse position contains left and top
+   * @private
+   */
+
 
 exports.sendHostName = sendHostName;
 
+var getMousePosition = function getMousePosition(clickEvent) {
+  var left = clickEvent.pageX,
+      top = clickEvent.pageY;
+  return {
+    left: left,
+    top: top
+  };
+};
+
+exports.getMousePosition = getMousePosition;
+
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2258,7 +2228,7 @@ exports.sendHostName = sendHostName;
 
 
 var isUndefined = __webpack_require__(5);
-var imagePing = __webpack_require__(36);
+var imagePing = __webpack_require__(35);
 
 var ms7days = 7 * 24 * 60 * 60 * 1000;
 
@@ -2321,7 +2291,7 @@ module.exports = sendHostname;
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2377,7 +2347,7 @@ module.exports = imagePing;
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2386,7 +2356,7 @@ module.exports = imagePing;
 exports.__esModule = true;
 exports["default"] = _default;
 
-var _template = _interopRequireDefault(__webpack_require__(38));
+var _template = _interopRequireDefault(__webpack_require__(37));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -2397,7 +2367,7 @@ function _default(context) {
 }
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2410,8 +2380,8 @@ function _default(context) {
 
 var inArray = __webpack_require__(0);
 var forEach = __webpack_require__(2);
-var isArray = __webpack_require__(3);
-var isString = __webpack_require__(4);
+var isArray = __webpack_require__(4);
+var isString = __webpack_require__(3);
 var extend = __webpack_require__(8);
 
 // IE8 does not support capture groups.
