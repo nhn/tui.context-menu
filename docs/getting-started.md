@@ -20,6 +20,7 @@ When you select each menu, or click outside of the area where the menu closes.
 ## Write wrapper elements
 
 ```html
+<!-- Notice: The wrapper element must be located below the body. -->
 <!-- Tag to create the context menu -->
 <div id="tui-context-menu-container"></div>
 

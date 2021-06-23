@@ -6,7 +6,6 @@
 import forEachArray from 'tui-code-snippet/collection/forEachArray';
 import off from 'tui-code-snippet/domEvent/off';
 import on from 'tui-code-snippet/domEvent/on';
-import getMousePosition from 'tui-code-snippet/domEvent/getMousePosition';
 import preventDefault from 'tui-code-snippet/domEvent/preventDefault';
 import addClass from 'tui-code-snippet/domUtil/addClass';
 import closest from 'tui-code-snippet/domUtil/closest';
@@ -19,7 +18,7 @@ import debounce from 'tui-code-snippet/tricks/debounce';
 
 import FloatingLayer from './floatingLayer';
 import Map from './Map';
-import {sendHostName} from './util';
+import {sendHostName, getMousePosition} from './util';
 import tmpl from '../template/contextmenu';
 
 const DEFAULT_ZINDEX = 999;
@@ -44,12 +43,18 @@ const DEFAULT_ZINDEX = 999;
  *     If you do not want to send the hostname, this option set to false.
  * @example
  * //-- #1. Get Module --//
- * var ContextMenu = require('tui-context-menu'); // node, commonjs
- * var ContextMenu = tui.ContextMenu; // distribution file
+ * //ES6
+ * import ContextMenu from 'tui-context-menu';
+ * 
+ * // CommonJS
+ * const ContextMenu = require('tui-context-menu'); 
+ * 
+ * // Browser
+ * const ContextMenu = tui.ContextMenu;
  *
  * //-- #2. Use property --//
- * var container = document.getElementById('context-menu');
- * var contextMenu = new ContextMenu(container);
+ * const container = document.getElementById('context-menu');
+ * const contextMenu = new ContextMenu(container);
  */
 class ContextMenu {
   constructor(
@@ -179,7 +184,7 @@ class ContextMenu {
   /* eslint-disable complexity */
   _onMouseClick(clickEvent) {
     const target = clickEvent.target || clickEvent.srcElement;
-    const title = target.innerText.trim();
+    const title = target.textContent.trim();
     const command = getData(target, 'command');
     const container = closest(target, '.floating-layer');
     const isMenuButton = hasClass(target, 'tui-contextmenu-button');
@@ -414,10 +419,8 @@ class ContextMenu {
 
     this.activeLayer = relatedLayer;
 
-    const position = getMousePosition(clickEvent, this.activeLayer.container);
+    const {left, top} = getMousePosition(clickEvent, this.activeLayer.container);
 
-    /* clickEvent's clientX, clientY */
-    const [left, top] = position;
     const debouncedMouseMove = debounce(mouseMoveEvent => this._onMouseMove(mouseMoveEvent), opt.delay);
 
     this.cloneMouseMoveEvent = function(mouseMoveEvent) {

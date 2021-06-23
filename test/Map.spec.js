@@ -13,8 +13,8 @@ describe('Map', () => {
       map.set('company', 'NHN');
       map.set('team', 'FE');
 
-      expect(map.get('company')).toEqual('NHN');
-      expect(map.get('team')).toEqual('FE');
+      expect(map.get('company')).toBe('NHN');
+      expect(map.get('team')).toBe('FE');
     });
 
     it('for the object key', () => {
@@ -26,16 +26,16 @@ describe('Map', () => {
       map.set(key2, 'function');
       map.set(key3, 'array');
 
-      expect(map.get(key1)).toEqual('object');
-      expect(map.get(key2)).toEqual('function');
-      expect(map.get(key3)).toEqual('array');
+      expect(map.get(key1)).toBe('object');
+      expect(map.get(key2)).toBe('function');
+      expect(map.get(key3)).toBe('array');
     });
 
     describe('if the key already exists, set() updates the value', () => {
       it('with string key', () => {
         map.set('key', 'once');
         map.set('key', 'again');
-        expect(map.get('key')).toEqual('again');
+        expect(map.get('key')).toBe('again');
       });
 
       it('with object key', () => {
@@ -43,7 +43,7 @@ describe('Map', () => {
 
         map.set(key, 'once');
         map.set(key, 'again');
-        expect(map.get(key)).toEqual('again');
+        expect(map.get(key)).toBe('again');
       });
     });
 
@@ -66,11 +66,11 @@ describe('Map', () => {
         map.set(false, 'false');
         map.set(1, 'one');
 
-        expect(map.get(null)).toEqual('null');
-        expect(map.get(undefined)).toEqual('undefined');
-        expect(map.get(true)).toEqual('true');
-        expect(map.get(false)).toEqual('false');
-        expect(map.get(1)).toEqual('one');
+        expect(map.get(null)).toBe('null');
+        expect(map.get(undefined)).toBe('undefined');
+        expect(map.get(true)).toBe('true');
+        expect(map.get(false)).toBe('false');
+        expect(map.get(1)).toBe('one');
       });
 
       it('are not equal to string keys', () => {
@@ -79,10 +79,10 @@ describe('Map', () => {
         map.set(1, 'one');
         map.set('1', 'one string');
 
-        expect(map.get(null)).toEqual('null');
-        expect(map.get('null')).toEqual('null string');
-        expect(map.get(1)).toEqual('one');
-        expect(map.get('1')).toEqual('one string');
+        expect(map.get(null)).toBe('null');
+        expect(map.get('null')).toBe('null string');
+        expect(map.get(1)).toBe('one');
+        expect(map.get('1')).toBe('one string');
       });
     });
   });
@@ -147,10 +147,9 @@ describe('Map', () => {
   });
 
   describe('forEach() executes a function once per each key/value pair', () => {
-    let string;
+    const spy = jest.fn();
 
     beforeEach(() => {
-      string = '';
       map.set(1, '1');
       map.set(null, '2');
       map.set('3', '3');
@@ -158,23 +157,32 @@ describe('Map', () => {
 
     it('in insertion order', () => {
       map.forEach(value => {
-        string += value;
+        spy(value);
       });
-      expect(string).toEqual('123');
+
+      expect(spy).toHaveBeenNthCalledWith(1, '1');
+      expect(spy).toHaveBeenNthCalledWith(2, '2');
+      expect(spy).toHaveBeenNthCalledWith(3, '3');
     });
 
     it('second argument is key', () => {
       map.forEach((value, key) => {
-        string += key;
+        spy(key);
       });
-      expect(string).toEqual('1null3');
+
+      expect(spy).toHaveBeenNthCalledWith(1, 1);
+      expect(spy).toHaveBeenNthCalledWith(2, null);
+      expect(spy).toHaveBeenNthCalledWith(3, '3');
     });
 
     it('third argument is map itself', () => {
       map.forEach((value, key, thisMap) => {
-        string += thisMap.get(key);
+        spy(thisMap.get(key));
       });
-      expect(string).toEqual('123');
+
+      expect(spy).toHaveBeenNthCalledWith(1, '1');
+      expect(spy).toHaveBeenNthCalledWith(2, '2');
+      expect(spy).toHaveBeenNthCalledWith(3, '3');
     });
 
     it('context can be set', () => {
@@ -182,9 +190,12 @@ describe('Map', () => {
 
       // eslint-disable-next-line prefer-arrow-callback
       map.forEach(function(value) {
-        string += value + this.value;
+        spy(value, this.value);
       }, context);
-      expect(string).toEqual('102030');
+
+      expect(spy).toHaveBeenNthCalledWith(1, '1', '0');
+      expect(spy).toHaveBeenNthCalledWith(2, '2', '0');
+      expect(spy).toHaveBeenNthCalledWith(3, '3', '0');
     });
   });
 });
