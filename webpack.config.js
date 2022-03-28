@@ -1,6 +1,5 @@
 /**
  * Configs file for bundling
- * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
 
 const path = require('path');

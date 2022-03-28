@@ -22,9 +22,10 @@
     "nhn",
     "tui",
     "component",
-    "context-menu"
+    "context-menu",
+    "nhn cloud"
   ],
-  "author": "NHN FE Development Lab <dl_javascript@nhn.com>",
+  "author": "NHN Cloud FE Development Lab <dl_javascript@nhn.com>",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.5.5",
