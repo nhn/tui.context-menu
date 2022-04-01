@@ -1,6 +1,5 @@
 /**
  * @fileoverview Utils for ContextMenu component
- * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
 
 import sendHostname from 'tui-code-snippet/request/sendHostname';

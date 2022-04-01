@@ -10,10 +10,10 @@ describe('Map', () => {
 
   describe('set() and get()', () => {
     it('for the string key', () => {
-      map.set('company', 'NHN');
+      map.set('company', 'NHN Cloud');
       map.set('team', 'FE');
 
-      expect(map.get('company')).toBe('NHN');
+      expect(map.get('company')).toBe('NHN Cloud');
       expect(map.get('team')).toBe('FE');
     });
 

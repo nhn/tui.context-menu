@@ -1,6 +1,5 @@
 /**
  * @fileoverview Context menu component
- * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
 
 import forEachArray from 'tui-code-snippet/collection/forEachArray';
