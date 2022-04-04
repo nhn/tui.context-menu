@@ -1,7 +1,7 @@
 /*!
  * TOAST UI Context Menu
  * @version 2.1.9
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -668,7 +668,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 /**
  * @fileoverview
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
  */
 module.exports = _contextmenu["default"];
 
@@ -724,7 +723,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 /**
  * @fileoverview Context menu component
- * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
 var DEFAULT_ZINDEX = 999;
 /**
@@ -2184,7 +2182,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 /**
  * @fileoverview Utils for ContextMenu component
- * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  */
 
 /**
